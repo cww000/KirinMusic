@@ -21,7 +21,6 @@ Item {
 
     function play(index){
         dialogs.lyricDialog.lyric_id.lyric = ""
-        dialogs.songSearchDialog.networkPlay=false
         dialogs.lyricDialog.timerTest.running=false
         content.singerText.text=""
         playlistPage.songListView.currentIndex=index
@@ -248,6 +247,7 @@ Item {
                 TapHandler{
                     onTapped: {
                         dialogs.songSearchDialog.visible=true
+                        dialogs.songSearchDialog.networkPlay = true
                     }
                 }
             }
@@ -365,8 +365,10 @@ Item {
                     audio.seek(value);
                 }
                 onPressedChanged: {
-                    if(dialogs.lyricDialog.lyric_id.lyric!=="") {
-                        dialogs.lyricDialog.onClickAudioSlider()
+                    if(pause.visible) {
+                        if(dialogs.lyricDialog.lyric_id.lyric!=="") {
+                            dialogs.lyricDialog.onClickAudioSlider()
+                        }
                     }
                 }
             }

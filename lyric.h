@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE void extract_timeStamp();  //提取时间戳
     Q_INVOKABLE int findTimeInterval(QString nowTime);
     Q_INVOKABLE QString translateStamp(int time);
+    Q_INVOKABLE QString translateStamp1(int time);
 
 
     int translate(QString time);  //将时间戳转换成毫秒数

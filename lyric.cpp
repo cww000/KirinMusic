@@ -1,6 +1,7 @@
 #include "lyric.h"
 #include <QtDebug>
 #include <QByteArray>
+
 Lyric::Lyric(QObject *parent): QObject(parent),m_highlightPos{0},m_highlightLength{0},m_timeDif{0}
 {
 
@@ -110,6 +111,7 @@ void Lyric::extract_timeStamp()
     int pos=0,start=0;
     QByteArray ba;
     char *ch;
+    bool lrcFlag;
     while(pos<=content.length()) {
         ba=content.mid(pos+1,1).toLatin1();
         ch=ba.data();
@@ -123,6 +125,11 @@ void Lyric::extract_timeStamp()
             pos++;
 
             if(translate(content.mid(start+1,i-1))!=0) {
+                if(content.midRef(start+1,i-1).length()==8) {
+                    lrcFlag=true;
+                } else {
+                    lrcFlag=false;
+                }
                 m_timeStamp<<translate(content.mid(start+1,i-1));
             }
         } else {
@@ -133,7 +140,12 @@ void Lyric::extract_timeStamp()
 
    // 将排序后的每个时间化为时间戳格式，然后去找到他对应的歌词存放到m_painLyric数组中
     for(int i=0;i<m_timeStamp.length();i++) {
-       QString time=translateStamp(m_timeStamp[i]);
+        QString time;
+       if(lrcFlag) {
+           time=translateStamp(m_timeStamp[i]);
+       } else {
+           time=translateStamp1(m_timeStamp[i]);
+       }
        test(time);
        m_plainLyric<< content.mid(m_highlightPos,m_highlightLength);
     }
@@ -197,6 +209,25 @@ QString Lyric::translateStamp(int value)
             ms1=QString::number(ms);
             timeStamp="[0"+m1+":"+s1+".0"+ms1+"]";
         }
+    }
+    return timeStamp;
+}
+
+QString Lyric::translateStamp1(int value)
+{
+    QString timeStamp;
+    int m,s;
+    QString m1,s1;
+    m=(value-value%60000)/60000;
+    s=((value-m*60000)-(value-m*60000)%1000)/1000;
+    if(s>=0 & s<10) {
+        m1=QString::number(m);
+        s1=QString::number(s);
+        timeStamp="[0"+m1+":0"+s1+"]";
+    } else{
+        m1=QString::number(m);
+        s1=QString::number(s);
+        timeStamp="[0"+m1+":"+s1+"]";
     }
     return timeStamp;
 }

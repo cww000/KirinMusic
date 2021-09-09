@@ -17,6 +17,10 @@ Item {
         text: qsTr("当前无歌词")
         font.pointSize: 20
         visible: false
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        width: 300
+
     }
     ListView{
         id:lyricListView

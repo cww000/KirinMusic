@@ -19,6 +19,7 @@ Item {
     property alias lyricDialog:lyricDialog
     property alias recentlyPlayDialog: recentlyPlayDialog
     property alias keyMapDialog:keyMapDialog
+    property alias saveDialog: saveDialog
     property alias lyricSearchDialog:lyricSearchDialog
     property alias songSearchDialog:songSearchDialog
     property alias miniDialog: miniDialog
@@ -58,6 +59,12 @@ Item {
     KeyMapDialog{
         id:keyMapDialog
         visible: false
+    }
+    QQ.MessageDialog{
+        id:saveDialog
+        title:"Key Map"
+        text:"All key maps save success"
+        standardButtons: StandardButton.Ok
     }
     LyricSearchDialog{
         id:lyricSearchDialog

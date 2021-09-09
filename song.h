@@ -19,6 +19,7 @@ public:
     void mp3Save(const char *ch,QVariantMap map);
     void flacSave(const char *ch,QVariantMap map);
     void oggSave(const char *ch,QVariantMap map);
+    void clearTags();
     QVariantMap Tags() const
     {
         return m_Tags;

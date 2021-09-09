@@ -16,13 +16,7 @@ using namespace std;
 
 Song::Song(QObject *parent) : QObject(parent)
 {
-    m_Tags["标题"]=" ";
-    m_Tags["艺术家"]=" ";
-    m_Tags["唱片集"]=" ";
-    m_Tags["注释"]=" ";
-    m_Tags["日期"]=" ";
-    m_Tags["音轨号"]=" ";
-    m_Tags["流派"]=" ";
+    clearTags();
 }
 
 void Song::getTags(QString url)
@@ -31,18 +25,23 @@ void Song::getTags(QString url)
     const char *ch=ba.data();
 
     QString end;  //歌名后缀
-    for(int i=url.length()-1;i>=0;i--) {
-        if(url[i]==".") {
-            end=url.mid(i+1,url.length()-i);
-            break;
+    if(url != ""){
+        for(int i=url.length()-1;i>=0;i--) {
+            if(url[i]==".") {
+                end=url.mid(i+1,url.length()-i);
+                break;
+            }
         }
-    }
-    if(end=="mp3") {
-        mp3Open(ch);
-    } else if(end=="flac"){
-        flacOpen(ch);
-    } else if(end=="ogg"){
-        oggOpen(ch);
+        if(end=="mp3") {
+            mp3Open(ch);
+        } else if(end=="flac"){
+            flacOpen(ch);
+        } else if(end=="ogg"){
+            oggOpen(ch);
+        }
+    }else{
+        clearTags();
+        m_flag = false;
     }
 }
 
@@ -60,7 +59,7 @@ void Song::saveTags(QString url,QVariantMap map)
     }
     if(end=="mp3") {
         mp3Save(ch,map);
-    } else if(end=="flac" || end=="ogg"){
+    } else if(end=="flac"){
         flacSave(ch,map);
     } else if(end=="ogg"){
         oggSave(ch,map);
@@ -178,7 +177,6 @@ void Song::mp3Save(const char *ch, QVariantMap map)
     ba=map["流派"].toString().toUtf8();
     str=ba.data();
     mpegFile->tag()->setGenre(str);
-    qDebug()<<mpegFile->tag()->title().toCString();
     if(mpegFile->save()) {
         qDebug()<<"save successfully";
     } else {
@@ -228,40 +226,51 @@ void Song::flacSave(const char *ch,QVariantMap map)
 
 void Song::oggSave(const char *ch,QVariantMap map)
 {
-    TagLib::FLAC::File *flacFile = new TagLib::FLAC::File(ch);
+    TagLib::Vorbis::File *oggFile = new TagLib::Vorbis::File(ch);
     QByteArray ba;
     TagLib::String str;
 
     ba=map["标题"].toString().toUtf8();
     str=ba.data();
-    flacFile->tag()->setTitle(str);
+    oggFile->tag()->setTitle(str);
 
     ba=map["艺术家"].toString().toUtf8();
     str=ba.data();
-    flacFile->tag()->setArtist(str);
+    oggFile->tag()->setArtist(str);
 
     ba=map["唱片集"].toString().toUtf8();
     str=ba.data();
-    flacFile->tag()->setAlbum(str);
+    oggFile->tag()->setAlbum(str);
 
     ba=map["注释"].toString().toUtf8();
     str=ba.data();
-    flacFile->tag()->setComment(str);
+    oggFile->tag()->setComment(str);
 
-    flacFile->tag()->setYear(map["日期"].toUInt());
+    oggFile->tag()->setYear(map["日期"].toUInt());
 
-    flacFile->tag()->setTrack(map["音轨号"].toUInt());
+    oggFile->tag()->setTrack(map["音轨号"].toUInt());
 
     ba=map["流派"].toString().toUtf8();
     str=ba.data();
-    flacFile->tag()->setGenre(str);
+    oggFile->tag()->setGenre(str);
 
     qDebug()<<map["标题"].toString();
-    if(flacFile->save()) {
+    if(oggFile->save()) {
         qDebug()<<"save successfully";
     } else {
         qDebug()<<"save field";
     }
+}
+
+void Song::clearTags()
+{
+    m_Tags["标题"]=" ";
+    m_Tags["艺术家"]=" ";
+    m_Tags["唱片集"]=" ";
+    m_Tags["注释"]=" ";
+    m_Tags["日期"]=" ";
+    m_Tags["音轨号"]=" ";
+    m_Tags["流派"]=" ";
 }
 
 bool Song::flag() const

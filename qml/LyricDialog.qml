@@ -416,7 +416,7 @@ QQ.ApplicationWindow {
 
     function onClickAudioSlider() {
         content.lyricRightPage.lyricListView.currentIndex=-1
-        if("["+content.musicPlayer.currentTime+"]" !=="[00:00.00]") {
+        if("["+content.musicPlayer.currentTime+"]" !=="[00:00]") {
             timeStampIndex=lyric_id.findTimeInterval("["+content.musicPlayer.currentTime+"]");
         } else {
             timeStampIndex=lyric_id.findTimeInterval("00:00.01");

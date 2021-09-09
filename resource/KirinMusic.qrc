@@ -46,5 +46,6 @@
         <file>image/快进.png</file>
         <file>image/快退.png</file>
         <file>image/单曲循环.png</file>
+        <file>image/logo.png</file>
     </qresource>
 </RCC>

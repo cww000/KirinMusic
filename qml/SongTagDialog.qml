@@ -13,17 +13,24 @@ ApplicationWindow{
     signal showImage
 
     onShowImage: {      //显示专辑封面
-        var str = content.musicPlayer.audio.source.toString().slice(7)
+        var str
+        if(!dialogs.songSearchDialog.networkPlay){
+            str = content.musicPlayer.audio.source.toString().slice(7)
+        }else{
+            str = ""
+        }
         dialogs.songTagDialog.song.getTags(str)
-
         dialogs.songTagDialog.get_Tags_Meta()
-        rootImage.source = ""
-        content.leftImage.source = ""
         dialogs.songTagDialog.picImage.source = ""
         if(dialogs.songTagDialog.song.flag){
+            rootImage.source = ""
+            content.leftImage.source = ""
             rootImage.source = "file:///tmp/KirinMusic/pic.png"
             content.leftImage.source = "file:///tmp/KirinMusic/pic.png"
             dialogs.songTagDialog.picImage.source = "file:///tmp/KirinMusic/pic.png"
+        }else if(dialogs.songSearchDialog.networkPlay){
+            console.log(true)
+            dialogs.songTagDialog.picImage.source = ""
         }else{
             rootImage.source = "qrc:/image/背景3.png"
             content.leftImage.source = "qrc:/image/背景3.png"
@@ -232,6 +239,7 @@ ApplicationWindow{
                         set_Tag_Meta();
                         var path = content.musicPlayer.audio.source.toString().slice(7)
                         song.saveTags(path,map)
+                        close()
                     }
                 }
                 Button{

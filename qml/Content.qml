@@ -48,8 +48,11 @@ Item {
             Layout.alignment: Qt.AlignTop
             Text {
                 id: fileNameText
+                Layout.preferredWidth: 300
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 font.pointSize: 20
-                Layout.leftMargin: 140
+                Layout.leftMargin: 80
                 Layout.topMargin: 20
             }
             Text {

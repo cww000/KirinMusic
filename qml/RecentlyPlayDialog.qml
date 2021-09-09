@@ -18,6 +18,9 @@ ApplicationWindow {
     function getMusicName(path){
         var fileName
         for(var i=path.length-1;i>=0;i--) {
+            if(path[i]==="."){
+                path=path.slice(0, i)
+            }
             if(path[i]==="/") {
                 fileName=path.slice(i+1)
                 break;
