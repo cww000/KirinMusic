@@ -53,11 +53,11 @@ void FileIo::saveUrls(QList<QUrl> urls)
     }
 }
 
+
 //读取播放列表中的某条地址
 void FileIo::readUrls(int serialNumber, QString fileUrl)
 {
     QFile file(fileUrl);
-//    qDebug()<<serialNumber;
     QTextStream in(&file);
     int index=0;
     bool ok=file.open(QIODevice::ReadOnly|QIODevice::Text);
@@ -109,15 +109,14 @@ void FileIo::saveKeys(QList<QString> keys)
 {
     QFile file("/tmp/KirinMusic/快捷键.txt");
     int length=keys.length();
-    QString path, str;
+    QString path;
     bool ok=file.open(QIODevice::ReadWrite|QIODevice::Truncate);
     if(ok) {
         QTextStream in(&file);
         for(int i=0;i<length;i++){
-            path = keys[i];
-            str = str + path + "\n";
+            in<<keys[i]<<"\n";
         }
-        in<<str;
+
         file.close();
     }
 }
@@ -130,7 +129,6 @@ QString FileIo::readKey(int serialNumber)
     int index = 0;
     bool ok=file.open(QIODevice::ReadWrite|QIODevice::Text);
     if(ok) {
-        str = " ";
         while(!in.atEnd()) {
             str=in.readLine();
             if(index==serialNumber) {

@@ -143,6 +143,8 @@ ApplicationWindow {
         } else {
             content.lyricRightPage.lyricText.text=""
         }
+
+        actions.getKeyMap()
     }
 
     function onAcceptedFolderMusicDialog(){
@@ -155,7 +157,7 @@ ApplicationWindow {
                  content.playlistPage.songListModel.append({"chapter":content.musicPlayer.fileName})
             }
 
-            var path=new Array();
+            var path=new Array;
             for(var j=0;j<filePaths.length;j++) {
                 path[j]=dialogs.lyricDialog.fileIo.strToUrl(dialogs.folderMusicDialog.folder.toString()+"/"+filePaths[j]);
             }
@@ -182,7 +184,7 @@ ApplicationWindow {
             }
         } else {
             var lastAdd=-1;
-            var addUrl=new Array();
+            var addUrl=new Array;
             for(var i=0;i<dialogs.fileMusicDialog.fileUrls.length;i++) {
                 path=dialogs.fileMusicDialog.fileUrls[i].toString().slice(7);
                 if(dialogs.lyricDialog.fileIo.isExist(path)) {

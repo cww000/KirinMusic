@@ -8,7 +8,6 @@ Item {
     property alias copyAllLyricAction:copyAllLyric
     property alias editLyricAction:editLyric
     property alias downloadLyricAction:downlodLyric
- //   property alias showMenubarAction:showMenubar
     property alias recentlyPlayAction:recentlyPlay
     property alias trackInformationAction:trackInformation
     property alias keyMapAction:keyMap
@@ -28,7 +27,6 @@ Item {
     Action{
         id:openFile
         text: qsTr("打开文件")
-        shortcut: StandardKey.Open
         icon.source: "qrc:/image/文件.png"
         onTriggered: {
             dialogs.openMusicFileDialog()
@@ -46,7 +44,6 @@ Item {
     Action{
         id:openFolder
         text: qsTr("打开文件夹")
-        icon.source: "qrc:/image/文件夹.png"
         onTriggered: {
             dialogs.openMusicFolderDialog();
         }
@@ -118,7 +115,6 @@ Item {
                     content.playlistPage.songListView.currentIndex = 0
                 }else{
                     content.playlistPage.songListView.currentIndex++;
-                    console.log("next in Actions.qml")
                 }
                 content.musicPlayer.play(content.playlistPage.songListView.currentIndex)
             }
@@ -194,12 +190,14 @@ Item {
         text: qsTr("复制当前歌词")
         icon.source: "qrc:/image/copy.png"
         onTriggered: {
-             if(dialogs.lyricDialog.lyric_id.lyric!=="") {
+             if(content.lyricRightPage.lyricListView.currentIndex!==-1) {
                 content.lyricRightPage.clipBoard.setText(content.lyricRightPage.lyricListModel.get(content.lyricRightPage.lyricListView.currentIndex).currentLyrics)
              }
         }
 
     }
+
+
     Action{
         id:copyAllLyric
         text: qsTr("复制所有歌词")
@@ -257,7 +255,6 @@ Item {
         id:keyMap
         text: qsTr("设置快捷键")
         onTriggered: {
-            getKeyMap()
             dialogs.keyMapDialog.visible=true
         }
 
@@ -369,23 +366,24 @@ Item {
         actions.openFileAction.shortcut = dialogs.lyricDialog.fileIo.readKey(0)
         actions.openFolderAction.shortcut = dialogs.lyricDialog.fileIo.readKey(1)
         actions.exitAction.shortcut = dialogs.lyricDialog.fileIo.readKey(2)
-        actions.playAction.shortcut = dialogs.lyricDialog.fileIo.readKey(3)
-        actions.pauseAction.shortcut = dialogs.lyricDialog.fileIo.readKey(4)
-        actions.previousAction.shortcut = dialogs.lyricDialog.fileIo.readKey(5)
-        actions.nextAction.shortcut = dialogs.lyricDialog.fileIo.readKey(6)
-        actions.fastforwardfiveScdAction.shortcut = dialogs.lyricDialog.fileIo.readKey(7)
-        actions.backfiveScdAction.shortcut = dialogs.lyricDialog.fileIo.readKey(8)
-        actions.cycPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(9)
-        actions.loopPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(10)
-        actions.ranPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(11)
-        actions.deleteAction.shortcut = dialogs.lyricDialog.fileIo.readKey(12)
-        actions.copyCurrentLyricAction.shortcut = dialogs.lyricDialog.fileIo.readKey(13)
-        actions.copyAllLyricAction.shortcut = dialogs.lyricDialog.fileIo.readKey(14)
-        actions.editLyricAction.shortcut = dialogs.lyricDialog.fileIo.readKey(15)
-        actions.downloadLyricAction.shortcut = dialogs.lyricDialog.fileIo.readKey(16)
+        actions.copyCurrentLyricAction.shortcut = dialogs.lyricDialog.fileIo.readKey(3)
+        actions.copyAllLyricAction.shortcut = dialogs.lyricDialog.fileIo.readKey(4)
+        actions.editLyricAction.shortcut = dialogs.lyricDialog.fileIo.readKey(5)
+        actions.downloadLyricAction.shortcut = dialogs.lyricDialog.fileIo.readKey(6)
+        actions.playAction.shortcut = dialogs.lyricDialog.fileIo.readKey(7)
+        actions.pauseAction.shortcut = dialogs.lyricDialog.fileIo.readKey(8)
+        actions.previousAction.shortcut = dialogs.lyricDialog.fileIo.readKey(9)
+        actions.nextAction.shortcut = dialogs.lyricDialog.fileIo.readKey(10)
+        actions.fastforwardfiveScdAction.shortcut = dialogs.lyricDialog.fileIo.readKey(11)
+        actions.backfiveScdAction.shortcut = dialogs.lyricDialog.fileIo.readKey(12)
+        actions.cycPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(13)
+        actions.loopPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(14)
+        actions.ranPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(15)
+        actions.deleteAction.shortcut = dialogs.lyricDialog.fileIo.readKey(16)
         actions.recentlyPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(17)
         actions.trackInformationAction.shortcut = dialogs.lyricDialog.fileIo.readKey(18)
         actions.keyMapAction.shortcut = dialogs.lyricDialog.fileIo.readKey(19)
         actions.aboutAction.shortcut = dialogs.lyricDialog.fileIo.readKey(20)
+
     }
 }

@@ -27,11 +27,21 @@ ApplicationWindow{
         spacing: 10
         RowLayout{
             spacing: 10
+            Image {
+                id: kImage
+                Layout.topMargin: 20
+                Layout.leftMargin: (songSearchWindow.width-inputField.width-kImage.width*2)/2.5
+                fillMode: Image.PreserveAspectCrop
+                source: "qrc:/image/logo.png"
+                Layout.preferredWidth: 30
+                Layout.preferredHeight: 30
+                cache: false
+            }
             TextField {
                 id: inputField
                 Layout.preferredWidth: 300
                 Layout.preferredHeight: 40
-                Layout.leftMargin: (songSearchWindow.width-inputField.width)/3
+       //         Layout.leftMargin: (songSearchWindow.width-inputField.width)/3
                 focus: true
                 Layout.topMargin: 20
                 selectByMouse: true

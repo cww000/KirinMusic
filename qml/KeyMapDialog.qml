@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.12
 
 ApplicationWindow {
+    id:keyMapWindow
     width: 500
     height: 420
     property var keys: []
@@ -238,7 +239,7 @@ ApplicationWindow {
                             Layout.margins: 5
                             spacing: 10
                             Label{
-                                text: qsTr("顺序播放：")
+                                text: qsTr("单曲循环：")
                             }
                             TextField{
                                 id: cycPlayText
@@ -367,32 +368,15 @@ ApplicationWindow {
                 text: qsTr("保存")
                 onClicked: {
                     keys = []
-                    actions.openFileAction.shortcut = openfileText.text
-                    actions.openFolderAction.shortcut = openfolderText.text
-                    actions.exitAction.shortcut = exitText.text
-                    actions.playAction.shortcut = playText.text
-                    actions.pauseAction.shortcut = pauseText.text
-                    actions.previousAction.shortcut = previousText.text
-                    actions.nextAction.shortcut = nextText.text
-                    actions.fastforwardfiveScdAction.shortcut = fastforwardfiveScdText.text
-                    actions.backfiveScdAction.shortcut = backfiveScdText.text
-                    actions.cycPlayAction.shortcut = cycPlayText.text
-                    actions.loopPlayAction.shortcut = loopPlayText.text
-                    actions.ranPlayAction.shortcut = ranPlayText.text
-                    actions.deleteAction.shortcut = deleteText.text
-                    actions.copyCurrentLyricAction.shortcut = copyText.text
-                    actions.copyAllLyricAction.shortcut = copyAllText.text
-                    actions.editLyricAction.shortcut = editText.text
-                    actions.downloadLyricAction.shortcut = downloadText.text
-                    actions.recentlyPlayAction.shortcut = recentlyPlayText.text
-                    actions.trackInformationAction.shortcut = trackInfoText.text
-                    actions.keyMapAction.shortcut = keyMapText.text
-                    actions.aboutAction.shortcut = aboutText.text
-
                     keys.push(openfileText.text)
                     keys.push(openfolderText.text)
                     keys.push(exitText.text)
+                    keys.push(copyText.text)
+                    keys.push(copyAllText.text)
+                    keys.push(editText.text)
+                    keys.push(downloadText.text)
                     keys.push(playText.text)
+                    keys.push(pauseText.text)
                     keys.push(previousText.text)
                     keys.push(nextText.text)
                     keys.push(fastforwardfiveScdText.text)
@@ -401,16 +385,13 @@ ApplicationWindow {
                     keys.push(loopPlayText.text)
                     keys.push(ranPlayText.text)
                     keys.push(deleteText.text)
-                    keys.push(copyText.text)
-                    keys.push(copyAllText.text)
-                    keys.push(editText.text)
-                    keys.push(downloadText.text)
                     keys.push(recentlyPlayText.text)
                     keys.push(trackInfoText.text)
                     keys.push(keyMapText.text)
                     keys.push(aboutText.text)
                     dialogs.lyricDialog.fileIo.saveKeys(keys)
-                    dialogs.saveDialog.open()
+                    actions.getKeyMap()
+                    keyMapWindow.close()
                 }
             }
             Button{
