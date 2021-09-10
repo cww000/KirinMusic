@@ -20,7 +20,6 @@
         <file>image/文件.png</file>
         <file>image/曲目信息.png</file>
         <file>image/最近播放.png</file>
-        <file>image/背景3.png</file>
         <file>image/download.png</file>
         <file>image/voice.png</file>
         <file>image/pass.png</file>
@@ -47,5 +46,6 @@
         <file>image/快退.png</file>
         <file>image/单曲循环.png</file>
         <file>image/logo.png</file>
+        <file>image/背景.png</file>
     </qresource>
 </RCC>

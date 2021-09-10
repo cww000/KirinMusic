@@ -32,8 +32,8 @@ ApplicationWindow{
             console.log(true)
             dialogs.songTagDialog.picImage.source = ""
         }else{
-            rootImage.source = "qrc:/image/背景3.png"
-            content.leftImage.source = "qrc:/image/背景3.png"
+            rootImage.source = "qrc:/image/背景.png"
+            content.leftImage.source = "qrc:/image/背景.png"
         }
     }
 

@@ -79,8 +79,6 @@ void Lyric::test(QString time)
                 highlight_num=0;
                highlight_start=pos1;
                 while (content.mid(pos1,1)!="\n" && content.mid(pos1,1)!="\r") {
-//                    ba=content.mid(pos1+1,1).toLatin1();
-//                    s=ba.data();
                     if(content.mid(pos1,1)=="[") {  //判断每个时间标签后面是不是标签
                         while(content.mid(pos1,1)!="]") {   //如果是，就跳过
                             pos1++;
@@ -94,6 +92,7 @@ void Lyric::test(QString time)
                 m_highlightLength=highlight_num;
                 m_highlightPos=highlight_start;
                 highlight=content.mid(highlight_start,highlight_num);
+
            //     qDebug()<<"str="<<str<<"highlight="<<highlight;
             }
         } else{
@@ -111,7 +110,6 @@ void Lyric::extract_timeStamp()
     int pos=0,start=0;
     QByteArray ba;
     char *ch;
-    bool lrcFlag;
     while(pos<=content.length()) {
         ba=content.mid(pos+1,1).toLatin1();
         ch=ba.data();
@@ -126,9 +124,9 @@ void Lyric::extract_timeStamp()
 
             if(translate(content.mid(start+1,i-1))!=0) {
                 if(content.midRef(start+1,i-1).length()==8) {
-                    lrcFlag=true;
+                    m_lrcFlag=true;
                 } else {
-                    lrcFlag=false;
+                    m_lrcFlag=false;
                 }
                 m_timeStamp<<translate(content.mid(start+1,i-1));
             }
@@ -141,7 +139,7 @@ void Lyric::extract_timeStamp()
    // 将排序后的每个时间化为时间戳格式，然后去找到他对应的歌词存放到m_painLyric数组中
     for(int i=0;i<m_timeStamp.length();i++) {
         QString time;
-       if(lrcFlag) {
+       if(m_lrcFlag) {
            time=translateStamp(m_timeStamp[i]);
        } else {
            time=translateStamp1(m_timeStamp[i]);
@@ -327,3 +325,4 @@ bool Lyric::isEqual(QString str1, QString str2)
     }
 
 }
+

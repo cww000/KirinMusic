@@ -23,7 +23,7 @@ Item {
                 id: leftImage
                 Layout.topMargin: 20
                 fillMode: Image.PreserveAspectCrop
-                source: "qrc:/image/背景3.png"
+                source: "qrc:/image/背景.png"
                 Layout.preferredWidth: 371
                 Layout.preferredHeight: 265
                 cache: false

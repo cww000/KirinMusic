@@ -281,17 +281,33 @@ ApplicationWindow {
             Item {
                 id: listTab
                 width: parent.width
-                RowLayout{
-                    width: parent.width-10
-                    Layout.margins: 5
-                    spacing: 10
-                    Label{
-                        text: qsTr("删除:")
+                ColumnLayout{
+                    width: parent.width-50
+                    RowLayout{
+                        width: parent.width-10
+                        Layout.margins: 5
+                        spacing: 10
+                        Label{
+                            text: qsTr("删除:")
+                        }
+                        TextField{
+                            id: deleteText
+                            Layout.fillWidth: true
+                            text: actions.deleteAction.shortcut===undefined?" ":actions.deleteAction.shortcut
+                        }
                     }
-                    TextField{
-                        id: deleteText
-                        Layout.fillWidth: true
-                        text: actions.deleteAction.shortcut===undefined?" ":actions.deleteAction.shortcut
+                    RowLayout{
+                        width: parent.width-10
+                        Layout.margins: 5
+                        spacing: 10
+                        Label{
+                            text: qsTr("搜索歌曲:")
+                        }
+                        TextField{
+                            id: songSearchText
+                            Layout.fillWidth: true
+                            text: actions.songSearchAction.shortcut===undefined?" ":actions.songSearchAction.shortcut
+                        }
                     }
                 }
             }
@@ -385,6 +401,7 @@ ApplicationWindow {
                     keys.push(loopPlayText.text)
                     keys.push(ranPlayText.text)
                     keys.push(deleteText.text)
+                    keys.push(songSearchText.text)
                     keys.push(recentlyPlayText.text)
                     keys.push(trackInfoText.text)
                     keys.push(keyMapText.text)

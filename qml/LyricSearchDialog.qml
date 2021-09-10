@@ -9,7 +9,7 @@ ApplicationWindow{
     id:lyricSearchWindow
     title:qsTr("下载歌词")
     background: Image {
-        source: "qrc:/image/背景3.png"
+        source: "qrc:/image/背景.png"
         fillMode: Image.PreserveAspectCrop
         anchors.fill: parent
         opacity: 0.3

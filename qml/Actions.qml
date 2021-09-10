@@ -275,10 +275,12 @@ Item {
         onTriggered: {
             content.musicPlayer.audio.seek(content.musicPlayer.audio.position + 5000)
             content.spectrogram.pcount+=50
-            if(dialogs.lyricDialog.lyric_id.lyric!=="") {
-                dialogs.lyricDialog.onClickAudioSlider()
-            }
 
+            if(pause.visible) {
+                if(dialogs.lyricDialog.lyric_id.lyric!=="") {
+                    dialogs.lyricDialog.onClickAudioSlider()
+                }
+            }
         }
     }
 
@@ -293,8 +295,10 @@ Item {
             }else{
                 content.spectrogram.pcount = 0
             }
-            if(dialogs.lyricDialog.lyric_id.lyric!=="") {
-                dialogs.lyricDialog.onClickAudioSlider()
+            if(pause.visible) {
+                if(dialogs.lyricDialog.lyric_id.lyric!=="") {
+                    dialogs.lyricDialog.onClickAudioSlider()
+                }
             }
         }
 
@@ -380,10 +384,11 @@ Item {
         actions.loopPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(14)
         actions.ranPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(15)
         actions.deleteAction.shortcut = dialogs.lyricDialog.fileIo.readKey(16)
-        actions.recentlyPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(17)
-        actions.trackInformationAction.shortcut = dialogs.lyricDialog.fileIo.readKey(18)
-        actions.keyMapAction.shortcut = dialogs.lyricDialog.fileIo.readKey(19)
-        actions.aboutAction.shortcut = dialogs.lyricDialog.fileIo.readKey(20)
+        actions.songSearchAction.shortcut=dialogs.lyricDialog.fileIo.readKey(17)
+        actions.recentlyPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(18)
+        actions.trackInformationAction.shortcut = dialogs.lyricDialog.fileIo.readKey(19)
+        actions.keyMapAction.shortcut = dialogs.lyricDialog.fileIo.readKey(20)
+        actions.aboutAction.shortcut = dialogs.lyricDialog.fileIo.readKey(21)
 
     }
 }

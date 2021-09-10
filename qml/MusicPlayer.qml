@@ -20,6 +20,7 @@ Item {
     signal playOver()
 
     function play(index){
+        dialogs.lyricDialog.testNum=0
         dialogs.lyricDialog.lyric_id.lyric = ""
         dialogs.lyricDialog.timerTest.running=false
         content.singerText.text=""

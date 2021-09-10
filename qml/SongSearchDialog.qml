@@ -3,8 +3,8 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 import KuGou 1.0
 ApplicationWindow{
-    width:500
-    height:460
+    width:600
+    height:500
     title: qsTr("搜索歌曲")
     visible: true
     id:songSearchWindow
@@ -19,29 +19,38 @@ ApplicationWindow{
     background: Image {
         id: name
         fillMode: Image.PreserveAspectCrop
-        source: "qrc:/image/背景3.png"
+        source: "qrc:/image/背景.png"
         anchors.fill: parent
         opacity: 0.3
     }
+
     ColumnLayout{
         spacing: 10
         RowLayout{
-            spacing: 10
-            Image {
-                id: kImage
-                Layout.topMargin: 20
-                Layout.leftMargin: (songSearchWindow.width-inputField.width-kImage.width*2)/2.5
-                fillMode: Image.PreserveAspectCrop
-                source: "qrc:/image/logo.png"
-                Layout.preferredWidth: 30
-                Layout.preferredHeight: 30
-                cache: false
-            }
+//            Text {
+//                id: logoText
+//                text: qsTr("酷狗音乐")
+//                Layout.topMargin: 20
+//                Layout.preferredWidth: 60
+//                Layout.preferredHeight:40
+//                horizontalAlignment: Text.AlignHCenter
+//                verticalAlignment: Text.AlignVCenter
+//            }
+      //      spacing: 10
+//            Image {
+//                id: kImage
+//                Layout.topMargin: 20
+//                fillMode: Image.PreserveAspectCrop
+//                source: "qrc:/image/logo.png"
+//                Layout.preferredWidth: 30
+//                Layout.preferredHeight: 30
+//                cache: false
+//            }
             TextField {
                 id: inputField
                 Layout.preferredWidth: 300
                 Layout.preferredHeight: 40
-       //         Layout.leftMargin: (songSearchWindow.width-inputField.width)/3
+                Layout.leftMargin: (songSearchWindow.width-inputField.width)/3
                 focus: true
                 Layout.topMargin: 20
                 selectByMouse: true
@@ -155,6 +164,12 @@ ApplicationWindow{
                         Text {
                             text: duration
                             Layout.preferredWidth: 120
+                            Layout.rightMargin: 20
+                        }
+                        Text {
+                            id: kugouText
+                            text: qsTr("酷狗音乐")
+                            Layout.preferredWidth:60
                         }
                     }
                     TapHandler{
@@ -248,6 +263,7 @@ ApplicationWindow{
            content.lyricLeftPage.lyricListModel.clear()
 
            if(dialogs.lyricDialog.timerTest.running) {
+               dialogs.lyricDialog.testNum=0
                dialogs.lyricDialog.timerTest.running=false;
            }
            kugou.onclickPlay(listView.currentIndex)

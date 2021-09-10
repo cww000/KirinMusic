@@ -24,7 +24,7 @@ public:
     Q_INVOKABLE int findTimeInterval(QString nowTime);
     Q_INVOKABLE QString translateStamp(int time);
     Q_INVOKABLE QString translateStamp1(int time);
-
+    Q_INVOKABLE bool lrcFlag(){return m_lrcFlag;}
 
     int translate(QString time);  //将时间戳转换成毫秒数
     void sort();                    //转换后的时间戳数组按升序排序
@@ -139,6 +139,7 @@ private:
      int m_highlightLength;
      int m_timeDif;   //时间差
      QList<QString> m_plainLyric;
+     bool m_lrcFlag;
 };
 
 #endif // LYRIC_H

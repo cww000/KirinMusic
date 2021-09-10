@@ -289,7 +289,7 @@ QQ.ApplicationWindow {
         redoAction.onTriggered: textArea.redo()
         addTagAction.onTriggered:{
             pos = textArea.cursorPosition;
-            textArea.text=lyric_id.addTag(textArea.text,textArea.cursorPosition,action.addTagAction.text.slice(4));
+            textArea.text=lyric_id.addTag(textArea.text,textArea.cursorPosition,"["+content.musicPlayer.currentTime+"]");
             textArea.cursorPosition = pos;
         }
         deleteHeaderLabelAction.onTriggered: {
@@ -311,7 +311,6 @@ QQ.ApplicationWindow {
         testAction.onTriggered: {
             if(testNum===0) {
                 startTest()
-
             } else {
                 action.addTagAction.enabled=true;
                 action.deleteHeaderLabelAction.enabled=true;
@@ -321,7 +320,20 @@ QQ.ApplicationWindow {
 
                 content.lyricRightPage.lyricListModel.clear()
                 content.lyricLeftPage.lyricListModel.clear()
-                content.lyricRightPage.lyricText.visible=true
+
+                //查找当前播放音乐所在目录是否有对应歌词文件
+                content.musicPlayer.getLocalLyricFile()
+
+                if(lyric_id.lyric === ""){
+                    content.lyricRightPage.lyricText.visible=true
+                    content.lyricRightPage.lyricListView.visible = false
+                    console.log("no lyric")
+                }else{
+                    content.lyricRightPage.lyricText.visible=false
+                    content.lyricRightPage.lyricListView.visible = true
+                    console.log("has lyric")
+                    content.showLocalLyrics()
+                }
 
                 console.log("结束测试")
             }
@@ -354,6 +366,7 @@ QQ.ApplicationWindow {
 
     function startTest() {
         testNum=1
+
         action.addTagAction.enabled=false;
         action.deleteHeaderLabelAction.enabled=false;
         action.deleteAllLabelAction.enabled=false;
@@ -382,14 +395,23 @@ QQ.ApplicationWindow {
         console.log(timeStampIndex)
         if(timeFlag) {
             //定时器第一次被触发
-            lyric_id.test(lyric_id.translateStamp(lyric_id.timeStamp[timeStampIndex]));
+            if(lyric_id.lrcFlag()) {
+                lyric_id.test(lyric_id.translateStamp(lyric_id.timeStamp[timeStampIndex]));  //歌词格式为[00:00.00]
+            } else {
+                lyric_id.test(lyric_id.translateStamp1(lyric_id.timeStamp[timeStampIndex]));  //歌词格式为[00:00]
+            }
+
             timeFlag=false
             content.lyricRightPage.lyricListView.currentIndex=timeStampIndex
             content.lyricLeftPage.lyricListView.currentIndex=timeStampIndex
             miniDialog.miniText.text = content.lyricRightPage.lyricListModel.get(content.lyricRightPage.lyricListView.currentIndex).currentLyrics
 
         } else {
-            lyric_id.test(lyric_id.translateStamp(lyric_id.timeStamp[timeStampIndex]));
+            if(lyric_id.lrcFlag()) {
+                lyric_id.test(lyric_id.translateStamp(lyric_id.timeStamp[timeStampIndex]));
+            } else {
+                lyric_id.test(lyric_id.translateStamp1(lyric_id.timeStamp[timeStampIndex]));
+            }
 
             content.lyricRightPage.lyricListView.currentIndex++;
             content.lyricLeftPage.lyricListView.currentIndex++;
@@ -403,7 +425,8 @@ QQ.ApplicationWindow {
 
         //如果当前播放的不是是网络歌曲，
         if(testNum===1) {
-            highlight()
+            textArea.cursorPosition=lyric_id.highlightPos;
+            textArea.select(lyric_id.highlightPos,lyric_id.highlightPos+lyric_id.highlightLength);
         }
 
         timeStampIndex++;
@@ -427,10 +450,4 @@ QQ.ApplicationWindow {
         timerTest.running=true
         console.log("开始测试")
     }
-
-    function highlight(){
-        textArea.cursorPosition=lyric_id.highlightPos;
-        textArea.select(lyric_id.highlightPos,lyric_id.highlightPos+lyric_id.highlightLength);
-    }
-
 }
