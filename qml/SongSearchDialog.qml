@@ -27,25 +27,6 @@ ApplicationWindow{
     ColumnLayout{
         spacing: 10
         RowLayout{
-//            Text {
-//                id: logoText
-//                text: qsTr("酷狗音乐")
-//                Layout.topMargin: 20
-//                Layout.preferredWidth: 60
-//                Layout.preferredHeight:40
-//                horizontalAlignment: Text.AlignHCenter
-//                verticalAlignment: Text.AlignVCenter
-//            }
-      //      spacing: 10
-//            Image {
-//                id: kImage
-//                Layout.topMargin: 20
-//                fillMode: Image.PreserveAspectCrop
-//                source: "qrc:/image/logo.png"
-//                Layout.preferredWidth: 30
-//                Layout.preferredHeight: 30
-//                cache: false
-//            }
             TextField {
                 id: inputField
                 Layout.preferredWidth: 300
@@ -263,8 +244,13 @@ ApplicationWindow{
            content.lyricLeftPage.lyricListModel.clear()
 
            if(dialogs.lyricDialog.timerTest.running) {
-               dialogs.lyricDialog.testNum=0
+               dialogs.lyricDialog.testNum=0     //让testArea中的歌词不再高亮
                dialogs.lyricDialog.timerTest.running=false;
+               dialogs.lyricDialog.action.addTagAction.enabled=true;
+               dialogs.lyricDialog.action.deleteHeaderLabelAction.enabled=true;
+               dialogs.lyricDialog.action.deleteAllLabelAction.enabled=true;
+               dialogs.lyricDialog.toolBarAddTag.enabled=true
+               dialogs.lyricDialog.tooBarDeleteHeaderLabel.enabled=true
            }
            kugou.onclickPlay(listView.currentIndex)
        }

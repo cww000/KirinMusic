@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>MainWindow.qml</file>
         <file>Dialogs.qml</file>
         <file>Actions.qml</file>
         <file>KeyMapDialog.qml</file>
@@ -19,5 +19,6 @@
         <file>qtquickcontrols2.conf</file>
         <file>Content.qml</file>
         <file>LyricEditorDialogs.qml</file>
+        <file>Karaoke.qml</file>
     </qresource>
 </RCC>

@@ -165,7 +165,11 @@ ApplicationWindow {
                     delRecently
                ]
            }
-
+       }
+   }
+   onClosing: {
+       if(dialogs.recentlyPlayDialog.recUrls.length !== 0){
+           dialogs.lyricDialog.fileIo.saveRecentlyUrls(dialogs.recentlyPlayDialog.recUrls)
        }
    }
 }

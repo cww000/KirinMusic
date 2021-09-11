@@ -7,6 +7,9 @@ ApplicationWindow {
     width: 500
     height: 420
     property var keys: []
+    property bool flag: false
+
+
     ColumnLayout{
         anchors.fill: parent
         spacing: 5
@@ -55,6 +58,9 @@ ApplicationWindow {
                             id: openfileText
                             Layout.fillWidth: true
                             text: actions.openFileAction.shortcut === undefined?" ":actions.openFileAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                     RowLayout{
@@ -68,6 +74,9 @@ ApplicationWindow {
                             id: openfolderText
                             Layout.fillWidth: true
                             text: actions.openFolderAction.shortcut=== undefined?" ":actions.openFolderAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                     RowLayout{
@@ -81,6 +90,9 @@ ApplicationWindow {
                             id: exitText
                             Layout.fillWidth: true
                             text: actions.exitAction.shortcut===undefined?" ":actions.exitAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                 }
@@ -102,6 +114,9 @@ ApplicationWindow {
                             id: copyText
                             Layout.fillWidth: true
                             text: actions.copyCurrentLyricAction.shortcut===undefined?" ":actions.copyCurrentLyricAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                     RowLayout{
@@ -115,6 +130,9 @@ ApplicationWindow {
                             id: copyAllText
                             Layout.fillWidth: true
                             text: actions.copyAllLyricAction.shortcut===undefined?" ":actions.copyAllLyricAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                     RowLayout{
@@ -128,6 +146,9 @@ ApplicationWindow {
                             id: editText
                             Layout.fillWidth: true
                             text: actions.editLyricAction.shortcut===undefined?" ":actions.editLyricAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                     RowLayout{
@@ -141,6 +162,9 @@ ApplicationWindow {
                             id: downloadText
                             Layout.fillWidth: true
                             text: actions.downloadLyricAction.shortcut===undefined?" ":actions.downloadLyricAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                 }
@@ -164,6 +188,9 @@ ApplicationWindow {
                                 id: playText
                                 Layout.fillWidth: true
                                 text: actions.playAction.shortcut===undefined?" ":actions.playAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -177,6 +204,9 @@ ApplicationWindow {
                                 id: pauseText
                                 Layout.fillWidth: true
                                 text: actions.pauseAction.shortcut===undefined?" ":actions.pauseAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -190,6 +220,9 @@ ApplicationWindow {
                                 id: previousText
                                 Layout.fillWidth: true
                                 text: actions.previousAction.shortcut===undefined?" ":actions.previousAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -203,6 +236,9 @@ ApplicationWindow {
                                 id: nextText
                                 Layout.fillWidth: true
                                 text: actions.nextAction.shortcut===undefined?" ":actions.nextAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                     }
@@ -219,6 +255,9 @@ ApplicationWindow {
                                 id: fastforwardfiveScdText
                                 Layout.fillWidth: true
                                 text: actions.fastforwardfiveScdAction.shortcut===undefined?" ":actions.fastforwardfiveScdAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -232,6 +271,9 @@ ApplicationWindow {
                                 id: backfiveScdText
                                 Layout.fillWidth: true
                                 text: actions.backfiveScdAction.shortcut===undefined?" ":actions.backfiveScdAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -245,6 +287,9 @@ ApplicationWindow {
                                 id: cycPlayText
                                 Layout.fillWidth: true
                                 text: actions.cycPlayAction.shortcut===undefined?" ":actions.cycPlayAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -258,6 +303,9 @@ ApplicationWindow {
                                 id: loopPlayText
                                 Layout.fillWidth: true
                                 text: actions.loopPlayAction.shortcut===undefined?" ":actions.loopPlayAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -271,6 +319,9 @@ ApplicationWindow {
                                 id: ranPlayText
                                 Layout.fillWidth: true
                                 text: actions.ranPlayAction.shortcut===undefined?" ":actions.ranPlayAction.shortcut
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                     }
@@ -294,6 +345,9 @@ ApplicationWindow {
                             id: deleteText
                             Layout.fillWidth: true
                             text: actions.deleteAction.shortcut===undefined?" ":actions.deleteAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                     RowLayout{
@@ -307,6 +361,9 @@ ApplicationWindow {
                             id: songSearchText
                             Layout.fillWidth: true
                             text: actions.songSearchAction.shortcut===undefined?" ":actions.songSearchAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                 }
@@ -327,6 +384,9 @@ ApplicationWindow {
                             id: recentlyPlayText
                             Layout.fillWidth: true
                             text: actions.recentlyPlayAction.shortcut===undefined?" ":actions.recentlyPlayAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                     RowLayout{
@@ -340,6 +400,9 @@ ApplicationWindow {
                             id: trackInfoText
                             Layout.fillWidth: true
                             text: actions.trackInformationAction.shortcut===undefined?" ":actions.trackInformationAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                     RowLayout{
@@ -353,6 +416,9 @@ ApplicationWindow {
                             id: keyMapText
                             Layout.fillWidth: true
                             text: actions.keyMapAction.shortcut===undefined?" ":actions.keyMapAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
                         }
                     }
                 }
@@ -371,6 +437,9 @@ ApplicationWindow {
                         id: aboutText
                         Layout.fillWidth: true
                         text: actions.aboutAction.shortcut===undefined?" ":actions.aboutAction.shortcut
+                        onTextChanged: {
+                            flag = true
+                        }
                     }
                 }
             }
@@ -383,40 +452,59 @@ ApplicationWindow {
             Button{
                 text: qsTr("保存")
                 onClicked: {
-                    keys = []
-                    keys.push(openfileText.text)
-                    keys.push(openfolderText.text)
-                    keys.push(exitText.text)
-                    keys.push(copyText.text)
-                    keys.push(copyAllText.text)
-                    keys.push(editText.text)
-                    keys.push(downloadText.text)
-                    keys.push(playText.text)
-                    keys.push(pauseText.text)
-                    keys.push(previousText.text)
-                    keys.push(nextText.text)
-                    keys.push(fastforwardfiveScdText.text)
-                    keys.push(backfiveScdText.text)
-                    keys.push(cycPlayText.text)
-                    keys.push(loopPlayText.text)
-                    keys.push(ranPlayText.text)
-                    keys.push(deleteText.text)
-                    keys.push(songSearchText.text)
-                    keys.push(recentlyPlayText.text)
-                    keys.push(trackInfoText.text)
-                    keys.push(keyMapText.text)
-                    keys.push(aboutText.text)
-                    dialogs.lyricDialog.fileIo.saveKeys(keys)
-                    actions.getKeyMap()
-                    keyMapWindow.close()
+                    saveKeyMap()
                 }
             }
             Button{
                 text: qsTr("取消")
                 onClicked: {
-                    close()
+                    if(flag){
+                        dialogs.saveDialog.open()
+                    }else{
+                        close()
+                    }
                 }
             }
         }
     }
+    onClosing:function(closeevent){
+        closeevent.accepted = false
+        if(flag){
+            dialogs.saveDialog.open()
+        }else{
+            closeevent.accepted = true
+        }
+    }
+
+    function saveKeyMap(){
+        keys = []
+        keys.push(openfileText.text)
+        keys.push(openfolderText.text)
+        keys.push(exitText.text)
+        keys.push(copyText.text)
+        keys.push(copyAllText.text)
+        keys.push(editText.text)
+        keys.push(downloadText.text)
+        keys.push(playText.text)
+        keys.push(pauseText.text)
+        keys.push(previousText.text)
+        keys.push(nextText.text)
+        keys.push(fastforwardfiveScdText.text)
+        keys.push(backfiveScdText.text)
+        keys.push(cycPlayText.text)
+        keys.push(loopPlayText.text)
+        keys.push(ranPlayText.text)
+        keys.push(deleteText.text)
+        keys.push(songSearchText.text)
+        keys.push(recentlyPlayText.text)
+        keys.push(trackInfoText.text)
+        keys.push(keyMapText.text)
+        keys.push(aboutText.text)
+        dialogs.lyricDialog.fileIo.saveKeys(keys)
+        actions.getKeyMap()
+        flag = false
+        keyMapWindow.close()
+    }
+
+
 }

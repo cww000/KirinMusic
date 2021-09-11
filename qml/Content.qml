@@ -93,7 +93,6 @@ Item {
 
     function placeLyricToView(){
         content.lyricRightPage.lyricListView.currentIndex=-1
-        dialogs.lyricDialog.action.testAction.enabled=false
 
         if(content.playlistPage.visible) {
             content.lyricRightPage.lyricListView.visible=false

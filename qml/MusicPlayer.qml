@@ -17,7 +17,6 @@ Item {
     property alias cycPlay: cycPlay
     property alias loopPlay: loopPlay
     property alias ranPlay: ranPlay
-    signal playOver()
 
     function play(index){
         dialogs.lyricDialog.testNum=0
@@ -108,7 +107,7 @@ Item {
         }
     }
 
-    //得到歌曲总时长
+    //得到歌曲总时长 [00:00]
     function setTime(playTime) {
         var m,s;
         playTime=(playTime-playTime%1000)/1000;
@@ -129,7 +128,7 @@ Item {
         }
     }
 
-    //得到进度条当前播放时间
+    //得到进度条当前播放时间   [00:00]
     function setTime1(playTime) {
         var m,s;
         playTime=(playTime-playTime%1000)/1000;
@@ -165,7 +164,7 @@ Item {
         id:columnLayout
         Layout.alignment: Qt.AlignBottom
         RowLayout{
-            spacing: 15
+            spacing: 5
             Layout.preferredHeight: 48
             Image {
                 id:cycPlay         //单曲循环
@@ -262,7 +261,7 @@ Item {
                     id: word1
                     anchors.centerIn: parent
                     text: qsTr("词")
-                    font.pointSize: 15
+                    font.pointSize: 16
                     color: "grey"
                     TapHandler{
                         onTapped: {
@@ -277,7 +276,7 @@ Item {
             Text {
                 id: word
                 text: qsTr("词")
-                font.pointSize: 15
+                font.pointSize: 16
                 Layout.preferredWidth: 25
                 Layout.preferredHeight: 25
                 color: "grey"
@@ -289,6 +288,27 @@ Item {
                     }
                 }
             }
+
+            Image {
+                id: karaoke1
+                source: "qrc:/image/话筒1.png"
+                visible: content.musicPlayer.fileName===" "
+            }
+
+            Image {
+                id: karaoke2
+                source: "qrc:/image/话筒2.png"
+                visible: content.musicPlayer.fileName!==" "
+                TapHandler{
+                    onTapped: {
+                        content.visible=false
+                        karaoke.visible=true
+                        menuBar.visible=false
+                        appWindow.title="K歌"
+                    }
+                }
+            }
+
 
             RoundButton{
                 Layout.preferredWidth: 35

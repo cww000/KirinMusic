@@ -31,6 +31,10 @@ Item {
             }else{
                 close()
             }
+
+            if(testNum===1) {
+                action.testAction.triggered()
+            }
         }
     }
     MessageDialog{
@@ -50,6 +54,10 @@ Item {
                 fileDialog.open();
             }else{
                 close()
+            }
+
+            if(testNum===1) {
+                action.testAction.triggered()
             }
         }
     }

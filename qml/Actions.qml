@@ -27,6 +27,7 @@ Item {
     Action{
         id:openFile
         text: qsTr("打开文件")
+
         icon.source: "qrc:/image/文件.png"
         onTriggered: {
             dialogs.openMusicFileDialog()
@@ -340,6 +341,7 @@ Item {
     function getRecentlyPlayed(){
         if(dialogs.recentlyPlayDialog.recUrls.length !== 0){
             dialogs.lyricDialog.fileIo.saveRecentlyUrls(dialogs.recentlyPlayDialog.recUrls)
+            dialogs.recentlyPlayDialog.recUrls = []
         }
         dialogs.lyricDialog.fileIo.getRecentlyPlaylist();
         var i = 0;
@@ -389,6 +391,6 @@ Item {
         actions.trackInformationAction.shortcut = dialogs.lyricDialog.fileIo.readKey(19)
         actions.keyMapAction.shortcut = dialogs.lyricDialog.fileIo.readKey(20)
         actions.aboutAction.shortcut = dialogs.lyricDialog.fileIo.readKey(21)
-
+        dialogs.keyMapDialog.flag = false
     }
 }

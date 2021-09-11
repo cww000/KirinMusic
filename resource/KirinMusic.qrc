@@ -47,5 +47,11 @@
         <file>image/单曲循环.png</file>
         <file>image/logo.png</file>
         <file>image/背景.png</file>
+        <file>image/保存.png</file>
+        <file>image/开始录制.png</file>
+        <file>image/红点.png</file>
+        <file>image/话筒1.png</file>
+        <file>image/话筒2.png</file>
+        <file>image/返回.png</file>
     </qresource>
 </RCC>

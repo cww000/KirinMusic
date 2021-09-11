@@ -148,8 +148,8 @@ void Lyric::extract_timeStamp()
        m_plainLyric<< content.mid(m_highlightPos,m_highlightLength);
     }
 
-//    QList<QString>::const_iterator constIterator;
-//    for (constIterator = m_painLyric.constBegin(); constIterator != m_painLyric.constEnd();
+    QList<QString>::const_iterator constIterator;
+//    for (constIterator = m_plainLyric.constBegin(); constIterator != m_plainLyric.constEnd();
 //           ++constIterator) {
 //       qDebug()<< (*constIterator)<< Qt::endl;
 //    }

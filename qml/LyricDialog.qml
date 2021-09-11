@@ -23,7 +23,11 @@ QQ.ApplicationWindow {
     property alias timerTest:timerTest
     property alias action:action
     property alias textArea:textArea
+    property alias toolBarTest:tooBarTest
+    property alias toolBarAddTag: toolBarAddTag
+    property alias tooBarDeleteHeaderLabel: tooBarDeleteHeaderLabel
     property int testNum:0
+
 
     function getColumn(){
         var pos = textArea.cursorPosition;
@@ -95,24 +99,37 @@ QQ.ApplicationWindow {
     header:QQ.ToolBar{
         id: toolBar
         RowLayout{
+           spacing: 10
            QQ.ToolButton {
                 id:toolBaropen
+                text: qsTr("打开")
+                Layout.preferredHeight: 45
                 icon.source: "qrc:/image/open.png"
+                display: Qt.ToolButtonTextUnderIcon
                 onClicked: {action.openAction.triggered()}
             }
             QQ.ToolButton {
                 id:toolBarAddTag
+                text: qsTr("加入标签")
+                Layout.preferredHeight: 45
                 icon.source: "qrc:/image/add.png"
+                display: Qt.ToolButtonTextUnderIcon
                 onClicked: {action.addTagAction.triggered()}
             }
             QQ.ToolButton {
                 id:tooBarDeleteHeaderLabel
+                Layout.preferredHeight: 45
                 icon.source: "qrc:/image/delete.png"
+                text: qsTr("删除标签")
+                display: Qt.ToolButtonTextUnderIcon
                 onClicked: {action.deleteHeaderLabelAction.triggered()}
             }
             QQ.ToolButton {
                 id:tooBarTest
+                text: qsTr("测试")
+                Layout.preferredHeight: 45
                 icon.source: "qrc:/image/test.png"
+                display: Qt.ToolButtonTextUnderIcon
                 onClicked: {action.testAction.triggered()}
                 enabled: content.musicPlayer.pause.visible & textArea.length!==0
             }
@@ -289,7 +306,8 @@ QQ.ApplicationWindow {
         redoAction.onTriggered: textArea.redo()
         addTagAction.onTriggered:{
             pos = textArea.cursorPosition;
-            textArea.text=lyric_id.addTag(textArea.text,textArea.cursorPosition,"["+content.musicPlayer.currentTime+"]");
+            var str=lyric_id.translateStamp(content.musicPlayer.audio.position)
+            textArea.text=lyric_id.addTag(textArea.text,textArea.cursorPosition,str);
             textArea.cursorPosition = pos;
         }
         deleteHeaderLabelAction.onTriggered: {
@@ -315,6 +333,8 @@ QQ.ApplicationWindow {
                 action.addTagAction.enabled=true;
                 action.deleteHeaderLabelAction.enabled=true;
                 action.deleteAllLabelAction.enabled=true;
+                toolBarAddTag.enabled=true
+                tooBarDeleteHeaderLabel.enabled=true
                 timerTest.running=false
                 testNum=0
 
@@ -349,6 +369,11 @@ QQ.ApplicationWindow {
                 textArea.text=fileIo.read();
                 flag = false;
                 lyric_id.lyric=textArea.text;    //更新歌词内容
+
+                if(testNum===1) {
+                    action.testAction.triggered()
+                }
+
             }else{
                 fileIo.write(textArea.text)
                 dialogs.fileDialog.selectExisting = true
@@ -370,6 +395,8 @@ QQ.ApplicationWindow {
         action.addTagAction.enabled=false;
         action.deleteHeaderLabelAction.enabled=false;
         action.deleteAllLabelAction.enabled=false;
+        toolBarAddTag.enabled=false
+        tooBarDeleteHeaderLabel.enabled=false
 
         if(content.playlistPage.visible) {
              content.lyricRightPage.lyricListView.visible=false

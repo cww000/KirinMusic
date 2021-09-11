@@ -84,7 +84,7 @@ Item {
 
     Action{
         id:addTag
-        text: qsTr("加入标签[00:00.00]")
+        text: qsTr("加入标签")
         icon.source: "qrc:/image/add.png"
     }
     Action{

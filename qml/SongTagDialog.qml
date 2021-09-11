@@ -4,12 +4,14 @@ import QtQuick.Layouts 1.12
 import Song 1.0
 
 ApplicationWindow{
+    id: songTagWindow
     width:680
     height:450
     visible: true
     property alias song: song
     property var map:{"标题":" ","艺术家":" ","唱片集":" ","注释":" ","日期":" ","音轨号":" ","流派":" "};
     property alias picImage: picImage
+    property bool flag: false
     signal showImage
 
     onShowImage: {      //显示专辑封面
@@ -28,6 +30,7 @@ ApplicationWindow{
             rootImage.source = "file:///tmp/KirinMusic/pic.png"
             content.leftImage.source = "file:///tmp/KirinMusic/pic.png"
             dialogs.songTagDialog.picImage.source = "file:///tmp/KirinMusic/pic.png"
+
         }else if(dialogs.songSearchDialog.networkPlay){
             console.log(true)
             dialogs.songTagDialog.picImage.source = ""
@@ -38,48 +41,54 @@ ApplicationWindow{
     }
 
     function get_Tags_Meta(){
-        titleInput.text = " ";
-        artistInput.text = " ";
-        albumInput.text = " ";
-        annotationInput.text = " ";
-        yearInput.text = " ";
-        trackInput.text = " ";
-        generInput.editText = " ";
+        titleInput.text = "";
+        artistInput.text = "";
+        albumInput.text = "";
+        annotationInput.text = "";
+        yearInput.text = "";
+        trackInput.text = "";
+        generInput.editText = "";
 
         titleInput.text=song.Tags["标题"];
         artistInput.text=song.Tags["艺术家"];
         albumInput.text=song.Tags["唱片集"];
         annotationInput.text=song.Tags["注释"];
         if(song.Tags["日期"]===0) {
-            yearInput.text=" ";
+            yearInput.text="";
         } else {
             yearInput.text=song.Tags["日期"];
         }
         if(song.Tags["音轨号"]===0) {
-            trackInput.text= " ";
+            trackInput.text= "";
         } else {
             trackInput.text= song.Tags["音轨号"];
         }
         generInput.editText=song.Tags["流派"];
+        flag =false
     }
 
     function set_Tag_Meta(){
         map["标题"]=titleInput.text;
-        console.log(map["标题"])
+
         map["艺术家"]=artistInput.text;
         map["唱片集"]=albumInput.text;
         map["注释"]=annotationInput.text;
-        if(yearInput.text===" ") {
+        if(yearInput.text==="") {
            map["日期"]=0;
         } else {
             map["日期"]=yearInput.text;
         }
-        if(trackInput.text===" ") {
+        if(trackInput.text==="") {
            map["音轨号"]=0;
         } else {
             map["音轨号"]=trackInput.text;
         }
+        console.log(map["音轨号"])
         map["流派"]=generInput.editText;
+        var path = content.musicPlayer.audio.source.toString().slice(7)
+        song.saveTags(path,map)
+        flag = false
+        songTagWindow.close()
     }
 
     ColumnLayout{
@@ -132,6 +141,9 @@ ApplicationWindow{
                                 id: titleInput
                                 Layout.fillWidth: true
                                 focus: true
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -143,6 +155,9 @@ ApplicationWindow{
                             TextField{
                                 id: artistInput
                                 Layout.fillWidth: true
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -154,6 +169,9 @@ ApplicationWindow{
                             TextField{
                                 id: albumInput
                                 Layout.fillWidth: true
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                         RowLayout{
@@ -170,6 +188,9 @@ ApplicationWindow{
                                         id: trackInput
                                         Layout.fillWidth: true
                                         validator: RegularExpressionValidator{regularExpression: /[0-9]+/}
+                                        onTextChanged: {
+                                            flag = true
+                                        }
                                     }
                                 }
                                 RowLayout{
@@ -182,6 +203,9 @@ ApplicationWindow{
                                         id: yearInput
                                         Layout.fillWidth: true
                                         validator: RegularExpressionValidator{regularExpression: /[0-9]+/}
+                                        onTextChanged: {
+                                            flag = true
+                                        }
                                     }
                                 }
                             }
@@ -205,7 +229,9 @@ ApplicationWindow{
                                     ListElement{text:"A Cappella"}
                                     ListElement{text:"Acid"}
                                     ListElement{text :"Acid Jazz"}
-
+                                }
+                                onEditTextChanged: {
+                                    flag = true
                                 }
                             }
                         }
@@ -217,6 +243,9 @@ ApplicationWindow{
                             TextField{
                                 id: annotationInput
                                 Layout.fillWidth: true
+                                onTextChanged: {
+                                    flag = true
+                                }
                             }
                         }
                     }
@@ -237,21 +266,29 @@ ApplicationWindow{
                     text:"保存到文件"
                     onClicked: {
                         set_Tag_Meta();
-                        var path = content.musicPlayer.audio.source.toString().slice(7)
-                        song.saveTags(path,map)
-                        close()
                     }
                 }
                 Button{
                     text: "关闭"
                     onClicked: {
-                        close()
+                        if(flag){
+                            dialogs.saveDialog.open()
+                        }else{
+                            close()
+                        }
                     }
                 }
             }
         }
     }
-
+    onClosing: function(closeevent){
+        closeevent.accepted = false
+        if(flag){
+            dialogs.saveDialog.open()
+        }else{
+            closeevent.accepted = true
+        }
+    }
     Song{
         id: song
     }
