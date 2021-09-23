@@ -57,10 +57,13 @@ Item {
             }
             Text {
                 id: singerText
+                Layout.preferredWidth: 300
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 font.pointSize: 10
                 visible: true
-                Layout.leftMargin: 150
-                Layout.topMargin: 10
+                Layout.leftMargin: 80
+                Layout.topMargin: 20
             }
             LyricPage{
                 id:lyricRightPage

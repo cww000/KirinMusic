@@ -11,6 +11,7 @@ SOURCES += \
         clipboard.cpp \
         decode.cpp \
         fileio.cpp \
+        karaoke.cpp \
         kugou.cpp \
         lyric.cpp \
         lyricdownload.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     clipboard.h \
     decode.h \
     fileio.h \
+    karaoke.h \
     kugou.h \
     lyric.h \
     lyricdownload.h \

@@ -38,6 +38,7 @@ Item {
         console.log(index)
         fileNameText.text=myMusicArray[index]
 
+
         dialogs.miniDialog.miniText.text=fileNameText.text
 
         //音乐播放及图标转换
@@ -107,46 +108,28 @@ Item {
         }
     }
 
-    //得到歌曲总时长 [00:00]
+
+    //时间转化   [00:00]
     function setTime(playTime) {
         var m,s;
+        var time;
         playTime=(playTime-playTime%1000)/1000;
         m=(playTime-playTime%60)/60
         s=playTime-m*60
         if(m>=0&m<10) {
             if(s>=0&s<10) {
-                totalTime="0"+m+":0"+s;
+                time="0"+m+":0"+s;
             } else {
-                totalTime="0"+m+":"+s;
+                time="0"+m+":"+s;
             }
         } else {
             if(s>=0&s<10) {
-                totalTime=m+":0"+s;
+                time=m+":0"+s;
             } else {
-                totalTime=m+":"+s;
+                time=m+":"+s;
             }
         }
-    }
-
-    //得到进度条当前播放时间   [00:00]
-    function setTime1(playTime) {
-        var m,s;
-        playTime=(playTime-playTime%1000)/1000;
-        m=(playTime-playTime%60)/60
-        s=playTime-m*60
-        if(m>=0&m<10) {
-            if(s>=0&s<10) {
-                currentTime="0"+m+":0"+s;
-            } else {
-                currentTime="0"+m+":"+s;
-            }
-        } else {
-            if(s>=0&s<10) {
-                currentTime=m+":0"+s;
-            } else {
-                currentTime=m+":"+s;
-            }
-        }
+        return time;
     }
     Rectangle{
         id:loopName
@@ -290,21 +273,16 @@ Item {
             }
 
             Image {
-                id: karaoke1
                 source: "qrc:/image/话筒1.png"
                 visible: content.musicPlayer.fileName===" "
             }
 
             Image {
-                id: karaoke2
                 source: "qrc:/image/话筒2.png"
                 visible: content.musicPlayer.fileName!==" "
                 TapHandler{
-                    onTapped: {
-                        content.visible=false
-                        karaoke.visible=true
-                        menuBar.visible=false
-                        appWindow.title="K歌"
+                    onTapped: {                        
+                        showKaraokePage()
                     }
                 }
             }
@@ -382,7 +360,7 @@ Item {
                 Layout.preferredWidth: 500
                 snapMode: Slider.SnapOnRelease
                 onValueChanged: {
-                    setTime1(value)
+                    currentTime=setTime(value)
                     audio.seek(value);
                 }
                 onPressedChanged: {
@@ -416,7 +394,7 @@ Item {
         id:audio
         onDurationChanged: {
             var playTime=audio.duration;
-            setTime(playTime);
+            totalTime=setTime(playTime);
         }
         onPositionChanged: {
             if(audio.position !== 0 && audio.position === audio.duration){

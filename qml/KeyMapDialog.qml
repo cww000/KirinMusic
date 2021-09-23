@@ -475,6 +475,30 @@ ApplicationWindow {
             closeevent.accepted = true
         }
     }
+    function getKeyMapInput(){
+        openfileText.text = dialogs.lyricDialog.fileIo.readKey(0)
+        openfolderText.text = dialogs.lyricDialog.fileIo.readKey(1)
+        exitText.text = dialogs.lyricDialog.fileIo.readKey(2)
+        copyText.text = dialogs.lyricDialog.fileIo.readKey(3)
+        copyAllText.text = dialogs.lyricDialog.fileIo.readKey(4)
+        editText.text = dialogs.lyricDialog.fileIo.readKey(5)
+        downloadText.text = dialogs.lyricDialog.fileIo.readKey(6)
+        playText.text = dialogs.lyricDialog.fileIo.readKey(7)
+        pauseText.text = dialogs.lyricDialog.fileIo.readKey(8)
+        previousText.text = dialogs.lyricDialog.fileIo.readKey(9)
+        nextText.text = dialogs.lyricDialog.fileIo.readKey(10)
+        fastforwardfiveScdText.text = dialogs.lyricDialog.fileIo.readKey(11)
+        backfiveScdText.text = dialogs.lyricDialog.fileIo.readKey(12)
+        cycPlayText.text = dialogs.lyricDialog.fileIo.readKey(13)
+        loopPlayText.text = dialogs.lyricDialog.fileIo.readKey(14)
+        ranPlayText.text = dialogs.lyricDialog.fileIo.readKey(15)
+        deleteText.text = dialogs.lyricDialog.fileIo.readKey(16)
+        songSearchText.text = dialogs.lyricDialog.fileIo.readKey(17)
+        recentlyPlayText.text = dialogs.lyricDialog.fileIo.readKey(18)
+        trackInfoText.text = dialogs.lyricDialog.fileIo.readKey(19)
+        keyMapText.text = dialogs.lyricDialog.fileIo.readKey(20)
+        aboutText.text = dialogs.lyricDialog.fileIo.readKey(21)
+    }
 
     function saveKeyMap(){
         keys = []

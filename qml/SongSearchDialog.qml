@@ -194,6 +194,7 @@ ApplicationWindow{
     onClosing: {
         songListModel.clear()
         sarchList.visible=false
+        networkPlay = false
         inputField.clear();
     }
     KuGou{

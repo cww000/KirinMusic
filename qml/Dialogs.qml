@@ -97,6 +97,7 @@ Item {
                     dialogs.songTagDialog.flag = false
                     dialogs.songTagDialog.close()
                 }else{
+                    dialogs.keyMapDialog.getKeyMapInput()   //将快捷键还原
                     dialogs.keyMapDialog.flag = false
                     dialogs.keyMapDialog.close()
                 }

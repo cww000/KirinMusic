@@ -2,21 +2,24 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.0
 import QtMultimedia 5.8
+import  Karaoke 1.0
 
 Item{
     id:karaokeWindow
     width:870
     height:680
     visible: true
-    property string  currentTime:content.musicPlayer.currentTime
-    property string  totalTime:content.musicPlayer.totalTime
+    property string  currentTime:content.musicPlayer.setTime(karaokeAudio.position)
+    property string  totalTime:content.musicPlayer.setTime(karaokeAudio.duration)
+    property alias songName:songName
+    property alias karaoke:karaoke
 
     ColumnLayout{
         spacing: 10
         Text {
             id: songName
             font.pointSize: 20
-            text: content.musicPlayer.fileName
+            text: content.fileNameText.text
             Layout.leftMargin: (appWindow.width-songName.width)/2
         }
         Text {
@@ -32,13 +35,14 @@ Item{
             Layout.topMargin: 15
             width: 300
             height: 400
+            Layout.leftMargin: (appWindow.width-karaokeLyric.width)/2
         }
 
         RowLayout{
-            Layout.leftMargin: (appWindow.width-songName.width)/2.3
+            id:controlButton
+            Layout.leftMargin: (appWindow.width-controlButton.width)/2
             Layout.topMargin: 10
             spacing: 20
-
             Image{
                 id:goBack
                 source: "qrc:/image/返回.png"
@@ -46,10 +50,16 @@ Item{
                 Layout.preferredHeight: 35
                 TapHandler{
                     onTapped: {
+                        if(pauseButton.visible) {
+                            recordButton.visible=true
+                            pauseButton.visible=false
+                            karaokeAudio.pause()
+                        }
+                        karaokePage.visible=false
                         content.visible=true
                         menuBar.visible=true
-                        karaoke.visible=false
                         appWindow.title="KirinMusic"
+
                     }
                 }
             }
@@ -64,6 +74,7 @@ Item{
                     onTapped: {
                         recordButton.visible=true
                         pauseButton.visible=false
+                        karaokeAudio.pause()
                     }
                 }
             }
@@ -78,6 +89,7 @@ Item{
                     onTapped: {
                         recordButton.visible=false
                         pauseButton.visible=true
+                        karaokeAudio.play()
                     }
                 }
             }
@@ -94,5 +106,13 @@ Item{
     Audio{
         id:karaokeAudio
 
+    }
+
+    Karaoke{
+        id:karaoke
+        onUrlChanged:{
+            console.log(url)
+            karaokeAudio.source=url
+        }
     }
 }

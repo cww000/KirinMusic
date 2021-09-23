@@ -19,6 +19,6 @@
         <file>qtquickcontrols2.conf</file>
         <file>Content.qml</file>
         <file>LyricEditorDialogs.qml</file>
-        <file>Karaoke.qml</file>
+        <file>KaraokePage.qml</file>
     </qresource>
 </RCC>

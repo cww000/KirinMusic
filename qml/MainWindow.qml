@@ -101,8 +101,8 @@ ApplicationWindow{
     Content{
         id:content
     }
-    Karaoke{
-        id:karaoke
+    KaraokePage{
+        id:karaokePage
         visible: false
     }
 
@@ -117,6 +117,16 @@ ApplicationWindow{
         folderMusicDialog.onAccepted: {
             onAcceptedFolderMusicDialog()
         }
+    }
+
+    function showKaraokePage(){
+        actions.pauseAction.triggered()
+        content.visible=false
+        karaokePage.visible=true
+        menuBar.visible=false
+        appWindow.title="K歌"
+
+        karaokePage.karaoke.search(content.fileNameText.text)
     }
 
     Component.onCompleted: {
@@ -165,6 +175,7 @@ ApplicationWindow{
 
             dialogs.lyricDialog.fileIo.saveUrls(path)  //加入到播放列表
             content.musicPlayer.audio.source=path[path.length-1];
+            dialogs.songSearchDialog.close()
             showInformation()
 
         }
@@ -181,6 +192,7 @@ ApplicationWindow{
                 content.musicPlayer.setMusicName(path);  //得到歌曲名字
                 content.playlistPage.songListModel.append({"chapter":content.musicPlayer.fileName})
                 dialogs.lyricDialog.fileIo.saveUrls(dialogs.fileMusicDialog.fileUrls)  //加入到播放列表
+                dialogs.songSearchDialog.close()
                 showInformation()
             }
         } else {
@@ -198,6 +210,7 @@ ApplicationWindow{
             if(lastAdd!==-1) {
                 dialogs.lyricDialog.fileIo.saveUrls(addUrl)
                 content.musicPlayer.audio.source=addUrl[addUrl.length-1]
+                dialogs.songSearchDialog.close()
                 showInformation()
             }
         }

@@ -13,8 +13,8 @@ KuGou::KuGou(QObject*parent)
     network_manager2 = new QNetworkAccessManager();
     network_request2 = new QNetworkRequest();			//发送请求二得到url和歌词等信息
 
-    network_request2->setRawHeader("Cookie","kg_mid=2333");
-    network_request2->setHeader(QNetworkRequest::CookieHeader,"2333");
+    network_request2->setRawHeader("Cookie","kg_mid=233");
+    network_request2->setHeader(QNetworkRequest::CookieHeader,2333);
     connect(network_manager2, &QNetworkAccessManager::finished, this, &KuGou::replyFinished2);
     connect(network_manager, &QNetworkAccessManager::finished, this, &KuGou::replyFinished);
 }

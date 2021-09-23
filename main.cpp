@@ -8,6 +8,7 @@
 #include "lyricdownload.h"
 #include "clipboard.h"
 #include "decode.h"
+#include "karaoke.h"
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<LyricDownload, 1>("LyricDownload", 1, 0, "LyricDownload");
     qmlRegisterType<Clipboard, 1>("Clipboard", 1, 0, "Clipboard");
     qmlRegisterType<Decode, 1>("Decode", 1, 0, "Decode");
+    qmlRegisterType<Karaoke, 1>("Karaoke", 1, 0, "Karaoke");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/MainWindow.qml"));
