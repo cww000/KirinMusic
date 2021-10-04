@@ -5,7 +5,6 @@ import QtQuick.Controls 2.15
 Item {
     property bool wordFlag:false
     property alias wordBackground: wordBackground
-    property alias word:word
     width: columnLayout.width
     height: columnLayout.height
     property alias audio:audio
@@ -236,38 +235,27 @@ Item {
             }
             Rectangle{
                 id:wordBackground
-                color: "Teal"
-                width:25
-                height:25
-                visible: false
+                border.color:"grey"
+                color: "transparent"
+                width:20
+                height:20
+                visible: true
                 Text {
                     id: word1
                     anchors.centerIn: parent
                     text: qsTr("词")
-                    font.pointSize: 16
+                    font.pointSize: 14
                     color: "grey"
                     TapHandler{
                         onTapped: {
-                            wordBackground.visible=false
-                            word.visible=true
-                            dialogs.miniDialog.visible = false
+                            if(dialogs.miniDialog.visible){
+                                wordBackground.color="transparent"
+                                dialogs.miniDialog.visible = false
+                            }else{
+                                wordBackground.color = "lightBlue"
+                                dialogs.miniDialog.visible = true
+                            }
                         }
-                    }
-                }
-            }
-
-            Text {
-                id: word
-                text: qsTr("词")
-                font.pointSize: 16
-                Layout.preferredWidth: 25
-                Layout.preferredHeight: 25
-                color: "grey"
-                TapHandler{
-                    onTapped: {
-                        word.visible=false
-                        wordBackground.visible=true
-                        dialogs.miniDialog.visible=true
                     }
                 }
             }
@@ -281,7 +269,8 @@ Item {
                 source: "qrc:/image/话筒2.png"
                 visible: content.musicPlayer.fileName!==" "
                 TapHandler{
-                    onTapped: {                        
+                    onTapped: {
+                        closeAllWindow()
                         showKaraokePage()
                     }
                 }

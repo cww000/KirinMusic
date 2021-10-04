@@ -419,7 +419,7 @@ QQ.ApplicationWindow {
     }
 
     function highlightLyric(){
-        console.log(timeStampIndex)
+//        console.log(timeStampIndex)
         if(timeFlag) {
             //定时器第一次被触发
             if(lyric_id.lrcFlag()) {
@@ -443,11 +443,7 @@ QQ.ApplicationWindow {
             content.lyricRightPage.lyricListView.currentIndex++;
             content.lyricLeftPage.lyricListView.currentIndex++;
 
-            if(content.lyricRightPage.lyricListModel.count===10) {
-                miniDialog.miniText.text = content.lyricRightPage.lyricListModel.get(content.lyricRightPage.lyricListView.currentIndex-1).currentLyrics
-            }else{
-                miniDialog.miniText.text = content.lyricRightPage.lyricListModel.get(content.lyricRightPage.lyricListView.currentIndex).currentLyrics
-            }
+            miniDialog.miniText.text = content.lyricRightPage.lyricListModel.get(content.lyricRightPage.lyricListView.currentIndex).currentLyrics
         }
 
         //如果当前播放的不是是网络歌曲，

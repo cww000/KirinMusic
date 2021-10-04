@@ -119,6 +119,17 @@ ApplicationWindow{
         }
     }
 
+
+    function closeAllWindow(){
+        dialogs.lyricDialog.visible=false
+        dialogs.lyricSearchDialog.visible=false
+        dialogs.songSearchDialog.visible=false
+        dialogs.recentlyPlayDialog.visible=false
+        dialogs.songTagDialog.visible=false
+        dialogs.keyMapDialog.visible=false
+        dialogs.miniDialog.visible=false
+    }
+
     function showKaraokePage(){
         actions.pauseAction.triggered()
         content.visible=false

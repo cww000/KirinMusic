@@ -47,11 +47,6 @@ Item {
         standardButtons: StandardButton.Ok
     }
 
-//    Karaoke{
-//        id:karaokeDialog
-//        visible: false
-//    }
-
     SongTagDialog{
         id:songTagDialog
         visible: false

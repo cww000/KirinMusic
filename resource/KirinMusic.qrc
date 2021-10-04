@@ -53,5 +53,7 @@
         <file>image/话筒1.png</file>
         <file>image/话筒2.png</file>
         <file>image/返回.png</file>
+        <file>image/伴奏.png</file>
+        <file>image/原唱.png</file>
     </qresource>
 </RCC>

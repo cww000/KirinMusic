@@ -96,8 +96,7 @@ ApplicationWindow{
                 icon.source:"qrc:/image/close.png"
                 onClicked: {
                     close()
-                    content.musicPlayer.wordBackground.visible = false
-                    content.musicPlayer.word.visible = true
+                    content.musicPlayer.wordBackground.color = "transparent"
                     content.musicPlayer.wordFlag=false
                 }
             }

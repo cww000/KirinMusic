@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Layouts 1.0
 import FileIo 1.0
 Item {
@@ -54,6 +54,12 @@ Item {
                 font.pointSize: 20
                 Layout.leftMargin: 80
                 Layout.topMargin: 20
+                MouseArea{
+                    anchors.fill: parent
+                    onDoubleClicked: {
+                        actions.trackInformationAction.triggered()
+                    }
+                }
             }
             Text {
                 id: singerText

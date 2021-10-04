@@ -9,7 +9,6 @@ ApplicationWindow {
     property var keys: []
     property bool flag: false
 
-
     ColumnLayout{
         anchors.fill: parent
         spacing: 5

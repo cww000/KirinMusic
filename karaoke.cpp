@@ -21,7 +21,6 @@ void Karaoke::search(QString str)
     album_idStr.clear();
     //发送歌曲搜索请求
     QString keyword=str+"伴奏";
-    qDebug()<<keyword;
 QString KGAPISTR1=QString("http://mobilecdn.kugou.com/api/v3/search/song?format=json"
                           "&keyword=%1&page=%1&pagesize=30").arg(keyword);
     network_request->setUrl(QUrl(KGAPISTR1));
@@ -167,6 +166,18 @@ void Karaoke::parseJson_getplay_url(QString json)        //解析得到歌曲
                             }
                         }
                     }
+                    if(valuedataObject.contains("lyrics"))
+                    {
+                        QJsonValue lyrics_value = valuedataObject.take("lyrics");
+                        if(lyrics_value.isString())
+                        {
+                            QString lyricsStr = lyrics_value.toString();                    //歌曲的url
+                            if(lyricsStr!="")
+                            {
+                                m_lyrics=lyricsStr;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -174,3 +185,16 @@ void Karaoke::parseJson_getplay_url(QString json)        //解析得到歌曲
 }
 
 
+
+const QString &Karaoke::lyrics() const
+{
+    return m_lyrics;
+}
+
+void Karaoke::setLyrics(const QString &newLyrics)
+{
+    if (m_lyrics == newLyrics)
+        return;
+    m_lyrics = newLyrics;
+    emit lyricsChanged();
+}
