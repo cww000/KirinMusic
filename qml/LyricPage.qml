@@ -30,6 +30,7 @@ Item {
         visible: false
         spacing: 30
         currentIndex: -1
+
         //固定currentItem的位置
         highlightRangeMode:ListView.ApplyRange
         preferredHighlightBegin:height/3+30

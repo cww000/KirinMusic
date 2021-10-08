@@ -23,6 +23,7 @@ Item {
     property alias loopPlayAction: loopPlay
     property alias ranPlayAction:ranPlay
     property alias songSearchAction:songSearch
+    property alias skinAction: skin
 
     Action{
         id:openFile
@@ -336,6 +337,14 @@ Item {
             content.musicPlayer.ranPlay.visible = true
         }
 
+    }
+    Action{
+        id:skin
+        text:qsTr("主题")
+        icon.source: "qrc:/image/skn.png"
+        onTriggered:{
+            dialogs.skinDialog.visible = true
+        }
     }
 
     function getRecentlyPlayed(){

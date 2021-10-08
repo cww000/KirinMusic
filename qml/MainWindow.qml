@@ -9,11 +9,12 @@ ApplicationWindow{
     title: qsTr("KirinMusic")
     property alias rootImage:name
     property var myMusicArray:[]
+    property url imageUrl: ""
     background: Image {
         id: name
         fillMode: Image.PreserveAspectCrop
-        source: "qrc:/image/背景.png"
         anchors.fill: parent
+        source: imageUrl
         opacity: 0.3
         cache: false
     }
@@ -88,6 +89,7 @@ ApplicationWindow{
             contentData: [
                 actions.recentlyPlayAction,
                 actions.trackInformationAction,
+                actions.skinAction,
                 actions.keyMapAction
             ]
         }
@@ -161,12 +163,17 @@ ApplicationWindow{
         content.playlistPage.songListView.currentIndex =length-1
         if(length!==0) {
             content.spectrogram.getVertices();
-            dialogs.songTagDialog.showImage()
         } else {
             content.lyricRightPage.lyricText.text=""
         }
 
-        actions.getKeyMap()
+        //背景设置
+        dialogs.lyricDialog.fileIo.readBackgroundUrl("/tmp/KirinMusic/背景图.txt")
+        dialogs.skinDialog.usingImage = dialogs.lyricDialog.fileIo.source
+        imageUrl = dialogs.skinDialog.usingImage
+        dialogs.songTagDialog.showImage()
+
+        actions.getKeyMap()   //获取快捷键设置
     }
 
     function onAcceptedFolderMusicDialog(){

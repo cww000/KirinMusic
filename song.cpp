@@ -7,6 +7,7 @@
 #include <taglib/id3v1tag.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/tag.h>
+#include <taglib/wavfile.h>
 #include <taglib/mpegfile.h>
 #include <taglib/flacfile.h>
 #include <taglib/vorbisfile.h>
@@ -38,6 +39,8 @@ void Song::getTags(QString url)
             flacOpen(ch);
         } else if(end=="ogg"){
             oggOpen(ch);
+        } else if(end=="wav"){
+            wavOpen(ch);
         }
     }else{
         clearTags();
@@ -63,6 +66,8 @@ void Song::saveTags(QString url,QVariantMap map)
         flacSave(ch,map);
     } else if(end=="ogg"){
         oggSave(ch,map);
+    } else if(end=="wav"){
+        wavSave(ch,map);
     }
 }
 
@@ -147,6 +152,75 @@ void Song::oggOpen(const char *ch)
         }
     }
 }
+
+void Song::wavOpen(const char *ch)
+{
+    TagLib::RIFF::WAV::File *wavFile = new TagLib::RIFF::WAV::File(ch);
+    m_Tags.clear();
+    if(wavFile->isOpen()) {
+        m_Tags["标题"]=wavFile->tag()->title().toCString();
+        m_Tags["艺术家"]=wavFile->tag()->artist().toCString();
+        m_Tags["唱片集"]=wavFile->tag()->album().toCString();
+        m_Tags["注释"]=wavFile->tag()->comment().toCString();
+        m_Tags["日期"]=wavFile->tag()->year();
+        m_Tags["音轨号"]=wavFile->tag()->track();
+        m_Tags["流派"]=wavFile->tag()->genre().toCString();
+    }
+    TagLib::ID3v2::Tag *id3v2tag = wavFile->tag();
+    if(id3v2tag){
+        TagLib::ID3v2::FrameList l = wavFile->ID3v2Tag()->frameListMap()["APIC"];      //得到专辑图片列表
+        if(!l.isEmpty()){
+            TagLib::ID3v2::AttachedPictureFrame *p = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());     //指针指向第一张图片
+            size_t size = p->picture().size();
+            fstream file;
+            file.open(m_pic.toUtf8().data(), fstream::out|ios_base::trunc);
+            file.write(p->picture().data(), size);
+            file.close();
+            m_flag = true;
+        }else{
+            m_flag = false;
+        }
+    }
+}
+void Song::wavSave(const char *ch, QVariantMap map)
+{
+    TagLib::RIFF::WAV::File *wavFile = new TagLib::RIFF::WAV::File(ch);
+    QByteArray ba;
+    TagLib::String str;
+
+    ba=map["标题"].toString().toUtf8();
+    str=ba.data();
+    wavFile->tag()->setTitle(str);
+
+    ba=map["艺术家"].toString().toUtf8();
+    str=ba.data();
+    wavFile->tag()->setArtist(str);
+
+    ba=map["唱片集"].toString().toUtf8();
+    str=ba.data();
+    wavFile->tag()->setAlbum(str);
+
+    ba=map["注释"].toString().toUtf8();
+    str=ba.data();
+    wavFile->tag()->setComment(str);
+
+    wavFile->tag()->setYear(map["日期"].toUInt());
+
+    wavFile->tag()->setTrack(map["音轨号"].toUInt());
+
+    ba=map["流派"].toString().toUtf8();
+    str=ba.data();
+    wavFile->tag()->setGenre(str);
+
+  //  qDebug()<<map["标题"].toString();
+    if(wavFile->save()) {
+        qDebug()<<"save successfully";
+    } else {
+        qDebug()<<"save field";
+    }
+}
+
+
 
 void Song::mp3Save(const char *ch, QVariantMap map)
 {
@@ -272,6 +346,7 @@ void Song::clearTags()
     m_Tags["音轨号"]="";
     m_Tags["流派"]="";
 }
+
 
 bool Song::flag() const
 {

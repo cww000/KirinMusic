@@ -22,7 +22,7 @@ void Karaoke::search(QString str)
     //发送歌曲搜索请求
     QString keyword=str+"伴奏";
 QString KGAPISTR1=QString("http://mobilecdn.kugou.com/api/v3/search/song?format=json"
-                          "&keyword=%1&page=%1&pagesize=30").arg(keyword);
+                          "&keyword=%1&page=1&pagesize=30").arg(keyword);
     network_request->setUrl(QUrl(KGAPISTR1));
     network_manager->get(QNetworkRequest((*network_request)));
 }

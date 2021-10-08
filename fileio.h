@@ -15,7 +15,9 @@ public:
     Q_INVOKABLE QString read();
     Q_INVOKABLE void write(const QString &data);
     Q_INVOKABLE void saveUrls(QList<QUrl> urls);
-    Q_INVOKABLE void readUrls(int serialNumber, QString fileUrl);
+    Q_INVOKABLE void saveBackgroundUrl(QUrl url);
+    Q_INVOKABLE void readUrls(int serialNumber, QString fileUrl);    //read music url
+    Q_INVOKABLE void readBackgroundUrl(QString fileUrl);
     Q_INVOKABLE void deleteUrls(int serialNumber, QString fileUrl);
     Q_INVOKABLE void deleteAllUrls(QString fileUrl);
     Q_INVOKABLE void saveKeys(QList<QString> keys);

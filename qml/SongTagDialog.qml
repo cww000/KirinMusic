@@ -32,11 +32,11 @@ ApplicationWindow{
             dialogs.songTagDialog.picImage.source = "file:///tmp/KirinMusic/pic.png"
 
         }else if(dialogs.songSearchDialog.networkPlay){
-            console.log(true)
+         //   console.log(true)
             dialogs.songTagDialog.picImage.source = ""
         }else{
-            rootImage.source = "qrc:/image/背景.png"
-            content.leftImage.source = "qrc:/image/背景.png"
+            rootImage.source = imageUrl
+            content.leftImage.source = imageUrl
         }
     }
 

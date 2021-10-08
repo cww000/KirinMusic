@@ -16,9 +16,11 @@ public:
     void mp3Open(const char *ch);
     void flacOpen(const char *ch);
     void oggOpen(const char *ch);
+    void wavOpen(const char *ch);
     void mp3Save(const char *ch,QVariantMap map);
     void flacSave(const char *ch,QVariantMap map);
     void oggSave(const char *ch,QVariantMap map);
+    void wavSave(const char *ch,QVariantMap map);
     void clearTags();
     QVariantMap Tags() const
     {
@@ -46,5 +48,6 @@ signals:
 private:
     QVariantMap m_Tags;
     bool m_flag;
+    QString m_pic;
 };
 #endif // SONG_H

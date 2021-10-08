@@ -15,6 +15,7 @@ Item {
 
     property alias fileMusicDialog:fileMusicDialog
     property alias folderMusicDialog:folderMusicDialog
+    property alias fileImageDialog: fileImageDialog
     property alias songTagDialog:songTagDialog
     property alias lyricDialog:lyricDialog
     property alias recentlyPlayDialog: recentlyPlayDialog
@@ -23,6 +24,7 @@ Item {
     property alias songSearchDialog:songSearchDialog
     property alias miniDialog: miniDialog
     property alias saveDialog: saveDialog
+    property alias skinDialog: skinDialog
   //  property alias karaokeDialog:karaokeDialog
 
 
@@ -30,13 +32,26 @@ Item {
         id:fileMusicDialog
         title: "Please choose a music file"
         folder:shortcuts.documents
-        nameFilters: ["Audio Files(*.mp3 *.ogg *.flac)"]
+        nameFilters: ["Audio Files(*.mp3 *.ogg *.flac *wav)"]
         selectMultiple: true
     }
 
     FolderDialog{
         id:folderMusicDialog
         title:"select a folder"
+    }
+    QQ.FileDialog{
+        id: fileImageDialog
+        title: "Select an image file"
+        folder: shortcuts.documents
+        nameFilters: [ "Image files (*.png *.jpeg *.jpg)" ]
+        onAccepted: {
+            imageUrl = fileImageDialog.fileUrl
+            dialogs.songTagDialog.showImage()
+            dialogs.lyricDialog.fileIo.saveBackgroundUrl(imageUrl)
+            dialogs.skinDialog.usingImage = imageUrl
+            dialogs.skinDialog.close()
+        }
     }
     QQ.MessageDialog{
         id:aboutDialog
@@ -75,6 +90,11 @@ Item {
         id:miniDialog
         visible: false
     }
+    SKinDialog{
+        id:skinDialog
+        visible: false
+    }
+
     QQ.MessageDialog{
         id: saveDialog
         title: qsTr("hint")

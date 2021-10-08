@@ -53,6 +53,22 @@ void FileIo::saveUrls(QList<QUrl> urls)
     }
 }
 
+void FileIo::saveBackgroundUrl(QUrl url)
+{
+    QDir dir("/tmp/KirinMusic");
+    if(!dir.exists()){
+        dir.mkdir("/tmp/KirinMusic");
+    }
+    QFile file("/tmp/KirinMusic/背景图.txt");
+    bool ok=file.open(QIODevice::WriteOnly|QIODevice::Truncate);
+    if(ok) {
+        QTextStream out(&file);
+        QString path=url.toString().replace("file::","qrc:");
+        out<<path;
+        file.close();
+    }
+}
+
 
 //读取播放列表中的某条地址
 void FileIo::readUrls(int serialNumber, QString fileUrl)
@@ -71,8 +87,26 @@ void FileIo::readUrls(int serialNumber, QString fileUrl)
             index++;
         }
         file.close();
-    }else{
+    }
+}
 
+void FileIo::readBackgroundUrl(QString fileUrl)
+{
+    QFile file(fileUrl);
+    if(file.exists()) {
+        QTextStream in(&file);
+        bool ok=file.open(QIODevice::ReadOnly|QIODevice::Text);
+        if(ok) {
+            m_source=in.readAll();
+        }
+    } else {
+        QTextStream in(&file);
+        bool ok=file.open(QIODevice::WriteOnly);
+        if(ok) {
+            in<<"qrc:/background/1.png";
+            m_source="qrc:/background/1.png";
+        }
+        file.close();
     }
 }
 
@@ -241,7 +275,7 @@ QList<QString> FileIo::getFiles(QString path)
 {
     QDir dir(path);
     QStringList nameFilters;
-    nameFilters << "*.mp3" << "*.ogg"<<"*.flac";
+    nameFilters << "*.mp3" << "*.ogg"<<"*.flac"<<"*wav";
     QStringList files = dir.entryList(nameFilters, QDir::Files|QDir::Readable, QDir::Name);
     QList<QString> url;
     for(int i=0;i<files.length();i++) {

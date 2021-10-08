@@ -7,7 +7,7 @@ import QtQml.Models 2.15
 import QtGraphicalEffects 1.0
 import Lyric 1.0
 import AudioRecorder 1.0
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.3
 
 Item{
     id:karaokeWindow
@@ -114,102 +114,161 @@ Item{
             Layout.leftMargin: (appWindow.width-controlButton.width)/2
             Layout.topMargin: 10
             spacing: 20
-            Image{
-                id:goBack
-                source: "qrc:/image/返回.png"
-                Layout.preferredWidth: 30
-                Layout.preferredHeight: 30
-                TapHandler{
-                    onTapped: {
-                        moveToContent()
+            ColumnLayout{
+                Image{
+                    id:goBack
+                    source: "qrc:/image/返回.png"
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    TapHandler{
+                        onTapped: {
+                            if(pauseButton.visible) {
+                                tipDialog1.open()
+                            } else {
+                                moveToContent()
+                            }
+                        }
                     }
+                }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("返回")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
 
-            Image{
-                id:bz
-                source: "qrc:/image/伴奏.png"
-                Layout.preferredWidth: 30
-                Layout.preferredHeight: 30
-                TapHandler{
-                    onTapped: {
-                        switchToYc()
+
+            ColumnLayout{
+                id: bz
+                visible: true
+                Image{
+                    source: "qrc:/image/伴奏.png"
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    TapHandler{
+                        onTapped: {
+                            switchToYc()
+                        }
                     }
+                }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("伴奏")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
 
-            Image{
-                id:yc
-                source: "qrc:/image/原唱.png"
-                Layout.preferredWidth: 30
-                Layout.preferredHeight: 30
+            ColumnLayout{
+                id: yc
                 visible: false
-                TapHandler{
-                    onTapped: {
-                        switchToBz()
+                Image{
+                    source: "qrc:/image/原唱.png"
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    TapHandler{
+                        onTapped: {
+                            switchToBz()
+                        }
                     }
+                }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("原唱")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
 
-
-            Image{
+            ColumnLayout{
                 id:pauseButton
-                Layout.preferredWidth: 30
-                Layout.preferredHeight: 30
-                source: "qrc:/image/开始录制.png"
                 visible: false
-                TapHandler{
-                    onTapped: {
-                        switchToPause()
-                        audioRecorder.stopRecord()
+                Image{
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    source: "qrc:/image/开始录制.png"
+                    TapHandler{
+                        onTapped: {
+                            switchToPause()
+                            audioRecorder.stopRecord()
+                        }
                     }
+                }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("停止")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
 
-            Image{
+
+            ColumnLayout{
                 id:recordButton
-                Layout.preferredWidth: 30
-                Layout.preferredHeight: 30
-                source: "qrc:/image/红点.png"
                 visible: true
-                TapHandler{
-                    onTapped: {
-                        switchToPlay()
-                        audioRecorder.startRecord()
+                Image{
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    source: "qrc:/image/结束录制.png"
+                    TapHandler{
+                        onTapped: {
+                            switchToPlay()
+                            audioRecorder.startRecord()
+                        }
                     }
+                }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("演唱")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
 
-            Image{
-                id:singAgainButton
-                Layout.preferredWidth: 30
-                Layout.preferredHeight: 30
-                source: "qrc:/image/红点.png"
-                visible: true
-                TapHandler{
-                    onTapped: {
-                        karaokeAudio.seek(0)
-                        switchToPause()
-                        audioRecorder.stopRecord()
-                        switchToPlay()
-                        audioRecorder.startRecord()
+            ColumnLayout{
+                Image{
+                    id:singAgainButton
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    source: "qrc:/image/重唱.png"
+                    visible: true
+                    TapHandler{
+                        onTapped: {
+                            tipDialog.open()
+                        }
                     }
+                }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("重唱")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
 
-            Image{
-                id:saveButton
-                Layout.preferredWidth: 30
-                Layout.preferredHeight: 30
-                source: "qrc:/image/保存.png"
-                TapHandler{
-                    onTapped: {
-                        switchToPause()
-                        audioRecorder.stopRecord()
-                        fileDialog.open()
+            ColumnLayout{
+                Image{
+                    id:saveButton
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    source: "qrc:/image/保存.png"
+                    TapHandler{
+                        onTapped: {
+                            switchToPause()
+                            audioRecorder.stopRecord()
+                            fileDialog.open()
+                        }
                     }
                 }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("完成")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
             }
+
         }
     }
 
@@ -224,7 +283,39 @@ Item{
         nameFilters: ["*.wav"]
         selectExisting: false
         onAccepted: {
+            var path=fileUrl.toString().slice(7)
+            var end=path.substring(path.length-4)
+            if(end!=="wav") {
+                path+=".wav"
+            }
             audioRecorder.save(fileUrl.toString().slice(7))
+        }
+    }
+
+    MessageDialog{
+        id:tipDialog
+        text: "您正在录制，是否需要重录?"
+        standardButtons: StandardButton.Yes | StandardButton.No
+        icon: StandardIcon.Question
+        onYes: {
+            karaokeAudio.seek(0)
+            if(pauseButton.visible) {
+                switchToPause()       //转换图标，并停止当前录制
+                audioRecorder.stopRecord()
+                switchToPlay()
+                audioRecorder.startRecord()
+            }
+        }
+    }
+
+    MessageDialog{
+        id:tipDialog1
+        text: "您正在录制，是否确定要退出录制?"
+        standardButtons: StandardButton.Yes | StandardButton.No
+        icon: StandardIcon.Question
+        onYes: {
+            switchToPause()
+            moveToContent()
         }
     }
 
@@ -271,8 +362,10 @@ Item{
     function switchToBz(){
         bz.visible=true
         yc.visible=false
-        switchToPause()       //转换图标，并停止当前录制
-        audioRecorder.stopRecord()
+        if(pauseButton.visible) {
+            switchToPause()       //转换图标，并停止当前录制
+            audioRecorder.stopRecord()
+        }
         karaokeAudio.source=karaoke.url
         karaokeAudio.seek(0)     //source置0,重新开始录制
     }
@@ -280,8 +373,10 @@ Item{
     function switchToYc(){
         yc.visible=true
         bz.visible=false
-        switchToPause()      //转换图标，并停止当前录制
-        audioRecorder.stopRecord()
+        if(pauseButton.visible) {
+            switchToPause()       //转换图标，并停止当前录制
+            audioRecorder.stopRecord()
+        }
         karaokeAudio.source=content.musicPlayer.audio.source
         karaokeAudio.seek(0)
     }
@@ -325,9 +420,6 @@ Item{
     }
 
     function moveToContent(){
-        if(pauseButton.visible) {
-            switchToPause()
-        }
         karaokePage.visible=false
         content.visible=true
         menuBar.visible=true

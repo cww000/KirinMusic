@@ -20,5 +20,6 @@
         <file>Content.qml</file>
         <file>LyricEditorDialogs.qml</file>
         <file>KaraokePage.qml</file>
+        <file>SKinDialog.qml</file>
     </qresource>
 </RCC>

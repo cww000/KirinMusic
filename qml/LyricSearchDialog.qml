@@ -4,12 +4,12 @@ import QtQuick.Layouts 1.12
 import LyricDownload 1.0
 import QtQuick.Dialogs 1.3
 ApplicationWindow{
-    width:500
-    height:400
+    width:560
+    height:480
     id:lyricSearchWindow
     title:qsTr("下载歌词")
     background: Image {
-        source: "qrc:/image/背景.png"
+        source: imageUrl
         fillMode: Image.PreserveAspectCrop
         anchors.fill: parent
         opacity: 0.3
@@ -47,9 +47,9 @@ ApplicationWindow{
                 Keys.onPressed: {
                     if(event.key===Qt.Key_Return) {
                         if(keywordInput.text.length===0) {
-                            lyricDownload.lyricSearch(placeholderText)
+                            lyricDownload.getHash(placeholderText)
                         }else {
-                            lyricDownload.lyricSearch(text)
+                            lyricDownload.getHash(text)
                         }
                         searchList.visible=true
                     }
@@ -64,9 +64,9 @@ ApplicationWindow{
                 Layout.topMargin: 20
                 onClicked: {
                     if(keywordInput.text.length===0) {
-                        lyricDownload.lyricSearch(keywordInput.placeholderText)
+                        lyricDownload.getHash(keywordInput.placeholderText)
                     }else {
-                        lyricDownload.lyricSearch(keywordInput.text)
+                        lyricDownload.getHash(keywordInput.text)
                     }
                     searchList.visible=true
                 }
@@ -87,16 +87,45 @@ ApplicationWindow{
                     Layout.leftMargin: 5
                     Text {
                         Layout.preferredWidth: 100
-                        Layout.rightMargin: 40
+                        Layout.rightMargin: 20
                         text: qsTr("歌曲")
                         font.pixelSize: 15
+                        horizontalAlignment: Text.AlignHCenter
                     }
+
                     Text {
                         Layout.preferredWidth: 100
-                        Layout.rightMargin: 40
-                        text: qsTr("歌手id")
+                        Layout.rightMargin: 20
+                        text: qsTr("歌手")
                         font.pixelSize: 15
+                        horizontalAlignment: Text.AlignHCenter
                     }
+
+                    Text {
+                        Layout.preferredWidth: 100
+                        Layout.rightMargin: 20
+                        text: qsTr("id")
+                        font.pixelSize: 15
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    Text {
+                        Layout.preferredWidth: 60
+                        Layout.rightMargin: 20
+                        text: qsTr("时长")
+                        font.pixelSize: 15
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    Text {
+                        Layout.preferredWidth:100
+                        Layout.rightMargin: 20
+                        text: qsTr("评分")
+                        font.pixelSize: 15
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+
                 }
                 ListView {
                     id: listView
@@ -125,19 +154,43 @@ ApplicationWindow{
                     focus: true
                     color:ListView.isCurrentItem ? "lightgrey" : "white"
                     RowLayout{
-                        id:sarchLayout
+                        id:sarchLayout                    
                         Text {
                             text:song
                             Layout.preferredWidth:100
-                            Layout.rightMargin: 40
+                            Layout.rightMargin: 20
                             elide: Text.ElideRight
+                            horizontalAlignment: Text.AlignHCenter
                         }
                         Text {
-                            text:artist_id
-                            Layout.preferredWidth: 100
-                            anchors.rightMargin: 40
+                            text:singer
+                            Layout.preferredWidth:100
+                            Layout.rightMargin: 20
                             elide: Text.ElideRight
+                            horizontalAlignment: Text.AlignHCenter
                         }
+                        Text {
+                            text:id
+                            Layout.preferredWidth: 100
+                            anchors.rightMargin: 20
+                            elide: Text.ElideRight
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+                        Text {
+                            text:duration
+                            Layout.preferredWidth:100
+                            anchors.rightMargin: 20
+                            elide: Text.ElideRight
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+                        Text {
+                            text:score
+                            Layout.preferredWidth: 100
+                            anchors.rightMargin: 20
+                            elide: Text.ElideRight
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+
                     }
                     MouseArea{
                         id:mouseArea
@@ -191,10 +244,10 @@ ApplicationWindow{
     }
     LyricDownload{
         id:lyricDownload
-        onSongNameChanged: {
-             lyricListModel.clear();
-            for(var i=0;i<songName.length;i++) {
-                lyricListModel.append({"song":songName[i],"artist_id":artist_id[i]})
+        onSingerNameChanged:{
+            lyricListModel.clear();
+            for(var i=0;i<singerName.length;i++) {
+                lyricListModel.append({"song":songName[i],"singer":singerName[i],"id":id[i],"duration":duration[i],"score":score[i]})
             }
         }
         onLyricChanged: {

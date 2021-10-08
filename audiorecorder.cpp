@@ -186,8 +186,8 @@ int AudioRecorder::AddWavHeader(char *filename)
 
     DestionFileHeader.nRIFFLength = nFileLen - 8 + nSize;
     DestionFileHeader.nDataLength = nFileLen;
-    qDebug()<<DestionFileHeader.nDataLength;
-    qDebug()<<DestionFileHeader.nRIFFLength;
+//    qDebug()<<DestionFileHeader.nDataLength;
+//    qDebug()<<DestionFileHeader.nRIFFLength;
     nWrite = fwrite(&DestionFileHeader, 1, nSize, fp_d);
     if (nWrite != nSize)
     {

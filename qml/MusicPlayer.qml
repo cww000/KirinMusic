@@ -150,7 +150,7 @@ Item {
             Layout.preferredHeight: 48
             Image {
                 id:cycPlay         //单曲循环
-                visible: true
+                visible: false
                 source: "qrc:/image/单曲循环.png"
                 TapHandler{
                     onTapped: {
@@ -175,7 +175,7 @@ Item {
             }
             Image {
                 id: loopPlay
-                visible: false
+                visible: true
                 source: "qrc:/image/列表循环.png"
                 TapHandler{
                     onTapped: {

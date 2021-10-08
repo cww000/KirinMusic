@@ -19,7 +19,7 @@ ApplicationWindow{
     background: Image {
         id: name
         fillMode: Image.PreserveAspectCrop
-        source: "qrc:/image/背景.png"
+        source: imageUrl
         anchors.fill: parent
         opacity: 0.3
     }

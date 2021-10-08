@@ -9,15 +9,21 @@
 class LyricDownload : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<double> artist_id READ artist_id WRITE setArtist_id NOTIFY artist_idChanged)
     Q_PROPERTY(QList<QString> songName READ songName WRITE setSongName NOTIFY songNameChanged)
+    Q_PROPERTY(QList<QString> id READ id WRITE setId NOTIFY idChanged)
+    Q_PROPERTY(QList<double> score READ score WRITE setScore NOTIFY scoreChanged)
+    Q_PROPERTY(QList<double> duration READ duration WRITE setDuration NOTIFY durationChanged)
+    Q_PROPERTY(QList<QString> singerName READ singerName WRITE setSingerName NOTIFY singerNameChanged)
+
     Q_PROPERTY(QString  lyric READ lyric WRITE setLyric NOTIFY lyricChanged)
     Q_PROPERTY(QString  showLyric READ showLyric WRITE setShowLyric NOTIFY showLyricChanged)
 public:
     explicit LyricDownload(QObject *parent = nullptr);
-    Q_INVOKABLE void lyricSearch(QString keyword);
+    void lyricSearch(QString hash);
+    Q_INVOKABLE void getHash(QString keyword);
     void parseJson_getID(QString result);
     void parseJson_getLyrics(QString result);
+    void parseJson_getHash(QString result);
     Q_INVOKABLE void onClickDownload(int index);
     Q_INVOKABLE void onDoubleClick(int index);
     QList<QString> songName() const
@@ -31,17 +37,22 @@ public:
         return m_lyric;
     }
 
-
-
-    QList<double> artist_id() const
-    {
-        return m_artist_id;
-    }
-
     QString showLyric() const
     {
         return m_showLyric;
     }
+
+    const QList<QString> &id() const;
+    void setId(const QList<QString> &newId);
+
+    const QList<double> &score() const;
+    void setScore(const QList<double> &newScore);
+
+    const QList<double> &duration() const;
+    void setDuration(const QList<double> &newDuration);
+
+    const QList<QString> &singerName() const;
+    void setSingerName(const QList<QString> &newSingerName);
 
 public slots:
 
@@ -66,17 +77,6 @@ public slots:
         emit lyricChanged(m_lyric);
     }
 
-
-
-    void setArtist_id(QList<double> artist_id)
-    {
-        if (m_artist_id == artist_id)
-            return;
-
-        m_artist_id = artist_id;
-        emit artist_idChanged(m_artist_id);
-    }
-
     void setShowLyric(QString showLyric)
     {
         if (m_showLyric == showLyric)
@@ -90,6 +90,7 @@ protected slots:
     void replyFinished(QNetworkReply *reply);
     void replyFinished2(QNetworkReply*reply);
     void replyFinished3(QNetworkReply*reply);
+    void replyFinished4(QNetworkReply*reply);
 
 signals:
 
@@ -98,24 +99,38 @@ signals:
 
     void lyricChanged(QString lyric);
 
-
-
-    void artist_idChanged(QList<double> artist_id);
-
     void showLyricChanged(QString showLyric);
+
+    void idChanged();
+
+    void scoreChanged();
+
+    void durationChanged();
+
+    void singerNameChanged();
 
 private:
     QNetworkAccessManager *network_manager;
     QNetworkAccessManager *network_manager2;
     QNetworkAccessManager *network_manager3;
+    QNetworkAccessManager *network_manager4;
     QNetworkRequest *network_request;
     QNetworkRequest *network_request2;
     QNetworkRequest *network_request3;
-    QList<double> m_artist_id;
+    QNetworkRequest *network_request4;
+
+    QString m_hash;
     QList<QString> m_songName;
-    QList<QString> m_url;
+    QList<QString> m_singerName;
+    QList<double> m_duration;
+    QList<double> m_score;
+    QList<QString> m_id;
+    QList<QString> m_accesskey;
+
+
     QString m_lyric;
     QString m_showLyric;
+    QString m_netlyric;
 };
 
 #endif // LYRICDOWNLOAD_H
