@@ -28,18 +28,11 @@ AudioRecorder::AudioRecorder(QWidget *parent)
     : QWidget(parent)
     , mBuffer(BufferSize, 0)
 {
-
-    QDir dir("/tmp/KirinMusic");
-    if(!dir.exists()){
-        dir.mkdir("/tmp/KirinMusic");
-    }
-
     mpOutputFile = NULL;
     mpAudioInputFile = NULL;
     mpAudioOutputFile = NULL;
 
     mpOutputFile = new QFile();
-    mpOutputFile->setFileName(tr("/tmp/KirinMusic/record.raw"));
 
     mFormatFile.setSampleRate(44100);
     mFormatFile.setChannelCount(2);
@@ -73,8 +66,10 @@ AudioRecorder::AudioRecorder(QWidget *parent)
 }
 
 
-void AudioRecorder::startRecord()
+void AudioRecorder::startRecord(QString dirPath)
 {
+    filePath = dirPath+"/record.raw";
+    mpOutputFile->setFileName(filePath);
     mpOutputFile->open(QIODevice::WriteOnly | QIODevice::Truncate);
 
     mpAudioInputFile = new QAudioInput(mFormatFile);
@@ -154,7 +149,7 @@ int AudioRecorder::AddWavHeader(char *filename)
     FILE *fp_s = NULL;
     FILE *fp_d = NULL;
 
-    fp_s = fopen("/tmp/KirinMusic/record.raw", "rb");
+    fp_s = fopen(filePath.toUtf8().data(), "rb");
     if (fp_s == NULL){
         return -1;
     }

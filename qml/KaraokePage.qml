@@ -214,7 +214,7 @@ Item{
                     TapHandler{
                         onTapped: {
                             switchToPlay()
-                            audioRecorder.startRecord()
+                            audioRecorder.startRecord(dirPath)
                         }
                     }
                 }
@@ -246,6 +246,57 @@ Item{
                     verticalAlignment: Text.AlignVCenter
                 }
             }
+
+            ColumnLayout{
+                id:playRecordingButton
+                visible: true
+                enabled: recordButton.visible
+                Image{
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    source: "qrc:/image/播放.png"
+                    TapHandler{
+                        onTapped: {
+                            pauseRecordingButton.visible=true
+                            playRecordingButton.visible=false
+                            playTimer.interval = karaokeAudio.position
+                            playTimer.running = true
+                            audioRecorder.play()
+                        }
+                    }
+                }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("播放")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
+            ColumnLayout{
+                id:pauseRecordingButton
+                visible: false
+                Image{
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    source: "qrc:/image/暂停.png"
+                    TapHandler{
+                        onTapped: {
+                            pauseRecordingButton.visible=false
+                            playRecordingButton.visible=true
+                            audioRecorder.pause()
+                        }
+                    }
+                }
+                Text {
+                    Layout.preferredWidth: 30
+                    text: qsTr("暂停")
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
+
 
             ColumnLayout{
                 Image{
@@ -288,7 +339,7 @@ Item{
             if(end!=="wav") {
                 path+=".wav"
             }
-            audioRecorder.save(fileUrl.toString().slice(7))
+            audioRecorder.save(path)
         }
     }
 
@@ -358,6 +409,15 @@ Item{
 
         }
     }
+    Timer{
+        id: playTimer
+        running: false
+        onTriggered: {
+            pauseRecordingButton.visible=false
+            playRecordingButton.visible=true
+            audioRecorder.pause()
+        }
+    }
 
     function switchToBz(){
         bz.visible=true
@@ -385,6 +445,7 @@ Item{
     function switchToPlay(){
         recordButton.visible=false
         pauseButton.visible=true
+        karaokeAudio.seek(0)
         karaokeAudio.play()
         timerStart()
     }

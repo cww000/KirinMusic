@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.12
 
 ApplicationWindow {
     id:keyMapWindow
+    title: qsTr("设置快捷键")
     width: 500
     height: 420
     property var keys: []
@@ -409,6 +410,22 @@ ApplicationWindow {
                         Layout.margins: 5
                         spacing: 10
                         Label{
+                            text: qsTr("主题:")
+                        }
+                        TextField{
+                            id: skinText
+                            Layout.fillWidth: true
+                            text: actions.skinAction.shortcut===undefined?" ":actions.skinAction.shortcut
+                            onTextChanged: {
+                                flag = true
+                            }
+                        }
+                    }
+                    RowLayout{
+                        width: parent.width-10
+                        Layout.margins: 5
+                        spacing: 10
+                        Label{
                             text: qsTr("设置快捷键:")
                         }
                         TextField{
@@ -418,6 +435,10 @@ ApplicationWindow {
                             onTextChanged: {
                                 flag = true
                             }
+                            Keys.onPressed: {
+                                console.log(event.text)
+                            }
+//                            Keys.forwardTo: []
                         }
                     }
                 }
@@ -466,6 +487,7 @@ ApplicationWindow {
             }
         }
     }
+
     onClosing:function(closeevent){
         closeevent.accepted = false
         if(flag){
@@ -495,8 +517,9 @@ ApplicationWindow {
         songSearchText.text = dialogs.lyricDialog.fileIo.readKey(17)
         recentlyPlayText.text = dialogs.lyricDialog.fileIo.readKey(18)
         trackInfoText.text = dialogs.lyricDialog.fileIo.readKey(19)
-        keyMapText.text = dialogs.lyricDialog.fileIo.readKey(20)
-        aboutText.text = dialogs.lyricDialog.fileIo.readKey(21)
+        skinText.text = dialogs.lyricDialog.fileIo.readKey(20)
+        keyMapText.text = dialogs.lyricDialog.fileIo.readKey(21)
+        aboutText.text = dialogs.lyricDialog.fileIo.readKey(22)
     }
 
     function saveKeyMap(){
@@ -521,6 +544,7 @@ ApplicationWindow {
         keys.push(songSearchText.text)
         keys.push(recentlyPlayText.text)
         keys.push(trackInfoText.text)
+        keys.push(skinText.text)
         keys.push(keyMapText.text)
         keys.push(aboutText.text)
         dialogs.lyricDialog.fileIo.saveKeys(keys)

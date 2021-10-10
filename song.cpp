@@ -20,11 +20,11 @@ Song::Song(QObject *parent) : QObject(parent)
     clearTags();
 }
 
-void Song::getTags(QString url)
+void Song::getTags(QString url, QString dirPath)
 {
     QByteArray ba=url.toUtf8();
     const char *ch=ba.data();
-
+    m_pic = dirPath + "/pic.png";
     QString end;  //歌名后缀
     if(url != ""){
         for(int i=url.length()-1;i>=0;i--) {
@@ -92,7 +92,7 @@ void Song::mp3Open(const char *ch)
             TagLib::ID3v2::AttachedPictureFrame *p = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());     //指针指向第一张图片
             size_t size = p->picture().size();
             fstream file;
-            file.open("/tmp/KirinMusic/pic.png", fstream::out|ios_base::trunc);
+            file.open(m_pic.toUtf8().data(), fstream::out|ios_base::trunc);
             file.write(p->picture().data(), size);
             file.close();
             m_flag = true;
@@ -117,7 +117,7 @@ void Song::flacOpen(const char *ch)
     }
     if(flacFile->pictureList()[0]){     //判断flac文件中是否存在图片
         fstream file;
-        file.open("/tmp/KirinMusic/pic.png", fstream::out|ios_base::trunc);
+        file.open(m_pic.toUtf8().data(), fstream::out|ios_base::trunc);
         file.write(flacFile->pictureList()[0]->data().data(), flacFile->pictureList()[0]->data().size());
         file.close();
         m_flag = true;
@@ -143,7 +143,7 @@ void Song::oggOpen(const char *ch)
     if(vorbis){
         if(vorbis->pictureList()[0]){
             fstream file;
-            file.open("/tmp/KirinMusic/pic.png", fstream::out|ios_base::trunc);
+            file.open(m_pic.toUtf8().data(), fstream::out|ios_base::trunc);
             file.write(vorbis->pictureList()[0]->data().data(), vorbis->pictureList()[0]->data().size());
             file.close();
             m_flag = true;
@@ -338,13 +338,13 @@ void Song::oggSave(const char *ch,QVariantMap map)
 
 void Song::clearTags()
 {
-    m_Tags["标题"]="";
-    m_Tags["艺术家"]="";
-    m_Tags["唱片集"]="";
-    m_Tags["注释"]="";
-    m_Tags["日期"]="";
-    m_Tags["音轨号"]="";
-    m_Tags["流派"]="";
+    m_Tags["标题"]=" ";
+    m_Tags["艺术家"]=" ";
+    m_Tags["唱片集"]=" ";
+    m_Tags["注释"]=" ";
+    m_Tags["日期"]=" ";
+    m_Tags["音轨号"]=" ";
+    m_Tags["流派"]=" ";
 }
 
 

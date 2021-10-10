@@ -6,10 +6,11 @@ ApplicationWindow{
     width: 870
     height: 680
     visible: true
-    title: qsTr("KirinMusic")
+    title: qsTr("麒麟音乐")
     property alias rootImage:name
     property var myMusicArray:[]
     property url imageUrl: ""
+    property string dirPath: ""
     background: Image {
         id: name
         fillMode: Image.PreserveAspectCrop
@@ -143,6 +144,7 @@ ApplicationWindow{
     }
 
     Component.onCompleted: {
+        dirPath = dialogs.lyricDialog.fileIo.dirPath
         var i = 0;
         dialogs.lyricDialog.fileIo.getPlaylist();
         var length=dialogs.lyricDialog.fileIo.urls.length
@@ -164,11 +166,11 @@ ApplicationWindow{
         if(length!==0) {
             content.spectrogram.getVertices();
         } else {
-            content.lyricRightPage.lyricText.text=""
+            content.lyricRightPage.lyricText.visible=false
         }
 
         //背景设置
-        dialogs.lyricDialog.fileIo.readBackgroundUrl("/tmp/KirinMusic/背景图.txt")
+        dialogs.lyricDialog.fileIo.readBackgroundUrl(dirPath+"/背景图.txt")
         dialogs.skinDialog.usingImage = dialogs.lyricDialog.fileIo.source
         imageUrl = dialogs.skinDialog.usingImage
         dialogs.songTagDialog.showImage()

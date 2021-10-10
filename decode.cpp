@@ -13,12 +13,12 @@ Decode::Decode(QObject *parent) : QObject(parent)
 
 }
 
-bool Decode::decode(QString filePath)
+bool Decode::decode(QString filePath, QString dirPath)
 {
     AVFormatContext *pFormat=avformat_alloc_context();
     QByteArray temp=filePath.toUtf8();
     const char *path=temp.constData();
-    QString out="/tmp/KirinMusic/out.pcm";
+    QString out=dirPath+"/out.pcm";
     QByteArray ou=out.toUtf8();
     const char *output=ou.constData();
     int ret=avformat_open_input(&pFormat,path,NULL,NULL);
@@ -40,7 +40,7 @@ bool Decode::decode(QString filePath)
     }
     AVCodecParameters *codecpar=pFormat->streams[audio_stream_idx]->codecpar;
     //找到解码器
-    AVCodec *dec=avcodec_find_decoder(codecpar->codec_id);
+    AVCodec *dec=const_cast<AVCodec *>(avcodec_find_decoder(codecpar->codec_id));
     //创建上下文
     AVCodecContext *codecContext=avcodec_alloc_context3(dec);
     avcodec_parameters_to_context(codecContext,codecpar);
@@ -88,18 +88,18 @@ bool Decode::decode(QString filePath)
         int out_buffer_size=av_samples_get_buffer_size(NULL,out_channerl_nb,frame->nb_samples,out_sample,1);
         fwrite(out_buffer,1,out_buffer_size,fp_pcm);
     }
-    getVertic();
+    getVertic(out);
     return true;
 }
 
-void Decode::getVertic()
+void Decode::getVertic(QString filePath)
 {
     m_vertices.clear();
     short pcm_In=0;
     int size=0;
     int n = 0, m = 0;
     float num = 0.0;
-    FILE *fp=fopen("/tmp/KirinMusic/out.pcm","rb+");
+    FILE *fp=fopen(filePath.toUtf8().data(),"rb+");
     while(!feof(fp)){
         if(n/8820 == m){
             if(n%8820 >= 0 && n%8820 < 34){

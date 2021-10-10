@@ -9,8 +9,8 @@ class Decode : public QObject
     Q_PROPERTY(QList<float> vertices READ vertices WRITE setvertices NOTIFY verticesChanged)
 public:
     explicit Decode(QObject *parent = nullptr);
-    Q_INVOKABLE bool decode(QString filePath);
-    void getVertic();
+    Q_INVOKABLE bool decode(QString filePath, QString dirPath);
+    void getVertic(QString filePath);
     QList<float> vertices() const
     {
         return m_vertices;

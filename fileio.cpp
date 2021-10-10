@@ -7,7 +7,21 @@
 #include <QDir>
 FileIo::FileIo(QObject *parent) : QObject(parent)
 {
-
+    QDir dir("/home");
+    dir.setFilter(QDir::Dirs);
+    QStringList pathlist = dir.entryList();
+    m_dirPath = "/home/";
+    for(int i = 0; i < pathlist.length(); i++){
+        if(pathlist[i] != "." && pathlist[i] != ".."){
+            m_dirPath += pathlist[i];
+            break;
+        }
+    }
+    m_dirPath += "/KirinMusic";
+    QDir finDir(m_dirPath);
+    if(!finDir.exists()){
+        finDir.mkdir(m_dirPath);
+    }
 }
 
 QString FileIo::read()
@@ -36,11 +50,7 @@ void FileIo::write(const QString &data)
 //将地址保存到播放列表
 void FileIo::saveUrls(QList<QUrl> urls)
 {
-    QDir dir("/tmp/KirinMusic");
-    if(!dir.exists()){
-        dir.mkdir("/tmp/KirinMusic");
-    }
-    QFile file("/tmp/KirinMusic/播放列表.txt");
+    QFile file(m_dirPath+"/播放列表.txt");
     bool ok=file.open(QIODevice::WriteOnly|QIODevice::Append);
     if(ok) {
         int length=urls.count();
@@ -55,11 +65,7 @@ void FileIo::saveUrls(QList<QUrl> urls)
 
 void FileIo::saveBackgroundUrl(QUrl url)
 {
-    QDir dir("/tmp/KirinMusic");
-    if(!dir.exists()){
-        dir.mkdir("/tmp/KirinMusic");
-    }
-    QFile file("/tmp/KirinMusic/背景图.txt");
+    QFile file(m_dirPath+"/背景图.txt");
     bool ok=file.open(QIODevice::WriteOnly|QIODevice::Truncate);
     if(ok) {
         QTextStream out(&file);
@@ -113,7 +119,6 @@ void FileIo::readBackgroundUrl(QString fileUrl)
 void FileIo::deleteUrls(int serialNumber, QString fileUrl)
 {
     QFile file(fileUrl);
-//    qDebug()<<serialNumber;
     QTextStream in(&file);
     QString str, path;
     int index=0;
@@ -141,23 +146,21 @@ void FileIo::deleteAllUrls(QString fileUrl)
 }
 void FileIo::saveKeys(QList<QString> keys)
 {
-    QFile file("/tmp/KirinMusic/快捷键.txt");
+    QFile file(m_dirPath+"/快捷键.txt");
     int length=keys.length();
-    QString path;
     bool ok=file.open(QIODevice::ReadWrite|QIODevice::Truncate);
     if(ok) {
         QTextStream in(&file);
         for(int i=0;i<length;i++){
             in<<keys[i]<<"\n";
         }
-
         file.close();
     }
 }
 
 QString FileIo::readKey(int serialNumber)
 {
-    QFile file("/tmp/KirinMusic/快捷键.txt");
+    QFile file(m_dirPath+"/快捷键.txt");
     QString str;
     QTextStream in(&file);
     int index = 0;
@@ -178,7 +181,7 @@ QString FileIo::readKey(int serialNumber)
 //得到播放列表中的地址
 void FileIo::getPlaylist()
 {
-    QFile file("/tmp/KirinMusic/播放列表.txt");
+    QFile file(m_dirPath+"/播放列表.txt");
     QTextStream in(&file);
     int index = 0;
     bool ok=file.open(QIODevice::ReadOnly);
@@ -190,7 +193,7 @@ void FileIo::getPlaylist()
             if(ok){
                 m_urls.push_back(path);
             }else{
-                deleteUrls(index, "/tmp/KirinMusic/播放列表.txt");
+                deleteUrls(index, m_dirPath+"/播放列表.txt");
             }
             index++;
         }
@@ -201,7 +204,7 @@ void FileIo::getPlaylist()
 //判断某首歌地址在播放列表中是否已经存在
 bool FileIo::isExist(QString url)
 {
-    QFile file("/tmp/KirinMusic/播放列表.txt");
+    QFile file(m_dirPath+"/播放列表.txt");
     QTextStream in(&file);
     bool ok=file.open(QIODevice::ReadOnly);
     if(ok) {
@@ -222,9 +225,8 @@ bool FileIo::isExist(QString url)
 
 void FileIo::saveRecentlyUrls(QList<QUrl> urls)
 {
-    QFile file("/tmp/KirinMusic/最近播放.txt");
+    QFile file(m_dirPath+"/最近播放.txt");
     int length=urls.length();
-    qDebug()<<length;
 
     for(int i=0;i<length;i++) {
         bool ok=file.open(QIODevice::ReadWrite);
@@ -248,8 +250,7 @@ void FileIo::saveRecentlyUrls(QList<QUrl> urls)
 
 void FileIo::getRecentlyPlaylist()
 {
-    QFile file("/tmp/KirinMusic/最近播放.txt");
-//    qDebug()<<serialNumber;
+    QFile file(m_dirPath+"/最近播放.txt");
     m_recentlyUrls.clear();
     QTextStream in(&file);
     int index = 0;
@@ -262,7 +263,7 @@ void FileIo::getRecentlyPlaylist()
             if(ok){
                 m_recentlyUrls.push_back(path);
             }else{
-                deleteUrls(index, "/tmp/KirinMusic/最近播放.txt");
+                deleteUrls(index, m_dirPath+"/最近播放.txt");
             }
             index++;
         }
@@ -293,3 +294,16 @@ QUrl FileIo::strToUrl(QString str)
     return url;
 }
 
+
+const QString &FileIo::dirPath() const
+{
+    return m_dirPath;
+}
+
+void FileIo::setDirPath(const QString &newDirPath)
+{
+    if (m_dirPath == newDirPath)
+        return;
+    m_dirPath = newDirPath;
+    emit dirPathChanged();
+}

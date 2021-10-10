@@ -5,6 +5,7 @@ import Song 1.0
 
 ApplicationWindow{
     id: songTagWindow
+    title: qsTr("曲目信息")
     width:680
     height:450
     visible: true
@@ -21,15 +22,15 @@ ApplicationWindow{
         }else{
             str = ""
         }
-        dialogs.songTagDialog.song.getTags(str)
+        dialogs.songTagDialog.song.getTags(str, dirPath)
         dialogs.songTagDialog.get_Tags_Meta()
         dialogs.songTagDialog.picImage.source = ""
         if(dialogs.songTagDialog.song.flag){
             rootImage.source = ""
             content.leftImage.source = ""
-            rootImage.source = "file:///tmp/KirinMusic/pic.png"
-            content.leftImage.source = "file:///tmp/KirinMusic/pic.png"
-            dialogs.songTagDialog.picImage.source = "file:///tmp/KirinMusic/pic.png"
+            rootImage.source = "file://"+dirPath+"/pic.png"
+            content.leftImage.source = "file://"+dirPath+"/pic.png"
+            dialogs.songTagDialog.picImage.source = "file://"+dirPath+"/pic.png"
 
         }else if(dialogs.songSearchDialog.networkPlay){
          //   console.log(true)

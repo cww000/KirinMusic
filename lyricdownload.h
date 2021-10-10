@@ -93,8 +93,6 @@ protected slots:
     void replyFinished4(QNetworkReply*reply);
 
 signals:
-
-
     void songNameChanged(QList<QString> songName);
 
     void lyricChanged(QString lyric);

@@ -25,12 +25,11 @@ Item {
     property alias miniDialog: miniDialog
     property alias saveDialog: saveDialog
     property alias skinDialog: skinDialog
-  //  property alias karaokeDialog:karaokeDialog
 
 
     QQ.FileDialog{
         id:fileMusicDialog
-        title: "Please choose a music file"
+        title: "请选择音乐文件"
         folder:shortcuts.documents
         nameFilters: ["Audio Files(*.mp3 *.ogg *.flac *wav)"]
         selectMultiple: true
@@ -38,11 +37,11 @@ Item {
 
     FolderDialog{
         id:folderMusicDialog
-        title:"select a folder"
+        title:"请选择一个文件夹"
     }
     QQ.FileDialog{
         id: fileImageDialog
-        title: "Select an image file"
+        title: "请选择一张图片"
         folder: shortcuts.documents
         nameFilters: [ "Image files (*.png *.jpeg *.jpg)" ]
         onAccepted: {
@@ -55,10 +54,8 @@ Item {
     }
     QQ.MessageDialog{
         id:aboutDialog
-        title:"May I have your attention please"
-        text:"The name of the program is DaliyMusic
-              The authors of the program are wenwenChen、haiyanNie、chunlinLi
-              This program can realize the music playing at the same time the lyrics for editing,editing the song meta information"
+        title:"关于"
+        text:"本软件名为麒麟音乐，由程炆炆，李纯林，聂海艳共同创造\n麒麟音乐可让你在享受音乐世界的同时体验编辑歌词，编辑歌曲信息的乐趣"
         standardButtons: StandardButton.Ok
     }
 
@@ -97,8 +94,8 @@ Item {
 
     QQ.MessageDialog{
         id: saveDialog
-        title: qsTr("hint")
-        text: qsTr("The information has been modified, do you want to save?")
+        title: qsTr("提示")
+        text: qsTr("曲目信息已被修改，是否想要保存?")
         standardButtons: StandardButton.Save|StandardButton.Discard|StandardButton.Cancel
         onButtonClicked: {
             if(clickedButton === StandardButton.Save){

@@ -23,7 +23,7 @@ Item {
         dialogs.lyricDialog.timerTest.running=false
         content.singerText.text=""
         playlistPage.songListView.currentIndex=index
-        dialogs.lyricDialog.fileIo.readUrls(index, "/tmp/KirinMusic/播放列表.txt")
+        dialogs.lyricDialog.fileIo.readUrls(index, dirPath+"/播放列表.txt")
 
         content.musicPlayer.audio.source="file://"+dialogs.lyricDialog.fileIo.source
 
@@ -307,7 +307,7 @@ Item {
                 Layout.preferredWidth: 35
                 Layout.preferredHeight: 35
                 id:previous
-                icon.source:"qrc:/image/last1.png"
+                icon.source:"qrc:/image/last.png"
                 onClicked: {
                     actions.previousAction.triggered()
                 }
@@ -337,7 +337,7 @@ Item {
                 Layout.preferredWidth: 35
                 Layout.preferredHeight: 35
                 id:next
-                icon.source:"qrc:/image/next1.png"
+                icon.source:"qrc:/image/next.png"
                 onClicked: {
                     actions.nextAction.triggered()
                 }
@@ -403,18 +403,18 @@ Item {
         if(loopPlay.visible){
             if(num === playlistPage.songListModel.count-1){
                 num = 0;
-                dialogs.lyricDialog.fileIo.readUrls(num, "/tmp/KirinMusic/播放列表.txt")
+                dialogs.lyricDialog.fileIo.readUrls(num, dirPath+"播放列表.txt")
                 audio.source = "file://"+dialogs.lyricDialog.fileIo.source
             }else{
                 num++
-                dialogs.lyricDialog.fileIo.readUrls(num, "/tmp/KirinMusic/播放列表.txt")
+                dialogs.lyricDialog.fileIo.readUrls(num, dirPath+"播放列表.txt")
                 audio.source = "file://"+dialogs.lyricDialog.fileIo.source
             }
         }else if(ranPlay.visible){
              var Range = playlistPage.songListModel.count-1
              var rand = Math.random();                   //random函数得到一个0-1之间的小数， round函数取整，四舍五入
              num = Math.round(rand*Range);
-             dialogs.lyricDialog.fileIo.readUrls(num, "/tmp/KirinMusic播放列表.txt")
+             dialogs.lyricDialog.fileIo.readUrls(num,dirPath+"播放列表.txt")
              audio.source = "file://"+dialogs.lyricDialog.fileIo.source
         }
         play(num)

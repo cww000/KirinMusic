@@ -33,17 +33,27 @@ ApplicationWindow {
         id: playRecently
         text: qsTr("播放")
         shortcut: "audio-play"
-        icon.source:  "qrc:/image/播放.png"
+        icon.source:  "qrc:/image/play.png"
         onTriggered: {
-            dialogs.lyricDialog.fileIo.readUrls(dialogs.recentlyPlayDialog.rightIndex, "/tmp/KirinMusic/最近播放.txt")
-            content.musicPlayer.audio.source = dialogs.lyricDialog.fileIo.source
+            dialogs.lyricDialog.timerTest.running=false;
+            dialogs.lyricDialog.fileIo.readUrls(dialogs.recentlyPlayDialog.rightIndex, dirPath+"/最近播放.txt")
+            content.musicPlayer.audio.source = "file://"+dialogs.lyricDialog.fileIo.source
             content.musicPlayer.setMusicName(dialogs.lyricDialog.fileIo.source)
-
             content.spectrogram.getVertices()
-            content.spectrogram.speTimer.running = true
+            dialogs.songTagDialog.showImage()
             dialogs.recentlyPlayDialog.close()
 
+            content.musicPlayer.getLocalLyricFile()
+            if(dialogs.lyricDialog.lyric_id.lyric!=="") {
+                content.placeLyricToView()    //将歌词放到视图中
+            } else {
+                content.lyricRightPage.lyricText.visible=true
+                content.lyricRightPage.lyricListModel.clear()
+                content.lyricLeftPage.lyricListModel.clear()
+            }
             actions.playAction.triggered()
+
+
         }
     }
 
@@ -52,8 +62,8 @@ ApplicationWindow {
         text: qsTr("删除")
         icon.source:  "qrc:/image/delete.png"
         onTriggered: {
-            dialogs.lyricDialog.fileIo.deleteUrls(dialogs.recentlyPlayedDialog.rightIndex, "/tmp/KirinMusic/最近播放.txt")
-            dialogs.recentlyPlayedDialog.recentlyListModel.remove(dialogs.recentlyPlayedDialog.rightIndex, 1)
+            dialogs.lyricDialog.fileIo.deleteUrls(rightIndex, dirPath+"/最近播放.txt")
+            recentlyListModel.remove(rightIndex, 1)
         }
     }
 
@@ -98,7 +108,7 @@ ApplicationWindow {
             Layout.rightMargin: 8
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
             onClicked: {
-                dialogs.lyricDialog.fileIo.deleteAllUrls("/tmp/KirinMusic/最近播放.txt")
+                dialogs.lyricDialog.fileIo.deleteAllUrls(dirPath+"/最近播放.txt")
                 recentlyListModel.clear()
             }
         }

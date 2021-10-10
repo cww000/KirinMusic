@@ -52,7 +52,6 @@ void LyricDownload::parseJson_getID(QString json)
 {
     QByteArray byte_array;
     QJsonParseError json_error;
-    QString text;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(byte_array.append(json), &json_error);
     if(json_error.error == QJsonParseError::NoError)
     {

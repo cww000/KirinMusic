@@ -37,19 +37,14 @@
         <file>image/cut.png</file>
         <file>image/copy.png</file>
         <file>image/exit.png</file>
-        <file>image/volume1.png</file>
         <file>image/play1.png</file>
         <file>image/pause1.png</file>
-        <file>image/last1.png</file>
-        <file>image/next1.png</file>
         <file>image/快进.png</file>
         <file>image/快退.png</file>
         <file>image/单曲循环.png</file>
         <file>image/logo.png</file>
-        <file>image/背景.png</file>
         <file>image/保存.png</file>
         <file>image/开始录制.png</file>
-        <file>image/红点.png</file>
         <file>image/话筒1.png</file>
         <file>image/话筒2.png</file>
         <file>image/返回.png</file>
@@ -66,5 +61,7 @@
         <file>background/2.png</file>
         <file>background/1.png</file>
         <file>image/skn.png</file>
+        <file>image/next.png</file>
+        <file>image/last.png</file>
     </qresource>
 </RCC>

@@ -15,7 +15,7 @@ class AudioRecorder : public QWidget
 
 public:
     AudioRecorder(QWidget *parent = 0);
-    Q_INVOKABLE void startRecord();
+    Q_INVOKABLE void startRecord(QString dirPath);
     Q_INVOKABLE void stopRecord();
     Q_INVOKABLE void play();
     Q_INVOKABLE void save(QString filename);
@@ -37,6 +37,7 @@ private:
     QAudioOutput *mpAudioOutputFile;
 
     QByteArray mBuffer;
+    QString filePath;
 };
 
 #endif // AUDIORECORDER_H

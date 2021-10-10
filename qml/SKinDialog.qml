@@ -6,6 +6,7 @@ import Qt.labs.folderlistmodel 2.12
 
 ApplicationWindow{
     id:skinDialog
+    title: qsTr("主题")
     width: 720
     height: 560
 

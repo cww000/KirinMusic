@@ -56,7 +56,7 @@ ApplicationWindow{
             }
             ToolButton{
                 id:musicStart
-                icon.source:"qrc:/image/播放.png"
+                icon.source:"qrc:/image/play.png"
                 visible: true
                 onClicked: {
                     actions.playAction.triggered()
@@ -65,7 +65,7 @@ ApplicationWindow{
             ToolButton{
                 id:musicPause
                 visible: false
-                icon.source:"qrc:/image/暂停.png"
+                icon.source:"qrc:/image/pause.png"
                 onClicked: {
                     actions.pauseAction.triggered()
                 }

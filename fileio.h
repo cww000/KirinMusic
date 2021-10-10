@@ -8,6 +8,7 @@ class FileIo : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
+    Q_PROPERTY(QString dirPath READ dirPath WRITE setDirPath NOTIFY dirPathChanged)
     Q_PROPERTY(QList<QUrl> urls READ urls WRITE setUrls NOTIFY urlsChanged)
     Q_PROPERTY(QList<QUrl> recentlyUrls READ recentlyUrls WRITE setRecentlyUrls NOTIFY recentlyUrlsChanged)
 public:
@@ -40,6 +41,9 @@ public:
         return m_recentlyUrls;
     }
 
+    const QString &dirPath() const;
+    void setDirPath(const QString &newDirPath);
+
 public slots:
     void setUrls(QList<QUrl> urls)
     {
@@ -65,10 +69,13 @@ signals:
 
     void recentlyUrlsChanged(QList<QUrl> recentlyUrls);
 
+    void dirPathChanged();
+
 private:
     QString m_source;
     QList<QUrl> m_urls;
     QList<QUrl> m_recentlyUrls;
+    QString m_dirPath;
 };
 
 #endif // FILECONTENT_H

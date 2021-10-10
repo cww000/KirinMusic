@@ -54,12 +54,11 @@ Item {
     Action{   //playAction
         id:play
         text: qsTr("播放")
-        icon.source: "qrc:/image/播放.png"
+        icon.source: "qrc:/image/play.png"
         onTriggered: {
             if(content.musicPlayer.fileName!==" ") {
                 //音乐播放以及图标的转换
                 switchToPlay()
-
                 if(!dialogs.songSearchDialog.networkPlay) {
                     content.spectrogram.speTimer.running=true
                 }
@@ -76,8 +75,9 @@ Item {
         text: qsTr("上一曲")
         icon.source:  "qrc:/image/上一曲.png"
         onTriggered: {
-            content.spectrogram.speTimer.running = false
+
             if(dialogs.songSearchDialog.networkPlay){
+                content.spectrogram.speTimer.running = false
                 var num = dialogs.songSearchDialog.searchlistView.currentIndex
                 if(num === 0){
                     num = dialogs.songSearchDialog.songListModel.count-1
@@ -87,12 +87,15 @@ Item {
                 dialogs.songSearchDialog.searchlistView.currentIndex = num
                 dialogs.songSearchDialog.play1.triggered()
             }else{
-                if(content.playlistPage.songListView.currentIndex === 0){
-                    content.playlistPage.songListView.currentIndex = content.playlistPage.songListModel.count-1
-                }else{
-                    content.playlistPage.songListView.currentIndex--;
+                if(content.playlistPage.songListModel.count!==0) {
+                    content.spectrogram.speTimer.running = false
+                    if(content.playlistPage.songListView.currentIndex === 0){
+                        content.playlistPage.songListView.currentIndex = content.playlistPage.songListModel.count-1
+                    }else{
+                        content.playlistPage.songListView.currentIndex--;
+                    }
+                    content.musicPlayer.play(content.playlistPage.songListView.currentIndex)
                 }
-                content.musicPlayer.play(content.playlistPage.songListView.currentIndex)
             }
         }
 
@@ -101,9 +104,9 @@ Item {
         id:next
         text: qsTr("下一曲")
         icon.source:  "qrc:/image/下一曲.png"
-        onTriggered: {
-            content.spectrogram.speTimer.running = false
+        onTriggered: { 
             if(dialogs.songSearchDialog.networkPlay){
+                content.spectrogram.speTimer.running = false
                 var num = dialogs.songSearchDialog.searchlistView.currentIndex
                 if(num === dialogs.songSearchDialog.songListModel.count-1){
                     num = 0
@@ -113,12 +116,16 @@ Item {
                 dialogs.songSearchDialog.searchlistView.currentIndex = num
                 dialogs.songSearchDialog.play1.triggered()
             }else{
-                if(content.playlistPage.songListView.currentIndex === content.playlistPage.songListModel.count-1){
-                    content.playlistPage.songListView.currentIndex = 0
-                }else{
-                    content.playlistPage.songListView.currentIndex++;
+
+                if(content.playlistPage.songListModel.count!==0) {
+                    content.spectrogram.speTimer.running = false
+                    if(content.playlistPage.songListView.currentIndex === content.playlistPage.songListModel.count-1){
+                        content.playlistPage.songListView.currentIndex = 0
+                    }else{
+                        content.playlistPage.songListView.currentIndex++;
+                    }
+                    content.musicPlayer.play(content.playlistPage.songListView.currentIndex)
                 }
-                content.musicPlayer.play(content.playlistPage.songListView.currentIndex)
             }
 
         }
@@ -127,7 +134,7 @@ Item {
     Action{
         id:pause
         text: qsTr("暂停")
-        icon.source:  "qrc:/image/暂停.png"
+        icon.source:  "qrc:/image/pause.png"
         onTriggered: {
             if(content.musicPlayer.fileName!==" ") {
                 content.musicPlayer.audio.pause()
@@ -145,7 +152,6 @@ Item {
         }
 
     }
-
     Action{
         id:del
         text: qsTr("删除")
@@ -153,14 +159,14 @@ Item {
         onTriggered: {
             var index = content.playlistPage.songListView.currentIndex
             console.log(index)
-            dialogs.lyricDialog.fileIo.deleteUrls(index, "/tmp/KirinMusic/播放列表.txt")
+            dialogs.lyricDialog.fileIo.deleteUrls(index, dirPath+"/播放列表.txt")
             content.playlistPage.songListModel.remove(index, 1)
             myMusicArray.splice(index,1)
             if(index===content.playlistPage.songListModel.count){
                 index=0
-                dialogs.lyricDialog.fileIo.readUrls(index,"/tmp/KirinMusic/播放列表.txt")
+                dialogs.lyricDialog.fileIo.readUrls(index, dirPath+"/播放列表.txt")
             }else{
-                dialogs.lyricDialog.fileIo.readUrls(index,"/tmp/KirinMusic/播放列表.txt")
+                dialogs.lyricDialog.fileIo.readUrls(index, dirPath+"/播放列表.txt")
             }
 
             if(content.playlistPage.songListModel.count!==0) {
@@ -359,7 +365,7 @@ Item {
         for(i = 0; i<recentlyLength; i++){
             var name = dialogs.recentlyPlayDialog.getMusicName(dialogs.lyricDialog.fileIo.recentlyUrls[i]);  //得到歌曲名字
             var path = dialogs.lyricDialog.fileIo.recentlyUrls[i]
-            dialogs.songTagDialog.song.getTags(path)
+            dialogs.songTagDialog.song.getTags(path, dirPath)
             if(dialogs.songTagDialog.song.Tags["艺术家"]===undefined){
                 var str = " "
             }else{
@@ -398,8 +404,9 @@ Item {
         actions.songSearchAction.shortcut=dialogs.lyricDialog.fileIo.readKey(17)
         actions.recentlyPlayAction.shortcut = dialogs.lyricDialog.fileIo.readKey(18)
         actions.trackInformationAction.shortcut = dialogs.lyricDialog.fileIo.readKey(19)
-        actions.keyMapAction.shortcut = dialogs.lyricDialog.fileIo.readKey(20)
-        actions.aboutAction.shortcut = dialogs.lyricDialog.fileIo.readKey(21)
+        actions.skinAction.shortcut = dialogs.lyricDialog.fileIo.readKey(20)
+        actions.keyMapAction.shortcut = dialogs.lyricDialog.fileIo.readKey(21)
+        actions.aboutAction.shortcut = dialogs.lyricDialog.fileIo.readKey(22)
         dialogs.keyMapDialog.flag = false
     }
 }

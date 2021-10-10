@@ -15,7 +15,7 @@ Canvas{
     function getVertices(){
         vertices = []
         var str = content.musicPlayer.audio.source.toString().slice(7)
-        content.spectrogram.decode.decode(str)      //得到绘制顶点
+        content.spectrogram.decode.decode(str, dirPath)      //得到绘制顶点
         vertices = decode.vertices
         pcount = 0
     }

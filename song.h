@@ -10,7 +10,7 @@ class Song : public QObject
     Q_PROPERTY(bool flag READ flag WRITE setflag NOTIFY flagChanged)
 public:
     explicit Song(QObject *parent = nullptr);
-    Q_INVOKABLE void getTags(QString url);
+    Q_INVOKABLE void getTags(QString url, QString dirPath);
     Q_INVOKABLE void saveTags(QString url,QVariantMap map);
 
     void mp3Open(const char *ch);
