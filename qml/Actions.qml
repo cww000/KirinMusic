@@ -56,11 +56,13 @@ Item {
         text: qsTr("播放")
         icon.source: "qrc:/image/play.png"
         onTriggered: {
+
             if(content.musicPlayer.fileName!==" ") {
                 //音乐播放以及图标的转换
                 switchToPlay()
                 if(!dialogs.songSearchDialog.networkPlay) {
                     content.spectrogram.speTimer.running=true
+                    dialogs.songSearchDialog.netLyric = ""
                 }
 
                 if(dialogs.lyricDialog.lyric_id.lyric!=="") {
@@ -75,8 +77,7 @@ Item {
         text: qsTr("上一曲")
         icon.source:  "qrc:/image/上一曲.png"
         onTriggered: {
-
-            if(dialogs.songSearchDialog.networkPlay){
+            if(dialogs.songSearchDialog.network){
                 content.spectrogram.speTimer.running = false
                 var num = dialogs.songSearchDialog.searchlistView.currentIndex
                 if(num === 0){
@@ -105,7 +106,7 @@ Item {
         text: qsTr("下一曲")
         icon.source:  "qrc:/image/下一曲.png"
         onTriggered: { 
-            if(dialogs.songSearchDialog.networkPlay){
+            if(dialogs.songSearchDialog.network){
                 content.spectrogram.speTimer.running = false
                 var num = dialogs.songSearchDialog.searchlistView.currentIndex
                 if(num === dialogs.songSearchDialog.songListModel.count-1){

@@ -36,6 +36,8 @@ ApplicationWindow {
         icon.source:  "qrc:/image/play.png"
         onTriggered: {
             dialogs.lyricDialog.timerTest.running=false;
+            dialogs.songSearchDialog.networkPlay = false
+            dialogs.songSearchDialog.netLyric = ""
             dialogs.lyricDialog.fileIo.readUrls(dialogs.recentlyPlayDialog.rightIndex, dirPath+"/最近播放.txt")
             content.musicPlayer.audio.source = "file://"+dialogs.lyricDialog.fileIo.source
             content.musicPlayer.setMusicName(dialogs.lyricDialog.fileIo.source)

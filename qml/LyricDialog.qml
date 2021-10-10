@@ -341,18 +341,23 @@ QQ.ApplicationWindow {
                 content.lyricRightPage.lyricListModel.clear()
                 content.lyricLeftPage.lyricListModel.clear()
 
-                //查找当前播放音乐所在目录是否有对应歌词文件
-                content.musicPlayer.getLocalLyricFile()
+                if(songSearchDialog.netLyric==="") {
+                    //查找当前播放音乐所在目录是否有对应歌词文件
+                    content.musicPlayer.getLocalLyricFile()
 
-                if(lyric_id.lyric === ""){
-                    content.lyricRightPage.lyricText.visible=true
-                    content.lyricRightPage.lyricListView.visible = false
-                    console.log("no lyric")
-                }else{
-                    content.lyricRightPage.lyricText.visible=false
-                    content.lyricRightPage.lyricListView.visible = true
-                    console.log("has lyric")
-                    content.showLocalLyrics()
+                    if(lyric_id.lyric === ""){
+                        content.lyricRightPage.lyricText.visible=true
+                        content.lyricRightPage.lyricListView.visible = false
+                        console.log("no lyric")
+                    }else{
+                        content.lyricRightPage.lyricText.visible=false
+                        content.lyricRightPage.lyricListView.visible = true
+                        console.log("has lyric")
+                        content.showLocalLyrics()
+                    }
+                } else {
+                    songSearchDialog.showNetworkLyrics()
+
                 }
 
                 console.log("结束测试")

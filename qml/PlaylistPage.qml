@@ -60,8 +60,7 @@ Item {
                 TapHandler{
                     acceptedButtons:Qt.LeftButton
                     onTapped: {
-                        dialogs.songSearchDialog.networkPlay=false
-                        dialogs.songSearchDialog.visible = false
+                        dialogs.songSearchDialog.close()
                         content.musicPlayer.play(index)
                     }
                 }

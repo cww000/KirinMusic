@@ -19,6 +19,8 @@ Item {
 
     function play(index){
         dialogs.lyricDialog.testNum=0
+        dialogs.songSearchDialog.networkPlay = false
+        dialogs.songSearchDialog.netLyric=""
         dialogs.lyricDialog.lyric_id.lyric = ""
         dialogs.lyricDialog.timerTest.running=false
         content.singerText.text=""
@@ -229,7 +231,7 @@ Item {
                 TapHandler{
                     onTapped: {
                         dialogs.songSearchDialog.visible=true
-                        dialogs.songSearchDialog.networkPlay = true
+                        dialogs.songSearchDialog.network = true
                     }
                 }
             }

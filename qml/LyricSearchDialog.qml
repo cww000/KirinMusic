@@ -266,7 +266,12 @@ ApplicationWindow{
                         "*.*"]
         selectExisting: false
         onAccepted: {
-            dialogs.lyricDialog.fileIo.source=lyricDownloadDialog.fileUrl.toString().slice(7)
+            var path=fileUrl.toString().slice(7)
+            var end=path.substring(path.length-4)
+            if(end!=="lrc") {
+                path+=".lrc"
+            }
+            dialogs.lyricDialog.fileIo.source=path
             dialogs.lyricDialog.fileIo.write(dialogs.lyricSearchDialog.lyricDownload.lyric);
         }
     }

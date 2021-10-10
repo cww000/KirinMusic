@@ -70,7 +70,7 @@ void AudioRecorder::startRecord(QString dirPath)
 {
     filePath = dirPath+"/record.raw";
     mpOutputFile->setFileName(filePath);
-    mpOutputFile->open(QIODevice::WriteOnly | QIODevice::Truncate);
+    mpOutputFile->open(QIODevice::WriteOnly| QIODevice::Truncate);
 
     mpAudioInputFile = new QAudioInput(mFormatFile);
     mpAudioInputFile->start(mpOutputFile);

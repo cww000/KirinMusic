@@ -9,12 +9,14 @@ ApplicationWindow{
     visible: true
     id:songSearchWindow
     property bool networkPlay:false
+    property bool network:false
     property double mX:0.0
     property double mY:0.0
     property alias searchlistView: listView
     property alias play1: play1
     property alias songListModel: songListmodel
     property alias inputField: inputField
+    property string netLyric:""
 
     background: Image {
         id: name
@@ -194,7 +196,7 @@ ApplicationWindow{
     onClosing: {
         songListModel.clear()
         sarchList.visible=false
-        networkPlay = false
+        network = false
         inputField.clear();
     }
     KuGou{
@@ -230,6 +232,7 @@ ApplicationWindow{
             dialogs.miniDialog.musicPause.visible = true
 
             dialogs.lyricDialog.timerTest.running=false
+            netLyric=kugou.lyrics
             showNetworkLyrics();
         }
     }
@@ -263,7 +266,7 @@ ApplicationWindow{
    }
 
    function showNetworkLyrics(){
-       dialogs.lyricDialog.lyric_id.lyric=kugou.lyrics
+       dialogs.lyricDialog.lyric_id.lyric=netLyric
        content.placeLyricToView()
        dialogs.lyricDialog.onClickAudioSlider()
 

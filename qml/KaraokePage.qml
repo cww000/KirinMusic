@@ -445,7 +445,6 @@ Item{
     function switchToPlay(){
         recordButton.visible=false
         pauseButton.visible=true
-        karaokeAudio.seek(0)
         karaokeAudio.play()
         timerStart()
     }
