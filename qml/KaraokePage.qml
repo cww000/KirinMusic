@@ -71,7 +71,7 @@ Item{
                     property: "width"
                     from: 0
                     to: m2.width
-                    duration: 4000
+                    duration: karaokeTimer.interval
                     loops: 1
                     running: false
                 }
