@@ -2,7 +2,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-
+#include "karaokelyric.h"
 Karaoke::Karaoke(QObject *parent) : QObject(parent)
 {
     network_manager = new QNetworkAccessManager();
@@ -17,7 +17,7 @@ Karaoke::Karaoke(QObject *parent) : QObject(parent)
 void Karaoke::search(QString str)
 {
     m_url.clear();
-    hashStr.clear();
+    m_hash.clear();
     album_idStr.clear();
     //发送歌曲搜索请求
     QString keyword=str+"伴奏";
@@ -80,7 +80,7 @@ void Karaoke::parseJson_getHash(QString json)     //解析接收到的歌曲信�
                                     QJsonValue FileHash_value = object.take("hash");
                                     if(FileHash_value.isString())
                                     {
-                                        hashStr=FileHash_value.toString();                //hash
+                                        m_hash=FileHash_value.toString();                //hash
                                     }
                                 }
                                 if(object.contains("album_id"))
@@ -104,7 +104,7 @@ void Karaoke::parseJson_getHash(QString json)     //解析接收到的歌曲信�
     }
 
     //通过歌曲ID发送请求，得到音乐伴奏的url
-    QString KGAPISTR1 = QString("https://www.kugou.com/yy/index.php?r=play/getdata&hash=%1&album_id=%2&_=1497972864535").arg(hashStr).arg(album_idStr);
+    QString KGAPISTR1 = QString("https://www.kugou.com/yy/index.php?r=play/getdata&hash=%1&album_id=%2&_=1497972864535").arg(m_hash).arg(album_idStr);
     network_request2->setUrl(QUrl(KGAPISTR1));
     //不加头无法得到json，可能是为了防止机器爬取
     network_request2->setRawHeader("Cookie","kg_mid=233");
@@ -197,4 +197,17 @@ void Karaoke::setLyrics(const QString &newLyrics)
         return;
     m_lyrics = newLyrics;
     emit lyricsChanged();
+}
+
+const QString &Karaoke::hash() const
+{
+    return m_hash;
+}
+
+void Karaoke::setHash(const QString &newHash)
+{
+    if (m_hash == newHash)
+        return;
+    m_hash = newHash;
+    emit hashChanged();
 }

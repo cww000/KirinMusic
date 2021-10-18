@@ -122,14 +122,16 @@ void Lyric::extract_timeStamp()
             }
             pos++;
 
-            if(translate(content.mid(start+1,i-1))!=0) {
-                if(content.midRef(start+1,i-1).length()==8) {
-                    m_lrcFlag=true;
-                } else {
-                    m_lrcFlag=false;
-                }
-                m_timeStamp<<translate(content.mid(start+1,i-1));
+            int duration=0;
+            if(content.midRef(start+1,i-1).length()==8) {
+                m_lrcFlag=true;
+                duration=translate(content.mid(start+1,i-1));
+            } else {
+                m_lrcFlag=false;
+                duration=translate1(content.mid(start+1,i-1));
             }
+            m_timeStamp<<duration;
+
         } else {
             pos++;
         }
@@ -158,8 +160,9 @@ void Lyric::extract_timeStamp()
 int Lyric::findTimeInterval(QString nowTime)
 {
     //先把这个时间戳转化为毫秒，然后在时间戳数组中找到第一个比他大的时间，两个时间相减得到时间差，返回给qml
-    QString nowTime1=nowTime.mid(1,8);
-    int time=translate(nowTime1);
+    QString nowTime1=nowTime.mid(1,5);
+   // qDebug()<<nowTime1;
+    int time=translate1(nowTime1);
     int interval=0,index=0;
     QList<int>::const_iterator constIterator;
     for (constIterator = m_timeStamp.constBegin(); constIterator != m_timeStamp.constEnd();
@@ -247,7 +250,7 @@ void Lyric::sort()
     }
 }
 
-//将时间戳转换成对应的毫秒数
+//将时间戳转换成对应的毫秒数   time的格式为00:00.00
 int Lyric::translate(QString time)
 {
     int pos=0;
@@ -294,6 +297,31 @@ int Lyric::translate(QString time)
                 return m_ms+s_ms+ms_ms;
             }
         }
+    }
+}
+
+int Lyric::translate1(QString time)
+{
+    int pos=0;
+    int m_ms=0,s_ms=0;
+    if(time.midRef(pos,1)=="0" && time.midRef(pos+1,1)=="0") {  //如果分钟数为0
+        m_ms=0;
+        if(time.midRef(pos+3,1)=="0" && time.midRef(pos+4,1)=="0") {   //如果秒数为0
+            s_ms=0;
+            return m_ms+s_ms;
+        } else {
+            s_ms=time.midRef(pos+3,2).toInt()*1000;
+            return m_ms+s_ms;
+        }
+    } else {
+         m_ms=time.midRef(pos,2).toInt()*60000;
+         if(time.midRef(pos+3,1)=="0" && time.midRef(pos+4,1)=="0") {   //如果秒数为0
+             s_ms=0;
+             return m_ms+s_ms;
+         } else {
+             s_ms=time.midRef(pos+3,2).toInt()*1000;
+             return m_ms+s_ms;
+         }
     }
 }
 

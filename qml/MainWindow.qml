@@ -141,6 +141,7 @@ ApplicationWindow{
         appWindow.title="K歌"
 
         karaokePage.karaoke.search(content.fileNameText.text)
+        console.log()
     }
 
     Component.onCompleted: {

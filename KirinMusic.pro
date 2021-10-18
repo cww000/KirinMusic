@@ -13,9 +13,11 @@ SOURCES += \
         decode.cpp \
         fileio.cpp \
         karaoke.cpp \
+        karaokelyric.cpp \
         kugou.cpp \
         lyric.cpp \
         lyricdownload.cpp \
+        lyricline.cpp \
         main.cpp \
         song.cpp
 
@@ -28,9 +30,11 @@ HEADERS += \
     decode.h \
     fileio.h \
     karaoke.h \
+    karaokelyric.h \
     kugou.h \
     lyric.h \
     lyricdownload.h \
+    lyricline.h \
     song.h
 
 # Default rules for deployment.
@@ -41,6 +45,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 unix|win32: LIBS += -ltag
 
 unix|win32: LIBS += -ltag_c
+
+unix|win32: LIBS += -lz
 
 unix|win32: LIBS += -lavutil
 unix|win32: LIBS += -lavformat

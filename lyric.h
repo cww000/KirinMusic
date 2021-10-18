@@ -26,7 +26,8 @@ public:
     Q_INVOKABLE QString translateStamp1(int time);
     Q_INVOKABLE bool lrcFlag(){return m_lrcFlag;}
 
-    int translate(QString time);  //将时间戳转换成毫秒数
+    int translate(QString time);  //将时间戳转换成毫秒数 00:00.00
+    int translate1(QString time);      //  00:00
     void sort();                    //转换后的时间戳数组按升序排序
     int highlightPos() const
     {

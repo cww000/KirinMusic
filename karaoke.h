@@ -11,6 +11,8 @@ class Karaoke : public QObject
     Q_OBJECT
     Q_PROPERTY(QString url READ url WRITE setUrl NOTIFY urlChanged)
     Q_PROPERTY(QString lyrics READ lyrics WRITE setLyrics NOTIFY lyricsChanged)
+    Q_PROPERTY(QString hash READ hash WRITE setHash NOTIFY hashChanged)
+
 public:
     explicit Karaoke(QObject *parent = nullptr);
     Q_INVOKABLE void search(QString keyword);
@@ -26,10 +28,15 @@ public:
     const QString &lyrics() const;
     void setLyrics(const QString &newLyrics);
 
+    const QString &hash() const;
+    void setHash(const QString &newHash);
+
 signals:
     void urlChanged();
 
     void lyricsChanged();
+
+    void hashChanged();
 
 public slots:
     void setUrl(const QString &newUrl)
@@ -51,7 +58,7 @@ private:
     QNetworkRequest *network_request;
     QNetworkRequest *network_request2;
     QString album_idStr;
-    QString hashStr;
+    QString m_hash;
     QString m_url;
     QString m_lyrics;
 

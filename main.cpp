@@ -10,6 +10,7 @@
 #include "decode.h"
 #include "karaoke.h"
 #include "audiorecorder.h"
+#include "karaokelyric.h"
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -27,6 +28,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Clipboard, 1>("Clipboard", 1, 0, "Clipboard");
     qmlRegisterType<Decode, 1>("Decode", 1, 0, "Decode");
     qmlRegisterType<Karaoke, 1>("Karaoke", 1, 0, "Karaoke");
+    qmlRegisterType<KaraokeLyric, 1>("KaraokeLyric", 1, 0, "KaraokeLyric");
     qmlRegisterType<AudioRecorder,1>("AudioRecorder", 1, 0, "AudioRecorder");
 
     QQmlApplicationEngine engine;

@@ -2,6 +2,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+
 LyricDownload::LyricDownload(QObject *parent)
     : QObject(parent)
 {

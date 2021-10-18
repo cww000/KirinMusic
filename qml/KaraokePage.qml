@@ -2,7 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.0
 import QtMultimedia 5.8
-import  Karaoke 1.0
+import Karaoke 1.0
+import KaraokeLyric 1.0
 import QtQml.Models 2.15
 import QtGraphicalEffects 1.0
 import Lyric 1.0
@@ -71,7 +72,7 @@ Item{
                     property: "width"
                     from: 0
                     to: m2.width
-                    duration: karaokeTimer.interval
+                    duration: highlightWordTimer.interval
                     loops: 1
                     running: false
                 }
@@ -375,16 +376,22 @@ Item{
         onUrlChanged:{
             console.log(url)
             karaokeAudio.source=url
+            karaokeLyric.hash=karaoke.hash
+            karaokeLyric.lyricSearch()
+
+        }
+    }
+
+    KaraokeLyric{
+        id:karaokeLyric
+        onPlainLyricChanged:{
             showKaraokeLyrics()
         }
     }
 
+
     AudioRecorder{
         id:audioRecorder
-    }
-
-    Lyric{
-        id:karaokeLyric
     }
 
     Timer{
@@ -396,12 +403,17 @@ Item{
                 //定时器第一次被触发
                 timeFlag=false
                 karaokeLyricView.currentIndex=timeStampIndex
+
             } else {
                 karaokeLyricView.currentIndex++;
             }
+            console.log(karaokeLyricView.currentIndex)
             timeStampIndex++;
 
-            karaokeTimer.interval=karaokeLyric.timeStamp[timeStampIndex]-karaokeLyric.timeStamp[timeStampIndex-1];
+            highlightWordTimer.running=true
+            highlightWordTimer.interval=karaokeLyric.lineDuration[karaokeLyricView.currentIndex]
+
+            karaokeTimer.interval=karaokeLyric.startTime[timeStampIndex]-karaokeLyric.startTime[timeStampIndex-1]
             if(currentTime===totalTime) {
                 karaokeTimer.running=false
                 switchToPause()
@@ -409,6 +421,30 @@ Item{
 
         }
     }
+
+    Timer{
+        id:highlightWordTimer
+        running: false
+        repeat: false
+        onTriggered: {
+            running=false
+        }
+    }
+
+    function timerStart(){
+        timeStampIndex=karaokeLyric.findTimeInterval("["+currentTime+"]");
+        karaokeTimer.interval=karaokeLyric.timeDif;     //设置第一个时间间隔
+        timeFlag=true;
+        karaokeTimer.running=true
+        if(karaokeTimer.interval===0) {
+            karaokeTimer.triggered()
+            console.log("interval=",karaokeLyric.timeDif)
+        } else {
+             console.log("interval=",karaokeLyric.timeDif)
+        }
+
+    }
+
     Timer{
         id: playTimer
         running: false
@@ -441,7 +477,6 @@ Item{
         karaokeAudio.seek(0)
     }
 
-
     function switchToPlay(){
         recordButton.visible=false
         pauseButton.visible=true
@@ -454,29 +489,16 @@ Item{
         pauseButton.visible=false
         karaokeAudio.pause()
         karaokeTimer.running=false
+        highlightWordTimer.running=false
     }
 
     function showKaraokeLyrics(){
-        karaokeLyric.lyric=karaoke.lyrics
         karaokeLyricModel.clear()
-        karaokeLyric.extract_timeStamp()
 
         var length=karaokeLyric.plainLyric.length
         for(var i=0;i<length;i++) {
             karaokeLyricModel.append({"currentLyrics":karaokeLyric.plainLyric[i]})
         }
-    }
-
-    function timerStart(){
-        if("["+currentTime+"]" !=="[00:00]") {
-            timeStampIndex=karaokeLyric.findTimeInterval("["+currentTime+"]");
-        } else {
-            timeStampIndex=karaokeLyric.findTimeInterval("00:00.01");
-        }
-
-        karaokeTimer.interval=karaokeLyric.timeDif;     //设置第一个时间间隔
-        timeFlag=true;
-        karaokeTimer.running=true
     }
 
     function moveToContent(){
@@ -485,7 +507,8 @@ Item{
         menuBar.visible=true
         karaokeLyricModel.clear()
         karaokeAudio.source=""
-        karaokeLyric.lyric=""    //返回的时候要将歌词清空
+        karaokeTimer.running=false
+        highlightWordTimer.running=false
         appWindow.title="KirinMusic" 
     }
 }
