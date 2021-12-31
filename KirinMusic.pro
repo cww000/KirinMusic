@@ -15,6 +15,9 @@ SOURCES += \
         karaoke.cpp \
         karaokelyric.cpp \
         kugou.cpp \
+        kugoumv.cpp \
+        kugouplaylist.cpp \
+        kugousong.cpp \
         lyric.cpp \
         lyricdownload.cpp \
         lyricline.cpp \
@@ -32,6 +35,9 @@ HEADERS += \
     karaoke.h \
     karaokelyric.h \
     kugou.h \
+    kugoumv.h \
+    kugouplaylist.h \
+    kugousong.h \
     lyric.h \
     lyricdownload.h \
     lyricline.h \

@@ -11,6 +11,9 @@
 #include "karaoke.h"
 #include "audiorecorder.h"
 #include "karaokelyric.h"
+#include "kugousong.h"
+#include "kugoumv.h"
+#include "kugouplaylist.h"
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -30,6 +33,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<Karaoke, 1>("Karaoke", 1, 0, "Karaoke");
     qmlRegisterType<KaraokeLyric, 1>("KaraokeLyric", 1, 0, "KaraokeLyric");
     qmlRegisterType<AudioRecorder,1>("AudioRecorder", 1, 0, "AudioRecorder");
+    qmlRegisterType<KuGouSong, 1>("KuGouSong", 1, 0, "KuGouSong");
+    qmlRegisterType<KuGouMv, 1>("KuGouMv", 1, 0, "KuGouMv");
+    qmlRegisterType<KuGouPlayList, 1>("KuGouPlayList", 1, 0, "KuGouPlayList");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/MainWindow.qml"));

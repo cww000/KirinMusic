@@ -18,6 +18,9 @@ Item {
     property alias ranPlay: ranPlay
 
     function play(index){
+        if(dialogs.songSearchDialog.videoPlayFlag) {
+            dialogs.songSearchDialog.pauseVideo.trigger()
+        }
         dialogs.lyricDialog.testNum=0
         dialogs.songSearchDialog.networkPlay = false
         dialogs.songSearchDialog.netLyric=""
