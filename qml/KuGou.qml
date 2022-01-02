@@ -80,16 +80,9 @@ Item {
     }
 
     function addMvItem(){
-        var s,m;
         mvListModel.clear()
         for(var i=0;i<kuGouMv.singerName.length;i++) {
-            m=(kuGouMv.duration[i]-kuGouMv.duration[i]%60)/60
-            s=kuGouMv.duration[i]-m*60
-            if(s>=0&s<10) {
-                 mvListModel.append({"mvName":kuGouMv.mvName[i],"mvSinger":kuGouMv.singerName[i],"duration":m+":0"+s})
-            } else {
-                 mvListModel.append({"mvName":kuGouMv.mvName[i],"mvSinger":kuGouMv.singerName[i],"duration":m+":"+s})
-            }
+            mvListModel.append({"mvPic":kuGouMv.mvPic[i],"mvName":kuGouMv.mvName[i],"mvSinger":kuGouMv.singerName[i]})
         }
     }
 }

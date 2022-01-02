@@ -4,14 +4,14 @@ import QtMultimedia 5.15
 
 ApplicationWindow{
     id:videoDialog
-    width : 800
-    height : 600
     visible: false
+    width : 850
+    height : 560
     property alias video: video
     Video {
         id: video
-        width : 800
-        height : 600
+        anchors.fill: parent
+        fillMode: VideoOutput.Stretch
         MouseArea {
             anchors.fill: parent
             onClicked: {
@@ -27,5 +27,9 @@ ApplicationWindow{
                 }
             }
         }
+    }
+
+    onClosing: {
+        video.stop()
     }
 }

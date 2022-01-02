@@ -47,7 +47,7 @@ private:
     QNetworkAccessManager *network_manager2;
     QNetworkRequest *network_request;
     QNetworkRequest *network_request2;
-    QList<double> specialId;
+    QList<long> specialId;
     QList<QString> m_specialName;
     QList<QString> m_nickName;
     QList<double> m_playCount;

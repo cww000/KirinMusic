@@ -70,7 +70,8 @@ void KuGouPlayList::parseJson_getSpecialID(QString json)
                                             QJsonValue specialid_value = object.take("specialid");
                                             if(specialid_value.isDouble())
                                             {
-                                                specialId<<specialid_value.toDouble();
+                                                long num=(long)specialid_value.toDouble();
+                                                specialId<<num;
                                             }
                                         }
 
@@ -122,6 +123,7 @@ void KuGouPlayList::getSongList(int index)
 {
     m_kuGouSong->clear();
     QString KGAPISTR1 = QString("https://www.kugou.com/yy/special/single/%1.html").arg(specialId[index]);
+    qDebug()<<KGAPISTR1;
     network_request2->setUrl(QUrl(KGAPISTR1));
 }
 

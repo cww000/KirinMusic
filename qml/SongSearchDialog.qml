@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
-import QtMultimedia 5.15
 ApplicationWindow{
     width:600
     height:500
@@ -28,341 +27,333 @@ ApplicationWindow{
         opacity: 0.3
     }
 
-    ColumnLayout{
-        spacing: 10
-        RowLayout{
-            id:rowLayout
-            TextField {
-                id: inputField
-                Layout.preferredWidth: 300
-                Layout.preferredHeight: 40
-                Layout.leftMargin: (songSearchWindow.width-inputField.width)/3
-                focus: true
-                Layout.topMargin: 20
-                selectByMouse: true
-                font.pointSize: 12
-                placeholderText:qsTr("王贰浪")
-                background: Rectangle {
-                   radius: 4
-                   border.color: "black"
+    Rectangle{
+        id:re1
+        visible: true
+        ColumnLayout{
+            spacing: 10
+            RowLayout{
+                id:rowLayout
+                TextField {
+                    id: inputField
+                    Layout.preferredWidth: 300
+                    Layout.preferredHeight: 40
+                    Layout.leftMargin: (songSearchWindow.width-inputField.width)/2.5
+                    focus: true
+                    Layout.topMargin: 20
+                    selectByMouse: true
+                    font.pointSize: 12
+                    placeholderText:qsTr("王贰浪")
+                    background: Rectangle {
+                       radius: 4
+                       border.color: "black"
+                    }
+                    Keys.onPressed: {
+                        if(event.key===Qt.Key_Return) {
+                            if(inputField.text.length===0) {
+                                kugou.kuGouSong.searchSong(inputField.placeholderText)
+                                inputField.text=inputField.placeholderText
+                            }else {
+                                kugou.kuGouSong.searchSong(inputField.text)
+                            }
+                        }
+                    }
                 }
-            }
-            Button {
-                id:songSearchButton
-                text: qsTr("搜索")
-                Layout.preferredWidth: 70
-                Layout.preferredHeight: 40
-                Layout.topMargin: 20
-                onClicked: {
-                    if(inputField.text.length===0) {
-                        kugou.kuGouSong.searchSong(inputField.placeholderText)
-                        inputField.text=inputField.placeholderText
-                    } else {
-                        kugou.kuGouSong.searchSong(inputField.text)
+                Button {
+                    id:songSearchButton
+                    text: qsTr("搜索")
+                    Layout.preferredWidth: 70
+                    Layout.preferredHeight: 40
+                    Layout.topMargin: 20
+                    onClicked: {
+                        if(inputField.text.length===0) {
+                            kugou.kuGouSong.searchSong(inputField.placeholderText)
+                            inputField.text=inputField.placeholderText
+                        } else {
+                            kugou.kuGouSong.searchSong(inputField.text)
+                        }
                     }
                 }
             }
-        }
 
-        TabBar {
-            id: bar
-            Layout.preferredWidth: parent.width/3
-            TabButton {
-                text: qsTr("单曲")
-                implicitHeight: 30
-                implicitWidth: 10
-                onClicked: {
-                    if(inputField.text.length===0) {
-                        kugou.kuGouSong.searchSong(inputField.placeholderText)
-                        inputField.text=inputField.placeholderText
-                    } else {
-                        kugou.kuGouSong.searchSong(inputField.text)
+            TabBar {
+                id: bar
+                Layout.preferredWidth: parent.width/3
+                TabButton {
+                    text: qsTr("单曲")
+                    implicitHeight: 30
+                    implicitWidth: 10
+                    onClicked: {
+                        if(inputField.text.length===0) {
+                            kugou.kuGouSong.searchSong(inputField.placeholderText)
+                            inputField.text=inputField.placeholderText
+                        } else {
+                            kugou.kuGouSong.searchSong(inputField.text)
+                        }
+                    }
+                }
+                TabButton {
+                    text: qsTr("歌单")
+                    implicitHeight:30
+                    implicitWidth: 10
+                    onClicked: {
+                        if(inputField.text.length===0) {
+                            kugou.kuGouPlayList.searchPlayList(inputField.placeholderText)
+                            inputField.text=inputField.placeholderText
+                        } else {
+                            kugou.kuGouPlayList.searchPlayList(inputField.text)
+                        }
+                    }
+                }
+                TabButton{
+                    text: qsTr("mv")
+                    implicitHeight: 30
+                    implicitWidth: 10
+                    onClicked: {
+                        if(inputField.text.length===0) {
+                            kugou.kuGouMv.searchMv(inputField.placeholderText)
+                            inputField.text=inputField.placeholderText
+                        } else {
+                            kugou.kuGouMv.searchMv(inputField.text)
+                        }
                     }
                 }
             }
-            TabButton {
-                text: qsTr("歌单")
-                implicitHeight:30
-                implicitWidth: 10
-                onClicked: {
-                    if(inputField.text.length===0) {
-                        kugou.kuGouPlayList.searchPlayList(inputField.placeholderText)
-                        inputField.text=inputField.placeholderText
-                    } else {
-                        kugou.kuGouPlayList.searchPlayList(inputField.text)
-                    }
-                }
-            }
-            TabButton{
-                text: qsTr("mv")
-                implicitHeight: 30
-                implicitWidth: 10
-                onClicked: {
-                    if(inputField.text.length===0) {
-                        kugou.kuGouMv.searchMv(inputField.placeholderText)
-                        inputField.text=inputField.placeholderText
-                    } else {
-                        kugou.kuGouMv.searchMv(inputField.text)
-                    }
-                }
-            }
-        }
 
-        StackLayout {
-            id: stack
-            width: parent.width
-            height: parent.height-bar.height-rowLayout-15
-            currentIndex: bar.currentIndex
-            Rectangle {
-                id: rec1
-                radius: 4
-                Layout.preferredWidth: songSearchWindow.width
-                Layout.preferredHeight: songSearchWindow.height-inputField.height
-                visible:false
-                border.color: "black"
+            StackLayout {
+                id: stack
+                width: parent.width
+                height: parent.height-bar.height-rowLayout-15
+                currentIndex: bar.currentIndex
+                Rectangle {
+                    id: rec1
+                    radius: 4
+                    Layout.preferredWidth: songSearchWindow.width
+                    Layout.preferredHeight: songSearchWindow.height-inputField.height
+                    visible:false
+                    border.color: "black"
 
-                ColumnLayout{
-                    anchors.fill: parent
-                    RowLayout{
-                        id: row1
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 5
-                        Text {
-                            Layout.preferredWidth: 120
-                            Layout.rightMargin: 50
-                            text: qsTr("歌曲")
-                            font.pixelSize: 15
-                        }
-                        Text {
-                            Layout.preferredWidth: 120
-                            Layout.rightMargin: 60
-                            text: qsTr("专辑")
-                            font.pixelSize: 15
-                        }
-                        Text {
-                            Layout.preferredWidth: 120
-                            text: qsTr("时长")
-                            font.pixelSize: 15
-                        }
-                    }
-                    ListView {
-                        id: songListView
-                        Layout.preferredWidth: parent.width
-                        Layout.leftMargin: 5
-                        Layout.preferredHeight: parent.height-row1.height
-                        clip: true
-                        spacing: 5
-                        model:songListModel
-                        delegate: songListDelegate
-                        ScrollBar.vertical: ScrollBar {
-                            width: 12
-                            policy: ScrollBar.AlwaysOn
-                        }
-                    }
-                }
-                ListModel{
-                    id:songListModel
-                }
-                Component {
-                    id:songListDelegate
-                    Rectangle {
-                        radius: 4
-                        width: songListView.width - 20
-                        height: 40
-                        focus: true
-                        color:ListView.isCurrentItem ? "lightgrey" : "white"
+                    ColumnLayout{
+                        anchors.fill: parent
                         RowLayout{
-                            id:sarchLayout
+                            id: row1
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 5
                             Text {
-                                text:song
                                 Layout.preferredWidth: 120
                                 Layout.rightMargin: 50
-                                elide: Text.ElideRight
+                                text: qsTr("歌曲名")
+                                font.pixelSize: 15
                             }
                             Text {
-                                text: album
                                 Layout.preferredWidth: 120
                                 Layout.rightMargin: 60
-                                elide: Text.ElideRight
+                                text: qsTr("专辑")
+                                font.pixelSize: 15
                             }
                             Text {
-                                text: duration
                                 Layout.preferredWidth: 120
-                                Layout.rightMargin: 20
-                            }
-                            Text {
-                                id: kugouText
-                                text: qsTr("酷狗音乐")
-                                Layout.preferredWidth:60
+                                text: qsTr("时长")
+                                font.pixelSize: 15
                             }
                         }
-                        TapHandler{
-                            id:tapHandler
-                            acceptedButtons: Qt.RightButton
-                            onTapped: {
-                                mX=mouseArea1.mouseX
-                                mY=mouseArea1.mouseY
-                                menu1.open()
+                        ListView {
+                            id: songListView
+                            Layout.preferredWidth: songSearchWindow.width
+                            Layout.leftMargin: 5
+                            Layout.preferredHeight: parent.height-row1.height
+                            clip: true
+                            spacing: 5
+                            model:songListModel
+                            delegate: songListDelegate
+                            ScrollBar.vertical: ScrollBar {
+                                width: 12
+                                policy: ScrollBar.AlwaysOn
                             }
                         }
-                        MouseArea{
-                            id:mouseArea1
-                            anchors.fill: parent
-                            acceptedButtons: Qt.LeftButton
-                            onClicked: {
-                                if(mouse.button===Qt.LeftButton) {
-                                    songListView.currentIndex=index
+                    }
+                    ListModel{
+                        id:songListModel
+                    }
+                    Component {
+                        id:songListDelegate
+                        Rectangle {
+                            radius: 4
+                            width: songListView.width - 20
+                            height: 40
+                            focus: true
+                            color:ListView.isCurrentItem ? "lightgrey" : "white"
+                            RowLayout{
+                                id:sarchLayout
+                                Text {
+                                    text:song
+                                    Layout.preferredWidth: 120
+                                    Layout.rightMargin: 50
+                                    elide: Text.ElideRight
+                                }
+                                Text {
+                                    text: album
+                                    Layout.preferredWidth: 120
+                                    Layout.rightMargin: 60
+                                    elide: Text.ElideRight
+                                }
+                                Text {
+                                    text: duration
+                                    Layout.preferredWidth: 120
+                                    Layout.rightMargin: 20
+                                }
+                                Text {
+                                    id: kugouText
+                                    text: qsTr("酷狗音乐")
+                                    Layout.preferredWidth:60
                                 }
                             }
-                            onDoubleClicked: {
-                                play1.trigger()
+                            TapHandler{
+                                id:tapHandler
+                                acceptedButtons: Qt.RightButton
+                                onTapped: {
+                                    mX=mouseArea1.mouseX
+                                    mY=mouseArea1.mouseY
+                                    menu1.open()
+                                }
                             }
+                            MouseArea{
+                                id:mouseArea1
+                                anchors.fill: parent
+                                acceptedButtons: Qt.LeftButton
+                                onClicked: {
+                                    if(mouse.button===Qt.LeftButton) {
+                                        songListView.currentIndex=index
+                                    }
+                                }
+                                onDoubleClicked: {
+                                    play1.trigger()
+                                }
+                            }
+                            Menu{
+                                id:menu1
+                                x:mX
+                                y:mY
+                                contentData: [
+                                    play1,
+                                    pause1
+                                ]
+                           }
                         }
-                        Menu{
-                            id:menu1
-                            x:mX
-                            y:mY
-                            contentData: [
-                                play1,
-                                pause1
-                            ]
-                       }
                     }
                 }
-            }
 
-            Rectangle {
-                id: rec2
-                radius: 4
-                Layout.preferredWidth: songSearchWindow.width
-                Layout.preferredHeight: songSearchWindow.height-inputField.height
-                visible:false
-                border.color: "black"
+                Rectangle {
+                    id: rec2
+                    radius: 4
+                    Layout.preferredWidth: songSearchWindow.width
+                    Layout.preferredHeight: songSearchWindow.height-inputField.height
+                    visible:false
+                    border.color: "black"
 
-                ColumnLayout{
-                    anchors.fill: parent
-                    RowLayout{
-                        id: row2
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 5
-                        Text {
-                            Layout.preferredWidth: 120
-                            Layout.rightMargin: 50
-                            text: qsTr("歌单")
-                            font.pixelSize: 15
-                        }
-                        Text {
-                            Layout.preferredWidth: 120
-                            Layout.rightMargin: 60
-                            text: qsTr("创建人")
-                            font.pixelSize: 15
-                        }
-                        Text {
-                            Layout.preferredWidth: 120
-                            text: qsTr("收藏")
-                            font.pixelSize: 15
-                        }
-                    }
-                    ListView {
-                        id: playListView
-                        Layout.preferredWidth: parent.width
-                        Layout.leftMargin: 5
-                        Layout.preferredHeight: parent.height-row2.height
-                        clip: true
-                        spacing: 5
-                        model:playListModel
-                        delegate: playListDelegate
-                        ScrollBar.vertical: ScrollBar {
-                            width: 12
-                            policy: ScrollBar.AlwaysOn
-                        }
-                    }
-                }
-                ListModel{
-                    id:playListModel
-                }
-                Component {
-                    id:playListDelegate
-                    Rectangle {
-                        radius: 4
-                        width: playListView.width - 20
-                        height: 40
-                        focus: true
-                        color:ListView.isCurrentItem ? "lightgrey" : "white"
+                    ColumnLayout{
+                        anchors.fill: parent
                         RowLayout{
-                            id:sarchLayout
+                            id: row2
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 5
                             Text {
-                                text:specialName
-                                Layout.preferredWidth: 120
-                                Layout.rightMargin: 50
-                                elide: Text.ElideRight
+                                Layout.preferredWidth: 220
+                                Layout.rightMargin: 40
+                                text: qsTr("歌单名")
+                                font.pixelSize: 15
                             }
                             Text {
-                                text: nickName
                                 Layout.preferredWidth: 120
-                                Layout.rightMargin: 60
-                                elide: Text.ElideRight
+                                Layout.rightMargin: 40
+                                text: qsTr("创建人")
+                                font.pixelSize: 15
                             }
                             Text {
-                                text: playCount
-                                Layout.preferredWidth: 120
-                                Layout.rightMargin: 20
+                                Layout.preferredWidth: 60
+                                text: qsTr("收藏")
+                                font.pixelSize: 15
                             }
-
                         }
-                        MouseArea{
-                            id:mouseArea2
-                            anchors.fill: parent
-                            acceptedButtons: Qt.LeftButton
-                            onClicked: {
-                                if(mouse.button===Qt.LeftButton) {
-                                    playListView.currentIndex=index
+                        ListView {
+                            id: playListView
+                            Layout.preferredWidth: songSearchWindow.width
+                            Layout.leftMargin: 5
+                            Layout.preferredHeight: parent.height-row2.height
+                            clip: true
+                            spacing: 5
+                            model:playListModel
+                            delegate: playListDelegate
+                            ScrollBar.vertical: ScrollBar {
+                                width: 12
+                                policy: ScrollBar.AlwaysOn
+                            }
+                        }
+                    }
+                    ListModel{
+                        id:playListModel
+                    }
+                    Component {
+                        id:playListDelegate
+                        Rectangle {
+                            radius: 4
+                            width: playListView.width - 20
+                            height: 40
+                            focus: true
+                            color:ListView.isCurrentItem ? "lightgrey" : "white"
+                            RowLayout{
+                                id:sarchLayout
+                                Text {
+                                    text:specialName
+                                    Layout.preferredWidth: 220
+                                    Layout.rightMargin: 40
+                                    elide: Text.ElideRight
+                                }
+                                Text {
+                                    text: nickName
+                                    Layout.preferredWidth: 120
+                                    Layout.rightMargin: 40
+                                    elide: Text.ElideRight
+                                }
+                                Text {
+                                    text: playCount
+                                    Layout.preferredWidth: 60
+                                }
+
+                            }
+                            MouseArea{
+                                id:mouseArea2
+                                anchors.fill: parent
+                                acceptedButtons: Qt.LeftButton
+                                onClicked: {
+                                    if(mouse.button===Qt.LeftButton) {
+                                        playListView.currentIndex=index
+                                    }
+                                }
+                                onDoubleClicked: {
+                                    re1.visible=false
+                                    re2.visible=true
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            Rectangle {
-                id: rec3
-                radius: 4
-                Layout.preferredWidth: songSearchWindow.width
-                Layout.preferredHeight: songSearchWindow.height-inputField.height
-                visible:false
-                border.color: "black"
+                Rectangle {
+                    id: rec3
+                    radius: 4
+                    Layout.preferredWidth: songSearchWindow.width
+                    Layout.preferredHeight: songSearchWindow.height-inputField.height
+                    visible:false
+                    border.color: "black"
 
-                ColumnLayout{
-                    anchors.fill: parent
-                    RowLayout{
-                        id: row3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 5
-                        Text {
-                            Layout.preferredWidth: 120
-                            Layout.rightMargin: 50
-                            text: qsTr("mv")
-                            font.pixelSize: 15
-                        }
-                        Text {
-                            Layout.preferredWidth: 120
-                            Layout.rightMargin: 60
-                            text: qsTr("歌手")
-                            font.pixelSize: 15
-                        }
-                        Text {
-                            Layout.preferredWidth: 120
-                            text: qsTr("时长")
-                            font.pixelSize: 15
-                        }
-                    }
-                    ListView {
+                    GridView{
                         id: mvListView
-                        Layout.preferredWidth: parent.width
-                        Layout.leftMargin: 5
-                        Layout.preferredHeight: parent.height-row3.height
+                        anchors.fill:parent
+                        anchors.leftMargin: 25
+                        cellWidth: (parent.width-40)/4
+                        cellHeight: parent.height/3.5
                         clip: true
-                        spacing: 5
                         model:mvListModel
                         delegate: mvListDelegate
                         ScrollBar.vertical: ScrollBar {
@@ -370,71 +361,70 @@ ApplicationWindow{
                             policy: ScrollBar.AlwaysOn
                         }
                     }
-                }
-                ListModel{
-                    id:mvListModel
-                }
-                Component {
-                    id:mvListDelegate
-                    Rectangle {
-                        radius: 4
-                        width: playListView.width - 20
-                        height: 40
-                        focus: true
-                        color:ListView.isCurrentItem ? "lightgrey" : "white"
-                        RowLayout{
-                            id:sarchLayout
-                            Text {
-                                text:mvName
-                                Layout.preferredWidth: 120
-                                Layout.rightMargin: 50
-                                elide: Text.ElideRight
-                            }
-                            Text {
-                                text: mvSinger
-                                Layout.preferredWidth: 120
-                                Layout.rightMargin: 60
-                                elide: Text.ElideRight
-                            }
-                            Text {
-                                text: duration
-                                Layout.preferredWidth: 120
-                                Layout.rightMargin: 20
-                            }
-
-                        }
-                        TapHandler{
-                            id:tapHandler
-                            acceptedButtons: Qt.RightButton
-                            onTapped: {
-                                mX=mouseArea3.mouseX
-                                mY=mouseArea3.mouseY
-                                menu3.open()
-                            }
-                        }
-                        MouseArea{
-                            id:mouseArea3
-                            anchors.fill: parent
-                            acceptedButtons: Qt.LeftButton
-                            onClicked: {
-                                if(mouse.button===Qt.LeftButton) {
-                                    mvListView.currentIndex=index
+                    ListModel{
+                        id:mvListModel
+                    }
+                    Component {
+                        id:mvListDelegate
+                        Rectangle {
+                            radius: 4
+                            width: (rec3.width-40)/4
+                            height: rec3.height/3.5
+                            focus: true
+                            color:ListView.isCurrentItem ? "lightgrey" : "white"
+                            ColumnLayout{
+                                id:sarchLayout
+                                spacing: 5
+                                Image {
+                                    id: mvImage
+                                    source: mvPic
+                                    Layout.preferredWidth: (rec3.width-40)/4-20
+                                    Layout.preferredHeight: rec3.height/3.5-50
+                                    Layout.topMargin: 10
+                                    fillMode: Image.PreserveAspectCrop
+                                    MouseArea{
+                                        id:mouseArea3
+                                        anchors.fill: parent
+                                        acceptedButtons: Qt.LeftButton
+                                        onClicked: {
+                                            if(mouse.button===Qt.LeftButton) {
+                                                mvListView.currentIndex=index
+                                                playVideo.trigger()
+                                            }
+                                        }
+                                    }
+                                }
+                                Text {
+                                    id:mvNameText
+                                    text:mvName
+                                    Layout.preferredWidth: (rec3.width-40)/4-20
+                                    lineHeight: 0.7
+                                    elide: Text.ElideRight
+                                    HoverHandler{
+                                        onHoveredChanged: {
+                                            if(hovered) {
+                                                mvNameText.color="Teal"
+                                            } else {
+                                                mvNameText.color="black"
+                                            }
+                                        }
+                                    }
+                                    TapHandler{
+                                        onTapped: {
+                                            mvListView.currentIndex=index
+                                            playVideo.trigger()
+                                        }
+                                    }
+                                }
+                                Text {
+                                    text: mvSinger
+                                    lineHeight: 0.7
+                                    color: "Teal"
+                                    Layout.preferredWidth: (rec3.width-40)/4-20
+                                    elide: Text.ElideRight
                                 }
                             }
-                            onDoubleClicked: {
-                                mvListView.currentIndex=index
-                                playVideo.trigger()
-                            }
                         }
-                        Menu{
-                            id:menu3
-                            x:mX
-                            y:mY
-                            contentData: [
-                                playVideo,
-                                pauseVideo
-                            ]
-                       }
                     }
                 }
             }
@@ -446,6 +436,82 @@ ApplicationWindow{
         mvListModel.clear()
         network = false
         inputField.clear();
+    }
+
+    Rectangle{
+        id:re2
+
+        visible: false
+        ColumnLayout{
+            spacing: 5
+            RowLayout{
+                spacing: 30
+                Button{
+                    id:backButton
+                    Layout.preferredWidth: 70
+                    Layout.preferredHeight: 40
+                    text: "返回"
+                    Layout.topMargin:10
+                    onClicked: {
+                        re1.visible=true
+                        re2.visible=false
+                    }
+                }
+                Text {
+                    id: specialText
+                    Layout.alignment: Qt.AlignCenter
+                    Layout.topMargin:10
+                    text: kugou.kuGouPlayList.specialName[playListView.currentIndex]+"--歌曲列表"
+                }
+            }
+            Rectangle {
+                id: re4
+                radius: 4
+                Layout.preferredWidth: songSearchWindow.width
+                Layout.preferredHeight: songSearchWindow.height-backButton.height
+                border.color: "black"
+                ListView {
+                    id: songList
+                    anchors.fill: parent
+                    Layout.leftMargin: 5
+                    clip: true
+                    spacing: 5
+                    model:songModel
+                    delegate: songDelegate
+                    ScrollBar.vertical: ScrollBar {
+                        width: 12
+                        policy: ScrollBar.AlwaysOn
+                    }
+                }
+            }
+            ListModel{
+                id:songModel
+            }
+            Component {
+                id:songDelegate
+                Rectangle {
+                    radius: 4
+                    width: songList.width - 20
+                    height: 40
+                    focus: true
+                    color:ListView.isCurrentItem ? "lightgrey" : "white"
+                    RowLayout{
+                        Text {
+                            text:serialNum
+                            Layout.preferredWidth: 120
+                            Layout.rightMargin: 50
+                            elide: Text.ElideRight
+                        }
+                        Text {
+                            text: song
+                            Layout.preferredWidth: 120
+                            Layout.rightMargin: 60
+                            elide: Text.ElideRight
+                        }
+                    }
+                }
+            }
+        }
     }
     KuGou{
         id:kugou

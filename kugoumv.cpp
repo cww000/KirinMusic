@@ -5,13 +5,14 @@
 KuGouMv::KuGouMv(QObject *parent) : QObject(parent)
 {
     network_manager = new QNetworkAccessManager();
-    network_request = new QNetworkRequest();				//发送请求一得到AlbumID和FileHash
+    network_request = new QNetworkRequest();				//发送请求一得到mvhash
     network_manager2 = new QNetworkAccessManager();
-    network_request2 = new QNetworkRequest();			//发送请求二得到url和歌词等信息
+    network_request2 = new QNetworkRequest();			//发送请求二得到mv url信息
 
     network_request2->setRawHeader("Cookie","kg_mid=233");
     network_request2->setHeader(QNetworkRequest::CookieHeader,2333);
-    connect(network_manager2, &QNetworkAccessManager::finished, this, &KuGouMv::replyFinished2);
+
+    connect(network_manager2,&QNetworkAccessManager::finished, this, &KuGouMv::replyFinished2);
     connect(network_manager, &QNetworkAccessManager::finished, this, &KuGouMv::replyFinished);
 
 }
@@ -22,6 +23,7 @@ void KuGouMv::searchMv(QString str)
     m_mvName.clear();
     m_singerName.clear();
     m_duration.clear();
+    m_mvPic.clear();
 
     QString KGAPISTR1 = QString("http://mvsearch.kugou.com/mv_search?keyword=%1&page=1&pagesize=50&userid=-1"
           "&clientver=&platform=WebFilter&tag=em&filter=2&iscorrection=1&privilege_filter=0&_=1515052279917").arg(str);
@@ -32,6 +34,7 @@ void KuGouMv::searchMv(QString str)
 
 void KuGouMv::parseJson_getMvHash(QString json)
 {
+    QList<QString> pic;
     QByteArray ba=json.toUtf8();
     const char *ch=ba.data();
 
@@ -96,6 +99,15 @@ void KuGouMv::parseJson_getMvHash(QString json)
                                             mvHash<<MvHash_value.toString();
                                         }
                                     }
+
+                                    if(object.contains("Pic"))
+                                    {
+                                        QJsonValue MvPic_value = object.take("Pic");
+                                        if(MvPic_value.isString())
+                                        {
+                                            pic<<MvPic_value.toString();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -108,6 +120,11 @@ void KuGouMv::parseJson_getMvHash(QString json)
         qDebug()<<json_error.errorString();
     }
 
+    //获取mv封面
+    for(int i=0;i<pic.length();i++) {
+        QString str=pic[i].mid(0,8);
+        m_mvPic<<"https://imgessl.kugou.com/mvhdpic/240/"+str+"/"+pic[i];
+    }
 }
 
 void KuGouMv::parseJson_getMvUrl(QString json)
@@ -116,6 +133,7 @@ void KuGouMv::parseJson_getMvUrl(QString json)
     const char *ch=ba.data();
 
     QString rq="",sq="",le="";
+    QString rqImg,sqImg,leImg;
     QByteArray byte_array;
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(byte_array.append(ch), &json_error);
@@ -144,6 +162,7 @@ void KuGouMv::parseJson_getMvUrl(QString json)
                                      sq=mvurl_value.toString();
                                  }
                              }
+
                          }
                     }
 
@@ -239,6 +258,18 @@ void KuGouMv::setSingerName(const QList<QString> &newSingerName)
     emit singerNameChanged();
 }
 
+const QList<QString> &KuGouMv::mvPic() const
+{
+    return m_mvPic;
+}
+
+void KuGouMv::setMvPic(const QList<QString> &newMvPic)
+{
+    if (m_mvPic == newMvPic)
+        return;
+    m_mvPic = newMvPic;
+    emit mvPicChanged();
+}
 const QList<double> &KuGouMv::duration() const
 {
     return m_duration;
@@ -304,5 +335,8 @@ void KuGouMv::replyFinished2(QNetworkReply *reply)
         qDebug()<<"处理错误";
     }
     reply->deleteLater();   //最后要释放reply对象
- //   qDebug()<<m_lyrics;
+    //   qDebug()<<m_lyrics;
 }
+
+
+

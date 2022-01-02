@@ -15,6 +15,7 @@ class KuGouMv : public QObject
     Q_PROPERTY(QList<QString> singerName READ singerName WRITE setSingerName NOTIFY singerNameChanged)
     Q_PROPERTY(QList<double> duration READ duration WRITE setDuration NOTIFY durationChanged)
     Q_PROPERTY(QString mvUrl READ mvUrl WRITE setMvUrl NOTIFY mvUrlChanged)
+    Q_PROPERTY(QList<QString> mvPic READ mvPic WRITE setMvPic NOTIFY mvPicChanged)
 
 public:
     explicit KuGouMv(QObject *parent = nullptr);
@@ -35,6 +36,9 @@ public:
     const QString &mvUrl() const;
     void setMvUrl(const QString &newMvUrl);
 
+    const QList<QString> &mvPic() const;
+    void setMvPic(const QList<QString> &newMvPic);
+
 protected slots:
     void replyFinished(QNetworkReply *reply);
     void replyFinished2(QNetworkReply*reply);
@@ -49,6 +53,8 @@ signals:
 
     void mvUrlChanged();
 
+    void mvPicChanged();
+
 private:
     QNetworkAccessManager *network_manager;
     QNetworkAccessManager *network_manager2;
@@ -59,6 +65,7 @@ private:
     QList<QString> m_singerName;
     QList<double> m_duration;
     QString m_mvUrl;
+    QList<QString> m_mvPic;
 
 };
 
