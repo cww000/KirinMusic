@@ -3,15 +3,19 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QPushButton>
+#include <QFile>
 KuGouSong::KuGouSong(QObject *parent) : QObject(parent)
 {
     network_manager = new QNetworkAccessManager();
     network_request = new QNetworkRequest();				//发送请求一得到AlbumID和FileHash
     network_manager2 = new QNetworkAccessManager();
     network_request2 = new QNetworkRequest();			//发送请求二得到url和歌词等信息
+    network_manager3 = new QNetworkAccessManager();
+    network_request3 = new QNetworkRequest();
 
     network_request2->setRawHeader("Cookie","kg_mid=233");
     network_request2->setHeader(QNetworkRequest::CookieHeader,2333);
+    connect(network_manager3, &QNetworkAccessManager::finished, this, &KuGouSong::replyFinished3);
     connect(network_manager2, &QNetworkAccessManager::finished, this, &KuGouSong::replyFinished2);
     connect(network_manager, &QNetworkAccessManager::finished, this, &KuGouSong::replyFinished);
 }
@@ -181,8 +185,6 @@ void KuGouSong::parseJson_getPlayUrl(QString json)
                             }
                         }
                     }
-                    emit urlChanged(m_url);
-                    return;
                 }
             }
         }
@@ -195,6 +197,14 @@ void KuGouSong::getSongUrl(int index)
     QString KGAPISTR1 = QString("http://wwwapi.kugou.com/yy/index.php?r=play/getdata&hash=%1&album_id=%2").arg(hashStr[index]).arg(album_idStr[index]);
     network_request2->setUrl(QUrl(KGAPISTR1));
     network_manager2->get(*network_request2);
+}
+
+void KuGouSong::downloadSong(int index,QString path)
+{
+    m_savePath=path;
+    isDownloadSong=true;
+    getSongUrl(index);
+    connect(this,&KuGouSong::getUrl,this,&KuGouSong::writeUrl);
 }
 
 void KuGouSong::clear()
@@ -249,7 +259,42 @@ void KuGouSong::replyFinished2(QNetworkReply *reply)
         //处理错误
         qDebug()<<"处理错误";
     }
+    if(!isDownloadSong) {
+        emit urlChanged(m_url);
+    } else {
+        emit getUrl();
+    }
+    isDownloadSong=false;
     reply->deleteLater();   //最后要释放reply对象
- //   qDebug()<<m_lyrics;
+    //   qDebug()<<m_lyrics;
+}
+
+void KuGouSong::replyFinished3(QNetworkReply *reply)
+{
+    //无错误返回
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray bytes = reply->readAll();  //获取字节
+        QFile file(m_savePath);
+        bool ok=file.open(QIODevice::WriteOnly|QIODevice::Truncate);
+        if(ok) {
+            qDebug()<<"正在下载歌曲，请稍等.....";
+            file.write(bytes);
+            file.close();
+         }
+         qDebug()<<"下载成功";
+    }
+    else
+    {
+        //处理错误
+        qDebug()<<"处理错误";
+    }
+    reply->deleteLater();   //最后要释放reply对象
+}
+
+void KuGouSong::writeUrl()
+{
+    network_request3->setUrl(QUrl(m_url));
+    network_manager3->get(*network_request3);
 }
 

@@ -23,6 +23,7 @@ public:
     void parseJson_getMvHash(QString json);
     void parseJson_getMvUrl(QString json);
     Q_INVOKABLE void getMvUrl(int index);
+    Q_INVOKABLE void downloadMv(int index,QString path);
 
     const QList<QString> &mvName() const;
     void setMvName(const QList<QString> &newMvName);
@@ -41,7 +42,9 @@ public:
 
 protected slots:
     void replyFinished(QNetworkReply *reply);
-    void replyFinished2(QNetworkReply*reply);
+    void replyFinished2(QNetworkReply *reply);
+    void replyFinished3(QNetworkReply *reply);
+    void writeMv();
 
 signals:
 
@@ -54,18 +57,23 @@ signals:
     void mvUrlChanged();
 
     void mvPicChanged();
+    void getMv();
 
 private:
     QNetworkAccessManager *network_manager;
     QNetworkAccessManager *network_manager2;
     QNetworkRequest *network_request;
     QNetworkRequest *network_request2;
+    QNetworkAccessManager *network_manager3;
+    QNetworkRequest *network_request3;
     QList<QString> mvHash;
     QList<QString> m_mvName;
     QList<QString> m_singerName;
     QList<double> m_duration;
     QString m_mvUrl;
     QList<QString> m_mvPic;
+    bool isDownloadMv=false;
+    QString m_savePath;
 
 };
 

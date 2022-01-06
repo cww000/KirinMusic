@@ -24,7 +24,25 @@ public:
     void parseJson_getAlbumID(QString json);
     void parseJson_getPlayUrl(QString json);
     Q_INVOKABLE void getSongUrl(int index);
+    Q_INVOKABLE void downloadSong(int index,QString path);
     void clear();
+    void sethashStr(QList<QString> hash) {
+        if (hash == hashStr)
+            return;
+        hashStr=hash;
+    }
+
+    void setAlbum_idStr(QList<long> album) {
+        QList<QString> album_id;
+        for(int i=0;i<album.length();i++) {
+            album_id<<QString::number(album[i]);
+        }
+        if (album_id == album_idStr)
+            return;
+        album_idStr=album_id;
+    }
+
+
 
     QList<QString> singerName() const
     {
@@ -132,6 +150,8 @@ public slots:
 protected slots:
     void replyFinished(QNetworkReply *reply);
     void replyFinished2(QNetworkReply*reply);
+    void replyFinished3(QNetworkReply *reply);
+    void writeUrl();
 
 signals:
     void singerNameChanged(QList<QString> singerName);
@@ -147,12 +167,15 @@ signals:
     void durationChanged(QList<double> duration);
 
     void imageChanged(QString image);
+    void getUrl();
 
 private:
     QNetworkAccessManager *network_manager;
     QNetworkAccessManager *network_manager2;
+    QNetworkAccessManager *network_manager3;
     QNetworkRequest *network_request;
     QNetworkRequest *network_request2;
+    QNetworkRequest *network_request3;
     QList<QString> album_idStr;
     QList<QString> hashStr;
     QList<QString> m_albumName;
@@ -162,6 +185,8 @@ private:
     QString m_image;
     QString m_lyrics;
     QString m_url;
+    bool isDownloadSong=false;
+    QString m_savePath;
 };
 
 #endif // KUGOUSONG_H

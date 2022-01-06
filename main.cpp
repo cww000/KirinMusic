@@ -4,7 +4,6 @@
 #include "fileio.h"
 #include "lyric.h"
 #include "song.h"
-#include "kugou.h"
 #include "lyricdownload.h"
 #include "clipboard.h"
 #include "decode.h"
@@ -26,7 +25,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<FileIo, 1>("FileIo", 1, 0, "FileIo");
     qmlRegisterType<Lyric, 1>("Lyric", 1, 0, "Lyric");
     qmlRegisterType<Song, 1>("Song", 1, 0, "Song");
-    qmlRegisterType<KuGou, 1>("KuGou", 1, 0, "KuGou");
     qmlRegisterType<LyricDownload, 1>("LyricDownload", 1, 0, "LyricDownload");
     qmlRegisterType<Clipboard, 1>("Clipboard", 1, 0, "Clipboard");
     qmlRegisterType<Decode, 1>("Decode", 1, 0, "Decode");

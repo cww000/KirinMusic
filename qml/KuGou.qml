@@ -12,7 +12,6 @@ Item {
             addSongItem()
         }
         onUrlChanged: {
-
             content.musicPlayer.audio.source=kuGouSong.url;
 
             content.musicPlayer.audio.play()
@@ -54,6 +53,37 @@ Item {
         id:kuGouPlayList
         onSpecialNameChanged: {
             addPlayListItem()
+        }
+
+        onSongNameChanged: {
+            addSongItemInPlayList()
+        }
+        onUrlChanged: {
+            content.musicPlayer.audio.source=kuGouPlayList.url;
+
+            content.musicPlayer.audio.play()
+            content.musicPlayer.start.visible=false
+            content.musicPlayer.pause.visible=true
+
+            content.musicPlayer.fileName=songName[songList.currentIndex]
+            content.fileNameText.text=songName[songList.currentIndex]
+            content.singerText.text=singerName[songList.currentIndex]
+
+            appWindow.rootImage.source=image;
+            content.leftImage.source=image;
+
+            dialogs.miniDialog.musicStart.visible = false
+            dialogs.miniDialog.musicPause.visible = true
+
+            dialogs.lyricDialog.timerTest.running=false
+            netLyric=kuGouPlayList.lyrics
+            showNetworkLyrics();
+        }
+    }
+
+    function addSongItemInPlayList(){
+        for(var i=0;i<kuGouPlayList.songName.length;i++) {
+            songModel.append({"serialNum":i+1,"songName":kuGouPlayList.singerName[i]+"-"+kuGouPlayList.songName[i],"albumName":kuGouPlayList.albumName[i]})
         }
     }
 

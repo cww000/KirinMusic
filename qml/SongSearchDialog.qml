@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
+import QtQuick.Dialogs 1.3
 ApplicationWindow{
     width:600
     height:500
@@ -43,7 +44,7 @@ ApplicationWindow{
                     Layout.topMargin: 20
                     selectByMouse: true
                     font.pointSize: 12
-                    placeholderText:qsTr("王贰浪")
+                    placeholderText:qsTr("薛之谦")
                     background: Rectangle {
                        radius: 4
                        border.color: "black"
@@ -140,19 +141,19 @@ ApplicationWindow{
                             Layout.fillWidth: true
                             Layout.leftMargin: 5
                             Text {
-                                Layout.preferredWidth: 120
-                                Layout.rightMargin: 50
+                                Layout.preferredWidth: 160
+                                Layout.rightMargin: 40
                                 text: qsTr("歌曲名")
                                 font.pixelSize: 15
                             }
                             Text {
                                 Layout.preferredWidth: 120
-                                Layout.rightMargin: 60
+                                Layout.rightMargin: 40
                                 text: qsTr("专辑")
                                 font.pixelSize: 15
                             }
                             Text {
-                                Layout.preferredWidth: 120
+                                Layout.preferredWidth: 80
                                 text: qsTr("时长")
                                 font.pixelSize: 15
                             }
@@ -187,19 +188,19 @@ ApplicationWindow{
                                 id:sarchLayout
                                 Text {
                                     text:song
-                                    Layout.preferredWidth: 120
-                                    Layout.rightMargin: 50
+                                    Layout.preferredWidth: 160
+                                    Layout.rightMargin: 40
                                     elide: Text.ElideRight
                                 }
                                 Text {
                                     text: album
                                     Layout.preferredWidth: 120
-                                    Layout.rightMargin: 60
+                                    Layout.rightMargin: 40
                                     elide: Text.ElideRight
                                 }
                                 Text {
                                     text: duration
-                                    Layout.preferredWidth: 120
+                                    Layout.preferredWidth: 80
                                     Layout.rightMargin: 20
                                 }
                                 Text {
@@ -236,7 +237,8 @@ ApplicationWindow{
                                 y:mY
                                 contentData: [
                                     play1,
-                                    pause1
+                                    pause1,
+                                    downloadSong
                                 ]
                            }
                         }
@@ -333,6 +335,8 @@ ApplicationWindow{
                                 onDoubleClicked: {
                                     re1.visible=false
                                     re2.visible=true
+                                    songModel.clear()
+                                    kugou.kuGouPlayList.getSongList(playListView.currentIndex)
                                 }
                             }
                         }
@@ -440,7 +444,6 @@ ApplicationWindow{
 
     Rectangle{
         id:re2
-
         visible: false
         ColumnLayout{
             spacing: 5
@@ -461,6 +464,8 @@ ApplicationWindow{
                     id: specialText
                     Layout.alignment: Qt.AlignCenter
                     Layout.topMargin:10
+                    Layout.preferredWidth: 400
+                    elide: Text.ElideRight
                     text: kugou.kuGouPlayList.specialName[playListView.currentIndex]+"--歌曲列表"
                 }
             }
@@ -498,17 +503,55 @@ ApplicationWindow{
                     RowLayout{
                         Text {
                             text:serialNum
-                            Layout.preferredWidth: 120
-                            Layout.rightMargin: 50
+                            Layout.leftMargin: 10
+                            Layout.preferredWidth: 50
+                            Layout.rightMargin: 30
                             elide: Text.ElideRight
                         }
                         Text {
-                            text: song
-                            Layout.preferredWidth: 120
+                            text: songName
+                            Layout.preferredWidth: 220
                             Layout.rightMargin: 60
                             elide: Text.ElideRight
                         }
+                        Text {
+                            text: albumName
+                            Layout.preferredWidth: 120
+                            elide: Text.ElideRight
+                        }
                     }
+                    TapHandler{
+                        id:tapHandler
+                        acceptedButtons: Qt.RightButton
+                        onTapped: {
+                            mX=mouseArea4.mouseX
+                            mY=mouseArea4.mouseY
+                            menu2.open()
+                        }
+                    }
+                    MouseArea{
+                        id:mouseArea4
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        onClicked: {
+                            if(mouse.button===Qt.LeftButton) {
+                                songList.currentIndex=index
+                            }
+                        }
+                        onDoubleClicked: {
+                            play1.trigger()
+                        }
+                    }
+                    Menu{
+                        id:menu2
+                        x:mX
+                        y:mY
+                        contentData: [
+                            play1,
+                            pause1,
+                            downloadSong
+                        ]
+                   }
                 }
             }
         }
@@ -543,9 +586,21 @@ ApplicationWindow{
                dialogs.lyricDialog.toolBarAddTag.enabled=true
                dialogs.lyricDialog.tooBarDeleteHeaderLabel.enabled=true
            }
-           kugou.kuGouSong.getSongUrl(songListView.currentIndex)
+           if(re1.visible) {
+                kugou.kuGouSong.getSongUrl(songListView.currentIndex)
+           } else {
+               kugou.kuGouPlayList.getSongUrl(songList.currentIndex)
+           }
        }
    }
+   Action{
+       id:downloadSong
+        text:qsTr("下载")
+        onTriggered: {
+            saveSongDialog.open()
+        }
+   }
+
    Action{
        id:playVideo
        text: qsTr("播放")
@@ -567,6 +622,26 @@ ApplicationWindow{
        id:pause1
        text: qsTr("暂停")
        onTriggered: actions.pauseAction.triggered()
+   }
+
+   FileDialog{
+       id: saveSongDialog
+       title: "save music"
+       folder:shortcuts.documents
+       nameFilters: ["*.mp3"]
+       selectExisting: false
+       onAccepted: {
+           var path=fileUrl.toString().slice(7)
+           var end=path.substring(path.length-4)
+           if(end!=="mp3") {
+               path+=".mp3"
+           }
+           if(re1.visible) {
+               kugou.kuGouSong.downloadSong(songListView.currentIndex,path)
+           } else {
+               kugou.kuGouPlayList.downloadSong(songList.currentIndex,path)
+           }
+       }
    }
 
    function showNetworkLyrics(){
