@@ -14,7 +14,9 @@ SOURCES += \
         fileio.cpp \
         karaoke.cpp \
         karaokelyric.cpp \
-        kugou.cpp \
+        kugoumv.cpp \
+        kugouplaylist.cpp \
+        kugousong.cpp \
         lyric.cpp \
         lyricdownload.cpp \
         lyricline.cpp \
@@ -31,7 +33,9 @@ HEADERS += \
     fileio.h \
     karaoke.h \
     karaokelyric.h \
-    kugou.h \
+    kugoumv.h \
+    kugouplaylist.h \
+    kugousong.h \
     lyric.h \
     lyricdownload.h \
     lyricline.h \
@@ -52,5 +56,6 @@ unix|win32: LIBS += -lavutil
 unix|win32: LIBS += -lavformat
 unix|win32: LIBS += -lavcodec
 unix|win32: LIBS += -lswresample
+
 
 

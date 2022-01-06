@@ -37,9 +37,9 @@ public:
 
 private:
     QString m_lineLyric;
-    QString m_plainLyric;      //每行歌词
+    QString m_plainLyric;      //每行纯歌词
     int  m_startTime;              //行开始时间
-    int  m_lineDuration;                //行结束时间
+    int  m_lineDuration;                //行持续时间
     QList<int> m_wordDuration;                //行歌词中每个字的持续时间
 };
 

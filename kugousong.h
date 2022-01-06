@@ -1,32 +1,14 @@
-/*
-* author: 程炆炆，聂海艳，李纯林
-* email：1460964870@qq.com 1933544851@qq.com 2742731130@qq.com
-* time:2021.10
+#ifndef KUGOUSONG_H
+#define KUGOUSONG_H
 
-* Copyright (C) <2021>  <Wenwen Cheng,Haiyan Nie,Chunlin Li>
-
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
-#ifndef KUGOU_H
-#define KUGOU_H
+#include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QList>
-#include <QObject>
 
-class KuGou : public QObject
+
+class KuGouSong : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<QString> singerName READ singerName WRITE setSingerName NOTIFY singerNameChanged)
@@ -37,11 +19,30 @@ class KuGou : public QObject
     Q_PROPERTY(QString lyrics READ lyrics WRITE setLyrics NOTIFY lyricsChanged)
     Q_PROPERTY(QString image READ image WRITE setImage NOTIFY imageChanged)
 public:
-    explicit KuGou(QObject *parent = nullptr);
-    Q_INVOKABLE void search(QString str);
+    explicit KuGouSong(QObject *parent = nullptr);
+    Q_INVOKABLE void searchSong(QString str);
     void parseJson_getAlbumID(QString json);
-    void parseJson_getplay_url(QString json);
-    Q_INVOKABLE void onclickPlay(int index);
+    void parseJson_getPlayUrl(QString json);
+    Q_INVOKABLE void getSongUrl(int index);
+    Q_INVOKABLE void downloadSong(int index,QString path);
+    void clear();
+    void sethashStr(QList<QString> hash) {
+        if (hash == hashStr)
+            return;
+        hashStr=hash;
+    }
+
+    void setAlbum_idStr(QList<long> album) {
+        QList<QString> album_id;
+        for(int i=0;i<album.length();i++) {
+            album_id<<QString::number(album[i]);
+        }
+        if (album_id == album_idStr)
+            return;
+        album_idStr=album_id;
+    }
+
+
 
     QList<QString> singerName() const
     {
@@ -147,14 +148,12 @@ public slots:
     }
 
 protected slots:
-    void replyFinished(QNetworkReply*reply);
+    void replyFinished(QNetworkReply *reply);
     void replyFinished2(QNetworkReply*reply);
+    void replyFinished3(QNetworkReply *reply);
+    void writeUrl();
 
 signals:
-    void mediaAdd(QString play_urlStr);
-    void nameAdd(QString play_name);
-    void lrcAdd(QString play_lrcStr);
-
     void singerNameChanged(QList<QString> singerName);
 
     void songNameChanged(QList<QString> songName);
@@ -168,12 +167,15 @@ signals:
     void durationChanged(QList<double> duration);
 
     void imageChanged(QString image);
+    void getUrl();
 
 private:
     QNetworkAccessManager *network_manager;
     QNetworkAccessManager *network_manager2;
+    QNetworkAccessManager *network_manager3;
     QNetworkRequest *network_request;
     QNetworkRequest *network_request2;
+    QNetworkRequest *network_request3;
     QList<QString> album_idStr;
     QList<QString> hashStr;
     QList<QString> m_albumName;
@@ -183,7 +185,8 @@ private:
     QString m_image;
     QString m_lyrics;
     QString m_url;
-
+    bool isDownloadSong=false;
+    QString m_savePath;
 };
 
-#endif // KUGOU_H
+#endif // KUGOUSONG_H

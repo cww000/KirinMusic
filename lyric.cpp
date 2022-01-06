@@ -186,8 +186,8 @@ QString Lyric::translateStamp(int value)
     m=(value-value%60000)/60000;
     s=((value-m*60000)-(value-m*60000)%1000)/1000;
     ms=((value-m*60000-s*1000)-(value-m*60000-s*1000)%10)/10;
-    if(s>=0 & s<10) {
-        if(ms>=10 & ms<100) {
+    if(s>=0 && s<10) {
+        if(ms>=10 && ms<100) {
             m1=QString::number(m);
             s1=QString::number(s);
             ms1=QString::number(ms);
@@ -199,7 +199,7 @@ QString Lyric::translateStamp(int value)
             timeStamp="[0"+m1+":0"+s1+".0"+ms1+"]";
         }
     } else{
-        if(ms>=10 & ms<100) {
+        if(ms>=10 && ms<100) {
             m1=QString::number(m);
             s1=QString::number(s);
             ms1=QString::number(ms);
@@ -221,7 +221,7 @@ QString Lyric::translateStamp1(int value)
     QString m1,s1;
     m=(value-value%60000)/60000;
     s=((value-m*60000)-(value-m*60000)%1000)/1000;
-    if(s>=0 & s<10) {
+    if(s>=0 && s<10) {
         m1=QString::number(m);
         s1=QString::number(s);
         timeStamp="[0"+m1+":0"+s1+"]";

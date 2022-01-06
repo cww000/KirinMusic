@@ -56,9 +56,11 @@ Item {
         text: qsTr("播放")
         icon.source: "qrc:/image/play.png"
         onTriggered: {
-
             if(content.musicPlayer.fileName!==" ") {
                 //音乐播放以及图标的转换
+                if(dialogs.songSearchDialog.videoPlayFlag) {
+                    dialogs.songSearchDialog.pauseVideo.trigger()
+                }
                 switchToPlay()
                 if(!dialogs.songSearchDialog.networkPlay) {
                     content.spectrogram.speTimer.running=true
@@ -377,6 +379,7 @@ Item {
     }
 
     function switchToPlay(){
+
         content.musicPlayer.start.visible=false
         content.musicPlayer.pause.visible=true
         dialogs.miniDialog.musicStart.visible = false

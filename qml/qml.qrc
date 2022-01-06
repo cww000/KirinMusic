@@ -21,5 +21,7 @@
         <file>LyricEditorDialogs.qml</file>
         <file>KaraokePage.qml</file>
         <file>SKinDialog.qml</file>
+        <file>KuGou.qml</file>
+        <file>VideoPage.qml</file>
     </qresource>
 </RCC>

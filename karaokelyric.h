@@ -98,7 +98,7 @@ private:
     LyricLine *m_lyricLine;
     QList<QString> m_plainLyric;          //纯歌词
     QList<int> m_startTime;        //每行歌词的开始时间
-    QList<int> m_lineDuration;       //每行歌词的结束时间
+    QList<int> m_lineDuration;       //每行歌词的持续时间
     QList<List> m_wordDuration;     //每行歌词中每个字的持续时间
     int m_timeDif;
 
