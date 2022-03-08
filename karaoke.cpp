@@ -184,8 +184,6 @@ void Karaoke::parseJson_getplay_url(QString json)        //解析得到歌曲
     }
 }
 
-
-
 const QString &Karaoke::lyrics() const
 {
     return m_lyrics;

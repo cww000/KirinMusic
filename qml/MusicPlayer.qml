@@ -427,7 +427,7 @@ Item {
     }
 
     function networkplayOrder(){
-        var num = dialogs.songSearchDialog.searchlistView.currentIndex
+        var num = dialogs.songSearchDialog.songListView.currentIndex
         if(loopPlay.visible){
             if(num  === dialogs.songSearchDialog.songListModel.count-1){
                  num = 0
@@ -439,7 +439,7 @@ Item {
             var rand = Math.random();                   //random函数得到一个0-1之间的小数， round函数取整，四舍五入
             num = Math.round(rand*Range);
         }
-        dialogs.songSearchDialog.searchlistView.currentIndex = num
+        dialogs.songSearchDialog.songListView.currentIndex = num
         dialogs.songSearchDialog.play1.triggered()
     }
     function f(){

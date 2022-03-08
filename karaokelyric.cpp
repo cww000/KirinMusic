@@ -68,7 +68,9 @@ void KaraokeLyric::parseJson_getID(QString result)
 {
     QByteArray byte_array;
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(byte_array.append(result), &json_error);
+    QByteArray ba=result.toUtf8();
+    const char *ch=ba.data();
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(byte_array.append(ch), &json_error);
     if(json_error.error == QJsonParseError::NoError)
     {
         if(parse_doucment.isObject())
@@ -140,7 +142,10 @@ void KaraokeLyric::parseJson_getLyrics(QString result)
 {
     QByteArray byte_array;
     QJsonParseError json_error;
-    QJsonDocument parse_doucment = QJsonDocument::fromJson(byte_array.append(result), &json_error);
+    QByteArray ba=result.toUtf8();
+    const char *ch=ba.data();
+
+    QJsonDocument parse_doucment = QJsonDocument::fromJson(byte_array.append(ch), &json_error);
     if(parse_doucment.isObject())
     {
         QJsonObject rootObj = parse_doucment.object();

@@ -115,7 +115,6 @@ void KuGouMv::parseJson_getMvHash(QString json)
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -137,7 +136,6 @@ void KuGouMv::parseJson_getMvUrl(QString json)
     const char *ch=ba.data();
 
     QString rq="",sq="",le="";
-    QString rqImg,sqImg,leImg;
     QByteArray byte_array;
     QJsonParseError json_error;
     QJsonDocument parse_doucment = QJsonDocument::fromJson(byte_array.append(ch), &json_error);
